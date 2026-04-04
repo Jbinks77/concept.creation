@@ -12,7 +12,14 @@
       "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Start-Sleep 4; netstat -ano | findstr :3001 | findstr LISTENING\")",
       "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git status 2>&1 | head -3\")",
       "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git init; git remote add origin https://github.com/Jbinks77/concept.creation.git; Write-Host ''Done''\")",
-      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git add .; git status --short | Select-Object -First 20\")"
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git add .; git status --short | Select-Object -First 20\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git config user.email ''jbinks77@users.noreply.github.com''; git config user.name ''Jbinks77''; git commit -m ''Initial commit — CC Creation portfolio site''\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git branch -M main; git push -u origin main 2>&1\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git add app/opengraph-image.tsx; git commit -m ''Add custom Open Graph image''; git push origin main 2>&1\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git add components/HeroSection.tsx components/sections/CTASection.tsx; git commit -m ''Add real WhatsApp and email contact links''; git push origin main 2>&1\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git commit --allow-empty -m ''Force redeploy''; git push origin main 2>&1\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git add components/sections/CreationsSection.tsx; git commit -m ''Improve Creations cards with realistic site overlays''; git push origin main 2>&1\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git add .; git commit -m ''Add pricing section with 3 plans + nav link''; git push origin main 2>&1\")"
     ]
   }
 }

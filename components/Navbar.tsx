@@ -6,6 +6,7 @@ import Image from "next/image";
 const LINKS = [
   { label: "Créations",    href: "#nos-creations" },
   { label: "Témoignages",  href: "#temoignages"   },
+  { label: "Tarifs",       href: "#tarifs"        },
   { label: "Processus",    href: "#services"       },
   { label: "Contact",      href: "#contact"        },
 ];

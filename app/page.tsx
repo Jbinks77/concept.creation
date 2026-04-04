@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CreationsSection from "@/components/sections/CreationsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import PricingSection from "@/components/sections/PricingSection";
 import ProcessSection from "@/components/sections/ProcessSection";
 import CTASection from "@/components/sections/CTASection";
 
@@ -26,6 +27,7 @@ export default function Home() {
         <HeroSection />
         <CreationsSection />
         <TestimonialsSection />
+        <PricingSection />
         <ProcessSection />
         <CTASection />
       </main>
