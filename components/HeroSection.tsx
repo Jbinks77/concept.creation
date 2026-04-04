@@ -530,8 +530,8 @@ export default function HeroSection() {
 
           {/* CTAs */}
           <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-            <GlowButton href="https://wa.me/VOTRE_NUMERO" primary>WhatsApp</GlowButton>
-            <GlowButton href="mailto:votre@email.com">Mail</GlowButton>
+            <GlowButton href="https://wa.me/33621235008" primary>WhatsApp</GlowButton>
+            <GlowButton href="mailto:creation.concept@outlook.fr">Mail</GlowButton>
           </div>
         </div>
 
