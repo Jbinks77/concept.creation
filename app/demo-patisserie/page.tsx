@@ -12,11 +12,11 @@ const PRODUITS = [
     img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=85",
   },
   {
-    nom: "Éclair Grand Cru",
-    prix: "6,80 €",
-    desc: "Ganache pure origine Madagascar 75%, pâte à choux croustillante.",
+    nom: "Croissant Beurre",
+    prix: "2,80 €",
+    desc: "Beurre AOC Charentes-Poitou, feuilletage 27 tours, doré à l'œuf.",
     tag: "Best-seller",
-    img: "https://images.unsplash.com/photo-1702993041651-7d5d0a43cd97?w=600&q=85",
+    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=85",
   },
   {
     nom: "Paris-Brest Noisette",
@@ -26,9 +26,9 @@ const PRODUITS = [
     img: "https://images.unsplash.com/photo-1519676867240-f03562e64548?w=600&q=85",
   },
   {
-    nom: "Mille-Feuille Vanille",
-    prix: "7,80 €",
-    desc: "Pâte feuilletée inversée, crème diplomate vanille de Tahiti.",
+    nom: "Cookie Chocolat",
+    prix: "3,50 €",
+    desc: "Beurre noisette, pépites Valrhona 66%, fleur de sel de Guérande.",
     tag: "Classique",
     img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=85",
   },
