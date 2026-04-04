@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(powershell.exe -NoProfile -Command \":*)",
+      "mcp__6737da27-ba18-402f-a3c7-02c4d0942a8a__create-design-from-candidate",
+      "Bash(cmd.exe /c \"set PATH=C:\\\\Program Files\\\\nodejs;%PATH% && C:\\\\Windows\\\\System32\\\\cmd.exe /c \"\"C:\\\\Program Files\\\\nodejs\\\\node.exe\"\" node_modules\\\\.bin\\\\next build 2>&1\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Start-Sleep 3; Test-NetConnection -ComputerName localhost -Port 3001 | Select-Object TcpTestSucceeded\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Get-NetTCPConnection -LocalPort 3001 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_OwningProcess -Force -ErrorAction SilentlyContinue }; Write-Host ''Killed''\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"netstat -ano | findstr :3001\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Stop-Process -Id 5004 -Force; Write-Host ''Killed 5004''\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Start-Sleep 4; netstat -ano | findstr :3001 | findstr LISTENING\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git status 2>&1 | head -3\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git init; git remote add origin https://github.com/Jbinks77/concept.creation.git; Write-Host ''Done''\")",
+      "Bash(powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"Set-Location ''C:\\\\Users\\\\JB\\\\Documents\\\\Concept.Chagnat''; git add .; git status --short | Select-Object -First 20\")"
+    ]
+  }
+}
