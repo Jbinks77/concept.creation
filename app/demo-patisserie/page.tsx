@@ -155,11 +155,11 @@ export default function DemoPatisserie() {
 
       {/* ── HERO ── */}
       <section style={{ position: "relative", height: "100svh", overflow: "hidden" }}>
-        <Image src="/card-patisserie.jpg" alt="Maison Dorée" fill style={{ objectFit: "cover", objectPosition: "center" }} priority />
+        <Image src="/hero-patisserie.jpg" alt="Maison Dorée" fill style={{ objectFit: "cover", objectPosition: "center 60%" }} priority />
 
         {/* Overlays */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(5,3,1,0.55) 0%, rgba(5,3,1,0.2) 40%, rgba(5,3,1,0.75) 100%)" }} />
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 30%, rgba(5,3,1,0.4) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(5,3,1,0.45) 0%, rgba(5,3,1,0.05) 35%, rgba(5,3,1,0.0) 55%, rgba(5,3,1,0.82) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 40%, rgba(5,3,1,0.25) 100%)" }} />
 
         {/* Hero content */}
         <div ref={titleRef} style={{
