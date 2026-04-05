@@ -69,6 +69,16 @@ export default function DemoCoach() {
     const video = videoRef.current;
     if (!video) return;
 
+    // Sur mobile, forcer le chargement au premier touch/scroll
+    let videoLoaded = false;
+    const forceLoad = () => {
+      if (videoLoaded) return;
+      videoLoaded = true;
+      video.play().then(() => { video.pause(); video.currentTime = 0; }).catch(() => {});
+    };
+    document.addEventListener("touchstart", forceLoad, { once: true, passive: true });
+    document.addEventListener("scroll", forceLoad, { once: true, passive: true });
+
     let isSeeking = false;
     let pendingTime: number | null = null;
 

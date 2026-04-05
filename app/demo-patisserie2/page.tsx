@@ -60,13 +60,23 @@ export default function DemoPatisserie2() {
 
     video.preload = "auto";
 
+    // Sur mobile, forcer le chargement au premier touch/scroll
+    let videoLoaded = false;
+    const forceLoad = () => {
+      if (videoLoaded) return;
+      videoLoaded = true;
+      video.play().then(() => { video.pause(); video.currentTime = 0; }).catch(() => {});
+    };
+    document.addEventListener("touchstart", forceLoad, { once: true, passive: true });
+    document.addEventListener("scroll", forceLoad, { once: true, passive: true });
+
     // File d'attente de seek — évite les chevauchements
     let isSeeking = false;
     let pendingTime: number | null = null;
 
     const seekTo = (time: number) => {
       if (isSeeking) {
-        pendingTime = time; // on mémorise le dernier temps demandé
+        pendingTime = time;
         return;
       }
       isSeeking = true;
@@ -128,6 +138,7 @@ export default function DemoPatisserie2() {
         <video
           ref={videoRef}
           src="/patisserie-v2-scrub.mp4"
+          poster="/hero-patisserie.jpg"
           muted
           playsInline
           preload="auto"
