@@ -191,14 +191,6 @@ export default function DemoPatisserie2() {
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
           />
 
-          {/* Fond noir qui disparaît une fois la vidéo chargée */}
-          <div style={{
-            position: "absolute", inset: 0,
-            background: "#0a0704",
-            pointerEvents: "none",
-            zIndex: 0,
-          }} />
-
           {/* Overlays */}
           <div style={{
             position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1,
