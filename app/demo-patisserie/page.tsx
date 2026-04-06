@@ -155,39 +155,41 @@ export default function DemoPatisserie() {
 
       {/* ── HERO ── */}
       <section style={{ position: "relative", height: "100svh", overflow: "hidden" }}>
-        <Image src="/hero-patisserie.jpg" alt="Maison Dorée" fill style={{ objectFit: "cover", objectPosition: "center 60%" }} priority />
+        <Image src="/hero-patisserie.jpg" alt="Maison Dorée" fill style={{ objectFit: "cover", objectPosition: "center 50%" }} priority />
 
-        {/* Overlays */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(5,3,1,0.45) 0%, rgba(5,3,1,0.05) 35%, rgba(5,3,1,0.0) 55%, rgba(5,3,1,0.82) 100%)" }} />
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 40%, rgba(5,3,1,0.25) 100%)" }} />
+        {/* Overlays — fort en haut pour lisibilité du texte */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(5,3,1,0.82) 0%, rgba(5,3,1,0.45) 30%, rgba(5,3,1,0.0) 55%, rgba(5,3,1,0.6) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 0%, rgba(5,3,1,0.3) 0%, transparent 60%)" }} />
 
-        {/* Hero content */}
+        {/* Hero content — positionné en haut dans la zone sombre */}
         <div ref={titleRef} style={{
           position: "absolute", inset: 0, display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px",
+          alignItems: "center", justifyContent: "flex-start",
+          textAlign: "center", padding: "10vh 24px 0",
           opacity: 0, transform: "translateY(24px)",
           transition: "opacity 1.2s ease, transform 1.2s cubic-bezier(0.22,1,0.36,1)",
         }}>
-          <div style={{ width: "1px", height: "60px", background: "linear-gradient(to bottom, transparent, rgba(212,168,83,0.6))", marginBottom: "28px" }} />
-
-          <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.6rem,1.5vw,0.75rem)", letterSpacing: "0.55em", color: "#d4a853", textTransform: "uppercase", marginBottom: "20px" }}>
+          <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.55rem,1.3vw,0.7rem)", letterSpacing: "0.55em", color: "#d4a853", textTransform: "uppercase", marginBottom: "18px",
+            textShadow: "0 1px 12px rgba(0,0,0,0.8)" }}>
             Artisan Pâtissier · Paris 6e · Depuis 1987
           </div>
 
-          <h1 style={{ fontFamily: "Georgia, serif", fontWeight: 400, fontSize: "clamp(3rem,8vw,7rem)", color: "#fff", lineHeight: 0.95, letterSpacing: "0.04em", marginBottom: "28px" }}>
+          <h1 style={{ fontFamily: "Georgia, serif", fontWeight: 400, fontSize: "clamp(3rem,8vw,7rem)", color: "#fff", lineHeight: 0.95, letterSpacing: "0.04em", marginBottom: "22px",
+            textShadow: "0 2px 32px rgba(0,0,0,0.85)" }}>
             Maison<br />
             <em style={{ color: "#d4a853", fontStyle: "italic" }}>Dorée</em>
           </h1>
 
-          <p style={{ fontFamily: "Georgia, serif", fontStyle: "italic", fontSize: "clamp(0.85rem,2vw,1.1rem)", color: "rgba(255,255,255,0.55)", letterSpacing: "0.06em", marginBottom: "44px", maxWidth: "480px", lineHeight: 1.7 }}>
-            L'art de la pâtisserie française portée<br />à son plus haut niveau d'exigence.
+          <p style={{ fontFamily: "Georgia, serif", fontStyle: "italic", fontSize: "clamp(0.82rem,1.8vw,1rem)", color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em", marginBottom: "36px", maxWidth: "460px", lineHeight: 1.75,
+            textShadow: "0 1px 16px rgba(0,0,0,0.8)" }}>
+            L&apos;art de la pâtisserie française portée<br />à son plus haut niveau d&apos;exigence.
           </p>
 
           <button
             onClick={() => scrollTo("créations")}
             style={{
-              padding: "15px 40px", border: "1px solid rgba(212,168,83,0.6)", background: "transparent",
-              color: "#d4a853", fontFamily: "Georgia, serif", fontSize: "0.75rem", letterSpacing: "0.25em",
+              padding: "14px 38px", border: "1px solid rgba(212,168,83,0.6)", background: "transparent",
+              color: "#d4a853", fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.25em",
               cursor: "pointer", textTransform: "uppercase", transition: "all 0.4s ease",
             }}
             onMouseEnter={e => { e.currentTarget.style.background = "#d4a853"; e.currentTarget.style.color = "#0a0704"; e.currentTarget.style.borderColor = "#d4a853"; }}
@@ -195,8 +197,6 @@ export default function DemoPatisserie() {
           >
             Découvrir nos créations
           </button>
-
-          <div style={{ width: "1px", height: "60px", background: "linear-gradient(to top, transparent, rgba(212,168,83,0.4))", marginTop: "44px" }} />
         </div>
       </section>
 
