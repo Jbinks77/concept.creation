@@ -134,9 +134,7 @@ export default function DemoPatisserie2() {
         }
         @media (max-width: 768px) and (orientation: portrait) {
           .dp2-video {
-            object-position: center 30%;
-            transform: scale(0.85);
-            transform-origin: center center;
+            object-position: center 25%;
           }
         }
 
