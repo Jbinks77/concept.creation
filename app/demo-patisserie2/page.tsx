@@ -287,7 +287,7 @@ export default function DemoPatisserie2() {
                   {/* CTA */}
                   {scene.cta && (
                     <div className="dp2-cta-row" style={{ pointerEvents: "auto" }}>
-                      <a href="https://wa.me/33600000000" style={{
+                      <a href="https://wa.me/33621235008" style={{
                         display: "inline-flex", alignItems: "center", gap: "10px",
                         padding: "14px 32px", border: "1px solid #d4a853",
                         background: "#d4a853", color: "#0a0704",

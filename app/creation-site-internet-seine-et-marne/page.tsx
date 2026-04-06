@@ -178,7 +178,7 @@ export default function PagePilierSeineMarne() {
             <span style={{ fontFamily: "Georgia, serif", fontSize: "1rem", letterSpacing: "0.22em", color: "#fff", marginLeft: "6px" }}>CRÉATION</span>
           </Link>
           <a
-            href="https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20mon%20site%20internet."
+            href="https://wa.me/33621235008?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20mon%20site%20internet."
             style={{
               padding: "10px 24px",
               background: "#d4a853", color: "#060608",
@@ -221,7 +221,7 @@ export default function PagePilierSeineMarne() {
           </p>
           <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
             <a
-              href="https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20un%20devis%20gratuit."
+              href="https://wa.me/33621235008?text=Bonjour%2C%20je%20souhaite%20un%20devis%20gratuit."
               style={{
                 display: "inline-flex", alignItems: "center", gap: "10px",
                 padding: "16px 36px", background: "#d4a853", color: "#060608",
@@ -570,7 +570,7 @@ export default function PagePilierSeineMarne() {
                     ))}
                   </ul>
                   <a
-                    href={`https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20le%20plan%20${plan.name}%20pour%20mon%20site.`}
+                    href={`https://wa.me/33621235008?text=Bonjour%2C%20je%20souhaite%20le%20plan%20${plan.name}%20pour%20mon%20site.`}
                     style={{
                       display: "block", textAlign: "center",
                       padding: "14px 24px",
@@ -786,7 +786,7 @@ export default function PagePilierSeineMarne() {
           </p>
           <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
             <a
-              href="https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20cr%C3%A9er%20un%20site%20internet%20pour%20mon%20entreprise%20en%20Seine-et-Marne."
+              href="https://wa.me/33621235008?text=Bonjour%2C%20je%20souhaite%20cr%C3%A9er%20un%20site%20internet%20pour%20mon%20entreprise%20en%20Seine-et-Marne."
               style={{
                 display: "inline-flex", alignItems: "center", gap: "10px",
                 padding: "18px 40px", background: "#d4a853", color: "#060608",
@@ -797,7 +797,7 @@ export default function PagePilierSeineMarne() {
               ✉ Démarrer sur WhatsApp
             </a>
             <a
-              href="mailto:contact@creationconcept.fr"
+              href="mailto:creation.concept@outlook.fr"
               style={{
                 display: "inline-flex", alignItems: "center",
                 padding: "18px 40px",

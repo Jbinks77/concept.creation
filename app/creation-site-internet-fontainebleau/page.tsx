@@ -17,7 +17,7 @@ export default function PageFontainebleau() {
           <span style={{ color: "#d4a853", letterSpacing: "0.22em", fontSize: "1rem" }}>CC</span>
           <span style={{ color: "#fff", letterSpacing: "0.22em", fontSize: "1rem", marginLeft: "6px" }}>CRÉATION</span>
         </Link>
-        <a href="https://wa.me/33600000000?text=Bonjour%2C%20je%20cherche%20un%20site%20internet%20%C3%A0%20Fontainebleau." style={{ padding: "10px 24px", background: "#d4a853", color: "#060608", fontSize: "0.75rem", letterSpacing: "0.15em", textDecoration: "none", textTransform: "uppercase" }}>Devis Gratuit</a>
+        <a href="https://wa.me/33621235008?text=Bonjour%2C%20je%20cherche%20un%20site%20internet%20%C3%A0%20Fontainebleau." style={{ padding: "10px 24px", background: "#d4a853", color: "#060608", fontSize: "0.75rem", letterSpacing: "0.15em", textDecoration: "none", textTransform: "uppercase" }}>Devis Gratuit</a>
       </nav>
 
       <section style={{ padding: "140px 24px 80px", textAlign: "center", borderBottom: "1px solid rgba(212,168,83,0.08)", background: "radial-gradient(ellipse at 50% 30%, rgba(212,168,83,0.06) 0%, transparent 55%)" }}>
@@ -31,7 +31,7 @@ export default function PageFontainebleau() {
           des milliers de visiteurs chaque année. Votre entreprise doit être visible
           aussi bien pour les locaux que pour les touristes qui cherchent sur Google.
         </p>
-        <a href="https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20cr%C3%A9er%20un%20site%20internet%20%C3%A0%20Fontainebleau." style={{ display: "inline-block", padding: "16px 40px", background: "#d4a853", color: "#060608", fontSize: "0.8rem", letterSpacing: "0.18em", textDecoration: "none", textTransform: "uppercase" }}>
+        <a href="https://wa.me/33621235008?text=Bonjour%2C%20je%20souhaite%20cr%C3%A9er%20un%20site%20internet%20%C3%A0%20Fontainebleau." style={{ display: "inline-block", padding: "16px 40px", background: "#d4a853", color: "#060608", fontSize: "0.8rem", letterSpacing: "0.18em", textDecoration: "none", textTransform: "uppercase" }}>
           Devis Gratuit — 24h
         </a>
       </section>
@@ -82,7 +82,7 @@ export default function PageFontainebleau() {
         </h2>
         <p style={{ color: "rgba(255,255,255,0.4)", fontStyle: "italic", marginBottom: "36px" }}>À partir de 490€ · Démo gratuite · Réponse en 24h</p>
         <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="https://wa.me/33600000000?text=Bonjour%2C%20je%20veux%20un%20site%20internet%20%C3%A0%20Fontainebleau." style={{ padding: "16px 36px", background: "#d4a853", color: "#060608", fontSize: "0.78rem", letterSpacing: "0.18em", textDecoration: "none", textTransform: "uppercase" }}>WhatsApp</a>
+          <a href="https://wa.me/33621235008?text=Bonjour%2C%20je%20veux%20un%20site%20internet%20%C3%A0%20Fontainebleau." style={{ padding: "16px 36px", background: "#d4a853", color: "#060608", fontSize: "0.78rem", letterSpacing: "0.18em", textDecoration: "none", textTransform: "uppercase" }}>WhatsApp</a>
           <Link href="/portfolio" style={{ padding: "16px 36px", border: "1px solid rgba(212,168,83,0.35)", color: "#d4a853", fontSize: "0.78rem", letterSpacing: "0.18em", textDecoration: "none", textTransform: "uppercase" }}>Voir les démos</Link>
         </div>
       </section>

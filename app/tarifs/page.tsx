@@ -117,7 +117,7 @@ export default function PageTarifs() {
           <span style={{ color: "#fff", letterSpacing: "0.22em", fontSize: "1rem", marginLeft: "6px" }}>CRÉATION</span>
         </Link>
         <a
-          href="https://wa.me/33600000000?text=Bonjour%2C%20je%20souhaite%20un%20devis."
+          href="https://wa.me/33621235008?text=Bonjour%2C%20je%20souhaite%20un%20devis."
           style={{
             padding: "10px 24px", background: "#d4a853", color: "#060608",
             fontSize: "0.75rem", letterSpacing: "0.15em", textDecoration: "none", textTransform: "uppercase",
@@ -204,7 +204,7 @@ export default function PageTarifs() {
                 </div>
 
                 <a
-                  href={`https://wa.me/33600000000?text=${plan.msg}`}
+                  href={`https://wa.me/33621235008?text=${plan.msg}`}
                   style={{
                     display: "block", textAlign: "center",
                     padding: "16px 24px",
@@ -291,7 +291,7 @@ export default function PageTarifs() {
           Devis gratuit · Réponse en 24h · Aucun engagement
         </p>
         <a
-          href="https://wa.me/33600000000?text=Bonjour%2C%20je%20veux%20cr%C3%A9er%20mon%20site%20internet."
+          href="https://wa.me/33621235008?text=Bonjour%2C%20je%20veux%20cr%C3%A9er%20mon%20site%20internet."
           style={{
             display: "inline-block", padding: "18px 44px",
             background: "#d4a853", color: "#060608",

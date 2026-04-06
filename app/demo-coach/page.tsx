@@ -234,7 +234,7 @@ export default function DemoCoach() {
                   {/* CTA */}
                   {scene.cta && (
                     <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap", marginTop: "12px", pointerEvents: "auto" }}>
-                      <a href="https://wa.me/33600000000" style={{
+                      <a href="https://wa.me/33621235008" style={{
                         display: "inline-flex", alignItems: "center", gap: "10px",
                         padding: "16px 38px",
                         background: BLUE, border: `1px solid ${BLUE}`, color: "#fff",
