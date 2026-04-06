@@ -180,17 +180,12 @@ export default function DemoPatisserie() {
             <em style={{ color: "#d4a853", fontStyle: "italic" }}>Dorée</em>
           </h1>
 
-          <p style={{ fontFamily: "Georgia, serif", fontStyle: "italic", fontSize: "clamp(0.82rem,1.8vw,1rem)", color: "rgba(255,255,255,0.6)", letterSpacing: "0.06em", marginBottom: "36px", maxWidth: "460px", lineHeight: 1.75,
-            textShadow: "0 1px 16px rgba(0,0,0,0.8)" }}>
-            L&apos;art de la pâtisserie française portée<br />à son plus haut niveau d&apos;exigence.
-          </p>
-
           <button
             onClick={() => scrollTo("créations")}
             style={{
               padding: "14px 38px", border: "1px solid rgba(212,168,83,0.6)", background: "transparent",
               color: "#d4a853", fontFamily: "Georgia, serif", fontSize: "0.72rem", letterSpacing: "0.25em",
-              cursor: "pointer", textTransform: "uppercase", transition: "all 0.4s ease",
+              cursor: "pointer", textTransform: "uppercase", transition: "all 0.4s ease", marginTop: "8px",
             }}
             onMouseEnter={e => { e.currentTarget.style.background = "#d4a853"; e.currentTarget.style.color = "#0a0704"; e.currentTarget.style.borderColor = "#d4a853"; }}
             onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#d4a853"; e.currentTarget.style.borderColor = "rgba(212,168,83,0.6)"; }}
