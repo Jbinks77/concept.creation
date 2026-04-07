@@ -429,6 +429,12 @@ export default function DemoFootball() {
             .hero-stats-bar .stat-label { font-size: 0.4rem !important; letter-spacing: 0.08em !important; }
             /* 1971 */
             .hero-watermark { font-size: 42vw !important; bottom: 72px !important; right: -0.02em !important; opacity: 0.7 !important; }
+            /* Hero bg : dézoom max sur mobile */
+            .hero-bg {
+              inset: 0 !important;
+              background-size: 160% !important;
+              background-position: center 30% !important;
+            }
           }
 
           /* ── MOBILE NAVBAR ── */
