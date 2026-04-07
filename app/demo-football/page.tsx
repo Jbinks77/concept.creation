@@ -482,7 +482,7 @@ export default function DemoFootball() {
             .hero-watermark { display: none !important; }
             /* Hero : hauteur auto sur mobile, pas d'espace mort */
             .hero-section { min-height: unset !important; }
-            .hero-content { min-height: unset !important; padding: 90px 20px 28px !important; }
+            .hero-content { min-height: unset !important; padding: 72px 20px 24px !important; }
             /* Hero bg : dézoom max sur mobile */
             .hero-bg {
               inset: 0 !important;
@@ -536,7 +536,7 @@ export default function DemoFootball() {
         }} />
         <div style={{ position: "absolute", inset: 0, background: "rgba(2,6,20,0.52)" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(5,40,160,0.55) 0%, rgba(5,40,160,0.1) 45%, transparent 70%)" }} />
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", background: "linear-gradient(to top, #07090f 0%, transparent 100%)" }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "55%", background: "linear-gradient(to top, #07090f 0%, rgba(7,9,15,0.7) 40%, transparent 100%)" }} />
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "20%", background: "linear-gradient(to bottom, rgba(2,6,20,0.7) 0%, transparent 100%)" }} />
         <div style={{ position: "absolute", top: 64, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.35) 20%, rgba(59,130,246,0.7) 50%, rgba(59,130,246,0.35) 80%, transparent)" }} />
 
@@ -560,69 +560,70 @@ export default function DemoFootball() {
         <div className="hero-content" style={{
           position: "relative", zIndex: 2, minHeight: "100dvh",
           display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
-          textAlign: "center", padding: "100px 24px 90px", gap: 0,
+          textAlign: "center", padding: "80px 24px 90px", gap: 0,
         }}>
-          <div className="hero-logo-wrap" style={{ position: "relative", width: "130px", height: "130px", marginBottom: "22px", animation: "heroLogoIn 1s cubic-bezier(0.34,1.4,0.64,1) 0.15s both" }}>
-            <div style={{ position: "absolute", inset: "-28px", borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.45) 0%, transparent 70%)", filter: "blur(18px)" }} />
-            <img src="/logo-vlp.png" alt="FC Vaux-le-Pénil" className="hero-logo" style={{ width: "130px", height: "130px", objectFit: "contain", position: "relative", zIndex: 1 }} />
+
+          {/* Logo */}
+          <div className="hero-logo-wrap" style={{ position: "relative", width: "110px", height: "110px", marginBottom: "16px", animation: "heroLogoIn 1s cubic-bezier(0.34,1.4,0.64,1) 0.15s both" }}>
+            <div style={{ position: "absolute", inset: "-24px", borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.5) 0%, transparent 70%)", filter: "blur(16px)" }} />
+            <img src="/logo-vlp.png" alt="FC Vaux-le-Pénil" className="hero-logo" style={{ width: "110px", height: "110px", objectFit: "contain", position: "relative", zIndex: 1 }} />
           </div>
 
-          <div className="hero-separator" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "22px", animation: "heroBadgeIn 0.6s ease 0.5s both" }}>
+          {/* Séparateur */}
+          <div className="hero-separator" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "16px", animation: "heroBadgeIn 0.6s ease 0.5s both" }}>
             <div className="sep-line" style={{ width: "50px", height: "1px", background: "linear-gradient(to right, transparent, rgba(59,130,246,0.8))" }} />
             <span style={{ fontSize: "0.58rem", letterSpacing: "0.48em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>Depuis 1971 · Vaux-le-Pénil · 77</span>
             <div className="sep-line" style={{ width: "50px", height: "1px", background: "linear-gradient(to left, transparent, rgba(59,130,246,0.8))" }} />
           </div>
 
+          {/* Titre */}
           <h1 className="hero-title" style={{ fontSize: "clamp(3.8rem, 13vw, 10.5rem)", fontWeight: 900, lineHeight: 0.84, letterSpacing: "-0.04em", textTransform: "uppercase", margin: "0 0 28px", animation: "heroTitleIn 0.85s ease 0.4s both" }}>
             <span style={{ display: "block", color: "#fff", textShadow: "0 2px 40px rgba(0,0,0,0.95), 0 0 80px rgba(0,0,0,0.5)" }}>ALLEZ</span>
             <span style={{ display: "block", background: "linear-gradient(135deg, #60a5fa 0%, #e0eeff 40%, #93c5fd 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 25px rgba(59,130,246,0.5))" }}>VAUX</span>
           </h1>
 
-          {/* ── BANDEAU PROCHAIN MATCH ── */}
-          <div className="hero-match-strip" style={{ display: "flex", alignItems: "stretch", background: "rgba(5,10,30,0.65)", backdropFilter: "blur(20px)", border: "1px solid rgba(59,130,246,0.28)", borderLeft: "3px solid #3b82f6", padding: "0", marginBottom: "14px", overflow: "hidden", animation: "stripIn 0.7s ease 0.8s both", maxWidth: "540px", width: "100%" }}>
-            <div className="hero-match-label" style={{ background: "#2563eb", padding: "12px 16px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "4px", flexShrink: 0 }}>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#fff", display: "block", animation: "dotPulse 2s infinite" }} />
-              <span style={{ fontSize: "0.48rem", letterSpacing: "0.18em", color: "rgba(255,255,255,0.9)", textTransform: "uppercase", fontWeight: 700, whiteSpace: "nowrap" }}>PROCHAIN</span>
+          {/* ── PILL INFO (desktop : badge victoire / mobile : info compacte) ── */}
+          <div style={{ animation: "heroBadgeIn 0.6s ease 0.85s both", marginBottom: "24px" }}>
+            {/* Desktop — badge victoire */}
+            <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: "10px", background: "rgba(0,0,0,0.35)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(12px)", padding: "9px 18px", borderRadius: "100px", fontSize: "0.68rem" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", background: "#15803d", color: "#fff", padding: "3px 9px", fontSize: "0.52rem", fontWeight: 800, letterSpacing: "0.1em", borderRadius: "4px" }}>
+                <span>✓</span> VICTOIRE
+              </span>
+              <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.55rem" }}>|</span>
+              <span style={{ color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>VLP <strong style={{ color: "#fff" }}>3 – 1</strong> ES Maincy</span>
+              <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.55rem" }}>|</span>
+              <span style={{ color: "rgba(255,255,255,0.5)" }}>Prochain <strong style={{ color: "#60a5fa" }}>12 Avr.</strong> · 15h</span>
             </div>
-            <div className="hero-match-teams" style={{ display: "flex", alignItems: "center", flex: 1, padding: "10px 16px", gap: "8px" }}>
-              <div style={{ flex: 1, textAlign: "center" }}>
-                <div style={{ fontSize: "0.78rem", fontWeight: 800, whiteSpace: "nowrap" }}>FC Vaux-le-Pénil</div>
-                <div style={{ fontSize: "0.48rem", color: "#3b82f6", letterSpacing: "0.12em", textTransform: "uppercase" }}>Domicile</div>
-              </div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 900, color: "#fff", padding: "5px 10px", border: "1px solid rgba(255,255,255,0.15)", flexShrink: 0 }}>VS</div>
-              <div style={{ flex: 1, textAlign: "center" }}>
-                <div style={{ fontSize: "0.78rem", fontWeight: 800, color: "rgba(255,255,255,0.75)", whiteSpace: "nowrap" }}>AS Dammarie</div>
-                <div style={{ fontSize: "0.48rem", color: "#64748b", letterSpacing: "0.12em", textTransform: "uppercase" }}>Extérieur</div>
-              </div>
-            </div>
-            <div className="hero-match-date" style={{ padding: "12px 14px", borderLeft: "1px solid rgba(59,130,246,0.2)", textAlign: "center", flexShrink: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-              <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>12 Avr.</div>
-              <div style={{ fontSize: "0.55rem", color: "#64748b" }}>15h00</div>
+            {/* Mobile — pill compacte */}
+            <div className="hero-mobile-info" style={{ display: "none", alignItems: "center", gap: "8px", background: "rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(12px)", padding: "8px 16px", borderRadius: "100px" }}>
+              <span style={{ background: "#15803d", color: "#fff", padding: "2px 8px", fontSize: "0.52rem", fontWeight: 800, letterSpacing: "0.08em", borderRadius: "3px" }}>V 3–1</span>
+              <span style={{ width: "1px", height: "12px", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
+              <span style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.6)", whiteSpace: "nowrap" }}>
+                Prochain <strong style={{ color: "#fff" }}>12 Avr. · 15h</strong>
+              </span>
             </div>
           </div>
 
-          {/* Ligne info compacte — mobile seulement */}
-          <div className="hero-mobile-info" style={{
-            display: "none",
-            alignItems: "center", gap: "10px",
-            marginBottom: "24px",
-            animation: "heroBadgeIn 0.6s ease 0.9s both",
-          }}>
-            <span style={{ background: "#15803d", color: "#fff", padding: "3px 9px", fontSize: "0.52rem", fontWeight: 800, letterSpacing: "0.1em" }}>V 3–1</span>
-            <span style={{ width: "1px", height: "12px", background: "rgba(255,255,255,0.15)" }} />
-            <span style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.5)" }}>
-              Prochain : <strong style={{ color: "#fff" }}>12 Avr. · 15h</strong> vs AS Dammarie
-            </span>
-          </div>
-
-          <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(21,128,61,0.12)", border: "1px solid rgba(21,128,61,0.3)", backdropFilter: "blur(8px)", padding: "7px 14px", marginBottom: "24px", fontSize: "0.62rem", animation: "heroBadgeIn 0.6s ease 1s both" }}>
-            <span style={{ background: "#15803d", color: "#fff", padding: "2px 7px", fontSize: "0.48rem", fontWeight: 800, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>VICTOIRE</span>
-            <span style={{ color: "rgba(255,255,255,0.65)", whiteSpace: "nowrap" }}>VLP <strong style={{ color: "#fff" }}>3 – 1</strong> ES Maincy · 05 avr.</span>
-          </div>
-
-          <div className="hero-ctas" style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center", animation: "heroBadgeIn 0.6s ease 1.1s both" }}>
-            <a href="#resultats" style={{ padding: "13px 28px", background: "#2563eb", color: "#fff", fontSize: "0.72rem", letterSpacing: "0.16em", textDecoration: "none", textTransform: "uppercase", fontWeight: 700, whiteSpace: "nowrap" }}>Résultats & Classement</a>
-            <a href="#le-club" style={{ padding: "13px 28px", border: "1px solid rgba(59,130,246,0.4)", color: "#93c5fd", background: "rgba(5,10,30,0.4)", backdropFilter: "blur(8px)", fontSize: "0.72rem", letterSpacing: "0.16em", textDecoration: "none", textTransform: "uppercase", fontWeight: 600, whiteSpace: "nowrap" }}>Découvrir le club</a>
+          {/* ── CTAs ── */}
+          <div className="hero-ctas" style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center", animation: "heroBadgeIn 0.6s ease 1s both" }}>
+            <a href="#resultats" style={{
+              padding: "14px 32px",
+              background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+              color: "#fff", fontSize: "0.72rem", letterSpacing: "0.16em",
+              textDecoration: "none", textTransform: "uppercase", fontWeight: 700,
+              whiteSpace: "nowrap", borderRadius: "3px",
+              boxShadow: "0 4px 24px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.15)",
+            }}>Résultats & Classement</a>
+            <a href="#le-club" style={{
+              padding: "14px 28px",
+              border: "1px solid rgba(255,255,255,0.18)",
+              color: "rgba(255,255,255,0.85)",
+              background: "rgba(255,255,255,0.06)",
+              backdropFilter: "blur(12px)",
+              fontSize: "0.72rem", letterSpacing: "0.16em",
+              textDecoration: "none", textTransform: "uppercase", fontWeight: 600,
+              whiteSpace: "nowrap", borderRadius: "3px",
+            }}>Le club ↓</a>
           </div>
         </div>
 
