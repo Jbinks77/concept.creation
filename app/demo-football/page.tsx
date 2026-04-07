@@ -333,7 +333,7 @@ export default function DemoFootball() {
       </div>
 
       {/* ── HERO ── */}
-      <section style={{ minHeight: "100dvh", position: "relative", overflow: "hidden", paddingBottom: "72px" }}>
+      <section className="hero-section" style={{ minHeight: "100dvh", position: "relative", overflow: "hidden", paddingBottom: "72px" }}>
 
         <style>{`
           @keyframes heroLogoIn {
@@ -478,8 +478,11 @@ export default function DemoFootball() {
             .hero-stats-bar > div { padding: 10px 0 !important; }
             .hero-stats-bar .stat-num { font-size: 1.1rem !important; }
             .hero-stats-bar .stat-label { font-size: 0.4rem !important; letter-spacing: 0.08em !important; }
-            /* 1971 — plus petit, bien dans le coin */
-            .hero-watermark { font-size: 28vw !important; bottom: 80px !important; right: 0 !important; opacity: 1 !important; }
+            /* 1971 — supprimé sur mobile */
+            .hero-watermark { display: none !important; }
+            /* Hero : hauteur auto sur mobile, pas d'espace mort */
+            .hero-section { min-height: unset !important; }
+            .hero-content { min-height: unset !important; padding: 90px 20px 28px !important; }
             /* Hero bg : dézoom max sur mobile */
             .hero-bg {
               inset: 0 !important;
@@ -554,7 +557,7 @@ export default function DemoFootball() {
         }}>1971</div>
 
         {/* ── CONTENU CENTRÉ ── */}
-        <div style={{
+        <div className="hero-content" style={{
           position: "relative", zIndex: 2, minHeight: "100dvh",
           display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
           textAlign: "center", padding: "100px 24px 90px", gap: 0,
