@@ -98,10 +98,11 @@ export default function DemoFootball() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  // Parallax château au scroll
+  // Parallax château au scroll (desktop uniquement)
   useEffect(() => {
     const bg = heroBgRef.current;
     if (!bg) return;
+    if (window.innerWidth < 768) return;
     const onScroll = () => {
       bg.style.transform = `translateY(${window.scrollY * 0.25}px)`;
     };
@@ -127,14 +128,14 @@ export default function DemoFootball() {
             alt="FC Vaux-le-Pénil"
             style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }}
           />
-          <div>
+          <div className="nav-text">
             <div style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.08em", lineHeight: 1 }}>FC VAUX-LE-PÉNIL</div>
             <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1971</div>
           </div>
         </div>
 
         {/* Nav links - desktop */}
-        <div style={{ display: "flex", gap: "28px", alignItems: "center" }}>
+        <div className="nav-links" style={{ display: "flex", gap: "28px", alignItems: "center" }}>
           {["Le Club", "Équipes", "Résultats", "Actualités", "Contact"].map((item) => (
             <a key={item} href={`#${item.toLowerCase().replace(/\s/g, "-").replace(/é/g, "e").replace(/à/g, "a")}`}
               style={{ fontSize: "0.72rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", textDecoration: "none", transition: "color 0.2s" }}
@@ -185,7 +186,7 @@ export default function DemoFootball() {
             100% { opacity: 1; transform: scaleX(1); }
           }
 
-          /* ── MOBILE ── */
+          /* ── MOBILE HERO ── */
           @media (max-width: 600px) {
             .hero-logo { width: 90px !important; height: 90px !important; }
             .hero-logo-wrap { width: 90px !important; height: 90px !important; margin-bottom: 14px !important; }
@@ -195,22 +196,55 @@ export default function DemoFootball() {
             .hero-title { margin-bottom: 20px !important; }
             .hero-match-strip { flex-direction: column !important; border-left: none !important; border-top: 3px solid #3b82f6 !important; }
             .hero-match-label { flex-direction: row !important; padding: 8px 16px !important; gap: 8px !important; justify-content: center; }
-            .hero-match-label span:last-child { writing-mode: horizontal-tb !important; }
             .hero-match-teams { padding: 12px 16px !important; width: 100%; box-sizing: border-box; }
             .hero-match-date { border-left: none !important; border-top: 1px solid rgba(59,130,246,0.2) !important; padding: 10px 16px !important; width: 100%; display: flex !important; justify-content: center; gap: 8px; align-items: center; }
             .hero-match-date div { display: inline !important; }
             .hero-badge { font-size: 0.58rem !important; padding: 6px 12px !important; margin-bottom: 20px !important; }
             .hero-ctas { gap: 8px !important; }
             .hero-ctas a { padding: 12px 20px !important; font-size: 0.65rem !important; letter-spacing: 0.1em !important; }
-            .hero-stats-bar > div { padding: 10px 20px !important; }
-            .hero-stats-bar .stat-num { font-size: 1.1rem !important; }
-            .hero-stats-bar .stat-label { font-size: 0.45rem !important; }
+            .hero-stats-bar > div { padding: 10px 0 !important; }
+            .hero-stats-bar .stat-num { font-size: 1rem !important; }
+            .hero-stats-bar .stat-label { font-size: 0.42rem !important; letter-spacing: 0.1em !important; }
             .hero-watermark { font-size: 52vw !important; transform: translate(-50%, -25%) !important; }
+          }
+
+          /* ── MOBILE NAVBAR ── */
+          @media (max-width: 768px) {
+            .nav-links { display: none !important; }
+            .nav-text { display: none !important; }
+          }
+
+          /* ── MOBILE HERO BG ── */
+          @media (max-width: 768px) {
+            .hero-bg { inset: 0 !important; }
+          }
+
+          /* ── MOBILE PROCHAINS MATCHS ── */
+          @media (max-width: 640px) {
+            .match-row {
+              grid-template-columns: 60px 1fr !important;
+              grid-template-rows: auto auto !important;
+              gap: 0 12px !important;
+            }
+            .match-lieu { display: none !important; }
+            .match-badge { display: none !important; }
+            .match-teams { grid-column: 2 !important; }
+            .match-meta { grid-column: 2 !important; font-size: 0.6rem !important; }
+          }
+
+          /* ── MOBILE CLASSEMENT ── */
+          @media (max-width: 640px) {
+            .classement-header,
+            .classement-row {
+              grid-template-columns: 28px 1fr 32px 44px !important;
+            }
+            .classement-col-hide { display: none !important; }
+            .classement-club { font-size: 0.75rem !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
           }
         `}</style>
 
         {/* ── Fond château + parallax ── */}
-        <div ref={heroBgRef} style={{
+        <div ref={heroBgRef} className="hero-bg" style={{
           position: "absolute", inset: "-15%",
           backgroundImage: "url('/hero-football-1.jpg')",
           backgroundSize: "cover",
@@ -491,14 +525,14 @@ export default function DemoFootball() {
                 Classement — District Division 2
               </h3>
               {/* Header */}
-              <div style={{ display: "grid", gridTemplateColumns: "32px 1fr 40px 40px 40px 40px 50px", gap: "4px", padding: "0 8px 8px", borderBottom: "1px solid rgba(59,130,246,0.1)", marginBottom: "4px" }}>
+              <div className="classement-header" style={{ display: "grid", gridTemplateColumns: "32px 1fr 40px 40px 40px 40px 50px", gap: "4px", padding: "0 8px 8px", borderBottom: "1px solid rgba(59,130,246,0.1)", marginBottom: "4px" }}>
                 {["#", "Club", "J", "G", "N", "P", "Pts"].map((h) => (
-                  <span key={h} style={{ fontSize: "0.55rem", color: "#475569", letterSpacing: "0.15em", textTransform: "uppercase", textAlign: h !== "Club" ? "center" : "left" }}>{h}</span>
+                  <span key={h} className={["G","N","P"].includes(h) ? "classement-col-hide" : undefined} style={{ fontSize: "0.55rem", color: "#475569", letterSpacing: "0.15em", textTransform: "uppercase", textAlign: h !== "Club" ? "center" : "left" }}>{h}</span>
                 ))}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
                 {CLASSEMENT.map((row) => (
-                  <div key={row.pos} style={{
+                  <div key={row.pos} className="classement-row" style={{
                     display: "grid", gridTemplateColumns: "32px 1fr 40px 40px 40px 40px 50px",
                     gap: "4px", padding: "10px 8px",
                     background: row.current ? "rgba(37,99,235,0.12)" : "transparent",
@@ -506,12 +540,13 @@ export default function DemoFootball() {
                     alignItems: "center",
                   }}>
                     <span style={{ fontSize: "0.75rem", fontWeight: row.current ? 800 : 400, color: row.current ? "#3b82f6" : "#64748b", textAlign: "center" }}>{row.pos}</span>
-                    <span style={{ fontSize: "0.82rem", fontWeight: row.current ? 800 : 500, color: row.current ? "#fff" : "rgba(255,255,255,0.8)", letterSpacing: "0.01em" }}>
+                    <span className="classement-club" style={{ fontSize: "0.82rem", fontWeight: row.current ? 800 : 500, color: row.current ? "#fff" : "rgba(255,255,255,0.8)", letterSpacing: "0.01em" }}>
                       {row.current ? "⚡ " : ""}{row.club}
                     </span>
-                    {[row.j, row.g, row.n, row.p].map((v, i) => (
-                      <span key={i} style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", textAlign: "center" }}>{v}</span>
-                    ))}
+                    <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", textAlign: "center" }}>{row.j}</span>
+                    <span className="classement-col-hide" style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", textAlign: "center" }}>{row.g}</span>
+                    <span className="classement-col-hide" style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", textAlign: "center" }}>{row.n}</span>
+                    <span className="classement-col-hide" style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)", textAlign: "center" }}>{row.p}</span>
                     <span style={{ fontSize: "0.85rem", fontWeight: 800, color: row.current ? "#3b82f6" : "rgba(255,255,255,0.7)", textAlign: "center" }}>{row.pts}</span>
                   </div>
                 ))}
@@ -534,7 +569,7 @@ export default function DemoFootball() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
             {PROCHAINS_MATCHS.map((match, i) => (
-              <div key={match.id} style={{
+              <div key={match.id} className="match-row" style={{
                 display: "grid",
                 gridTemplateColumns: "80px 1fr 1fr auto",
                 gap: "16px", alignItems: "center",
@@ -552,25 +587,25 @@ export default function DemoFootball() {
                 </div>
 
                 {/* Équipes */}
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                <div className="match-teams">
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
                     <span style={{ fontSize: "0.95rem", fontWeight: 700 }}>FC Vaux-le-Pénil</span>
                     <span style={{ fontSize: "0.7rem", color: "#3b82f6", fontWeight: 700 }}>VS</span>
                     <span style={{ fontSize: "0.95rem", fontWeight: 700, color: "rgba(255,255,255,0.75)" }}>{match.adversaire}</span>
                   </div>
-                  <div style={{ fontSize: "0.65rem", color: "#475569", marginTop: "4px", letterSpacing: "0.05em" }}>
+                  <div className="match-meta" style={{ fontSize: "0.65rem", color: "#475569", marginTop: "4px", letterSpacing: "0.05em" }}>
                     {match.competition} · {match.domicile ? "🏠 Domicile" : "✈ Extérieur"}
                   </div>
                 </div>
 
                 {/* Lieu */}
-                <div style={{ fontSize: "0.72rem", color: "#64748b" }}>
+                <div className="match-lieu" style={{ fontSize: "0.72rem", color: "#64748b" }}>
                   📍 {match.lieu}
                 </div>
 
                 {/* Badge */}
                 {i === 0 && (
-                  <div style={{
+                  <div className="match-badge" style={{
                     padding: "6px 14px",
                     background: "#2563eb", color: "#fff",
                     fontSize: "0.6rem", letterSpacing: "0.15em",
