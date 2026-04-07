@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 /* ─── DATA (viendra de Sanity CMS en production) ─── */
@@ -79,6 +79,7 @@ export default function DemoFootball() {
   const canvasRef    = useRef<HTMLCanvasElement>(null);
   const countdownRef = useRef<HTMLDivElement>(null);
   const statsBarRef  = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Ticker animation
   useEffect(() => {
@@ -259,6 +260,7 @@ export default function DemoFootball() {
         padding: "0 24px", height: "64px",
         display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px",
       }}>
+        {/* Logo + nom club */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <img src="/logo-vlp.png" alt="FC Vaux-le-Pénil" style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }} />
           <div className="nav-text">
@@ -266,6 +268,8 @@ export default function DemoFootball() {
             <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1971</div>
           </div>
         </div>
+
+        {/* Liens desktop */}
         <div className="nav-links" style={{ display: "flex", gap: "28px", alignItems: "center" }}>
           {["Le Club", "Équipes", "Résultats", "Actualités", "Contact"].map((item) => (
             <a key={item} href={`#${item.toLowerCase().replace(/\s/g, "-").replace(/é/g, "e").replace(/à/g, "a")}`}
@@ -275,11 +279,58 @@ export default function DemoFootball() {
             >{item}</a>
           ))}
         </div>
+
+        {/* Desktop : bouton inscription */}
         <a href="https://wa.me/33621235008?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20une%20d%C3%A9mo%20pour%20mon%20club%20de%20football."
+          className="nav-links"
           style={{ padding: "9px 20px", background: "#2563eb", color: "#fff", fontSize: "0.68rem", letterSpacing: "0.14em", textDecoration: "none", textTransform: "uppercase", fontWeight: 700, borderRadius: "3px", whiteSpace: "nowrap" }}>
           Inscription
         </a>
+
+        {/* Mobile : hamburger */}
+        <button
+          className="nav-hamburger"
+          onClick={() => setMenuOpen(o => !o)}
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: "5px", background: "none", border: "none", cursor: "pointer", padding: "6px", width: "36px", height: "36px" }}
+          aria-label="Menu"
+        >
+          <span style={{ display: "block", width: "22px", height: "2px", background: "#fff", transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "rotate(45deg) translate(0, 7px)" : "none" }} />
+          <span style={{ display: "block", width: "22px", height: "2px", background: "#fff", transition: "opacity 0.25s", opacity: menuOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: "22px", height: "2px", background: "#fff", transition: "transform 0.25s", transform: menuOpen ? "rotate(-45deg) translate(0, -7px)" : "none" }} />
+        </button>
       </nav>
+
+      {/* ── MENU MOBILE DÉROULANT ── */}
+      <div style={{
+        position: "fixed", top: "64px", left: 0, right: 0, zIndex: 99,
+        background: "rgba(5,8,20,0.98)", backdropFilter: "blur(24px)",
+        borderBottom: "1px solid rgba(59,130,246,0.15)",
+        transform: menuOpen ? "translateY(0)" : "translateY(-110%)",
+        transition: "transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+        pointerEvents: menuOpen ? "auto" : "none",
+      }}>
+        <div style={{ display: "flex", flexDirection: "column", padding: "8px 0 16px" }}>
+          {["Le Club", "Équipes", "Résultats", "Actualités", "Contact"].map((item, i) => (
+            <a key={item}
+              href={`#${item.toLowerCase().replace(/\s/g, "-").replace(/é/g, "e").replace(/à/g, "a")}`}
+              onClick={() => setMenuOpen(false)}
+              style={{ padding: "16px 28px", fontSize: "0.85rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", textDecoration: "none", borderBottom: "1px solid rgba(59,130,246,0.06)", display: "flex", alignItems: "center", gap: "14px" }}
+              onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(37,99,235,0.1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.7)"; e.currentTarget.style.background = "transparent"; }}
+            >
+              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#3b82f6", flexShrink: 0 }} />
+              {item}
+            </a>
+          ))}
+          <div style={{ padding: "16px 28px 4px" }}>
+            <a href="https://wa.me/33621235008?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20une%20d%C3%A9mo%20pour%20mon%20club%20de%20football."
+              onClick={() => setMenuOpen(false)}
+              style={{ display: "block", padding: "14px", background: "#2563eb", color: "#fff", textAlign: "center", fontSize: "0.78rem", letterSpacing: "0.16em", textDecoration: "none", textTransform: "uppercase", fontWeight: 700, borderRadius: "3px" }}>
+              S&apos;inscrire
+            </a>
+          </div>
+        </div>
+      </div>
 
       {/* ── HERO ── */}
       <section style={{ minHeight: "100dvh", position: "relative", overflow: "hidden", paddingBottom: "72px" }}>
@@ -427,8 +478,8 @@ export default function DemoFootball() {
             .hero-stats-bar > div { padding: 10px 0 !important; }
             .hero-stats-bar .stat-num { font-size: 1.1rem !important; }
             .hero-stats-bar .stat-label { font-size: 0.4rem !important; letter-spacing: 0.08em !important; }
-            /* 1971 */
-            .hero-watermark { font-size: 42vw !important; bottom: 72px !important; right: -0.02em !important; opacity: 0.7 !important; }
+            /* 1971 — plus petit, bien dans le coin */
+            .hero-watermark { font-size: 28vw !important; bottom: 80px !important; right: 0 !important; opacity: 1 !important; }
             /* Hero bg : dézoom max sur mobile */
             .hero-bg {
               inset: 0 !important;
@@ -439,8 +490,9 @@ export default function DemoFootball() {
 
           /* ── MOBILE NAVBAR ── */
           @media (max-width: 768px) {
-            .nav-links { display: none !important; }
-            .nav-text  { display: none !important; }
+            .nav-links    { display: none !important; }
+            .nav-text     { display: none !important; }
+            .nav-hamburger { display: flex !important; }
           }
 
           /* ── MOBILE HERO BG ── */
