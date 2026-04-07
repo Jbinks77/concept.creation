@@ -75,8 +75,9 @@ const SPONSORS = ["Mairie de Vaux-le-Pénil", "BNP Paribas", "Intersport Melun",
 
 export default function DemoFootball() {
   const tickerRef = useRef<HTMLDivElement>(null);
+  const heroBgRef = useRef<HTMLDivElement>(null);
 
-  // Scroll ticker animation
+  // Ticker animation
   useEffect(() => {
     const ticker = tickerRef.current;
     if (!ticker) return;
@@ -95,6 +96,17 @@ export default function DemoFootball() {
     };
     raf = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Parallax château au scroll
+  useEffect(() => {
+    const bg = heroBgRef.current;
+    if (!bg) return;
+    const onScroll = () => {
+      bg.style.transform = `translateY(${window.scrollY * 0.25}px)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -148,182 +160,272 @@ export default function DemoFootball() {
       </nav>
 
       {/* ── HERO ── */}
-      <section style={{
-        minHeight: "100dvh",
-        position: "relative", overflow: "hidden",
-        display: "flex", flexDirection: "column",
-        justifyContent: "center", alignItems: "center",
-        textAlign: "center",
-        padding: "64px 24px 90px",
-      }}>
+      <section style={{ minHeight: "100dvh", position: "relative", overflow: "hidden", paddingBottom: "80px" }}>
 
-        {/* Photo château en fond */}
-        <div style={{
-          position: "absolute", inset: 0,
+        {/* Animations CSS */}
+        <style>{`
+          @keyframes heroLogoIn {
+            0%   { opacity: 0; transform: scale(0.6); filter: drop-shadow(0 0 0px rgba(59,130,246,0)); }
+            60%  { transform: scale(1.08); filter: drop-shadow(0 0 40px rgba(59,130,246,0.8)); }
+            100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 24px rgba(59,130,246,0.5)) drop-shadow(0 4px 16px rgba(0,0,0,0.6)); }
+          }
+          @keyframes heroTitleIn {
+            0%   { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes heroCardIn {
+            0%   { opacity: 0; transform: translateX(50px); }
+            100% { opacity: 1; transform: translateX(0); }
+          }
+          @keyframes heroBadgeIn {
+            0%   { opacity: 0; transform: translateY(-12px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes heroLineIn {
+            0%   { width: 0; opacity: 0; }
+            100% { width: 100%; opacity: 1; }
+          }
+          @keyframes dotPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); }
+            50%       { box-shadow: 0 0 0 6px rgba(59,130,246,0); }
+          }
+          @keyframes yearFloat {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-12px); }
+          }
+          .hero-grid {
+            position: relative; z-index: 2;
+            display: flex; flex-direction: column;
+            align-items: center; text-align: center;
+            padding: 100px 24px 24px;
+            min-height: 100dvh;
+            justify-content: center;
+            gap: 0;
+          }
+          @media (min-width: 960px) {
+            .hero-grid {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              text-align: left;
+              align-items: center;
+              padding: 100px 60px 100px;
+              gap: 40px;
+            }
+            .hero-right-col { align-items: flex-start !important; }
+            .hero-ctas { justify-content: flex-start !important; }
+            .hero-separator { justify-content: flex-start !important; }
+          }
+        `}</style>
+
+        {/* ── Fond château avec parallax ── */}
+        <div ref={heroBgRef} style={{
+          position: "absolute", inset: "-15%",
           backgroundImage: "url('/hero-football-1.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center 30%",
           backgroundRepeat: "no-repeat",
+          willChange: "transform",
         }} />
 
-        {/* Couches d'overlay superposées */}
-        {/* 1 - assombrissement général */}
-        <div style={{ position: "absolute", inset: 0, background: "rgba(2,8,25,0.72)" }} />
-        {/* 2 - teinte bleue côté gauche */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(105deg, rgba(5,49,175,0.45) 0%, transparent 55%)" }} />
-        {/* 3 - vignette bords */}
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 35%, rgba(2,8,25,0.65) 100%)" }} />
-        {/* 4 - fondu bas vers couleur du site */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "45%", background: "linear-gradient(to top, #07090f 0%, transparent 100%)" }} />
-        {/* 5 - liseré lumineux bleu en haut */}
-        <div style={{ position: "absolute", top: 64, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(59,130,246,0.4) 30%, rgba(59,130,246,0.6) 50%, rgba(59,130,246,0.4) 70%, transparent 100%)" }} />
+        {/* Overlays */}
+        <div style={{ position: "absolute", inset: 0, background: "rgba(2,6,20,0.70)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(110deg, rgba(5,49,175,0.50) 0%, rgba(5,49,175,0.15) 40%, transparent 65%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 70% 50%, transparent 30%, rgba(2,6,20,0.5) 100%)" }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "50%", background: "linear-gradient(to top, #07090f 0%, transparent 100%)" }} />
 
-        {/* Contenu */}
-        <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: "0" }}>
-
-          {/* LOGO DU CLUB — pièce maîtresse */}
+        {/* Bande diagonale décorative bleu/blanc */}
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
+          pointerEvents: "none", overflow: "hidden",
+        }}>
           <div style={{
-            position: "relative",
-            width: "160px", height: "160px",
-            marginBottom: "24px",
-          }}>
-            {/* Halo lumineux derrière le logo */}
+            position: "absolute", top: "-5%", left: "60%", width: "2px", height: "120%",
+            background: "linear-gradient(180deg, transparent 0%, rgba(59,130,246,0.25) 30%, rgba(59,130,246,0.5) 50%, rgba(59,130,246,0.25) 70%, transparent 100%)",
+            transform: "rotate(15deg)",
+          }} />
+          <div style={{
+            position: "absolute", top: "-5%", left: "calc(60% + 8px)", width: "1px", height: "120%",
+            background: "linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%)",
+            transform: "rotate(15deg)",
+          }} />
+        </div>
+
+        {/* Liseré bleu sous la nav */}
+        <div style={{
+          position: "absolute", top: 64, left: 0, right: 0, height: "1px",
+          background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.5) 20%, rgba(59,130,246,0.8) 50%, rgba(59,130,246,0.5) 80%, transparent)",
+        }} />
+
+        {/* WATERMARK "1971" */}
+        <div style={{
+          position: "absolute", zIndex: 1,
+          fontSize: "clamp(12rem, 35vw, 32rem)",
+          fontWeight: 900, letterSpacing: "-0.06em",
+          color: "rgba(59,130,246,0.04)",
+          lineHeight: 1,
+          top: "50%", left: "50%",
+          transform: "translate(-50%, -50%)",
+          whiteSpace: "nowrap",
+          userSelect: "none", pointerEvents: "none",
+          animation: "yearFloat 8s ease-in-out infinite",
+        }}>
+          1971
+        </div>
+
+        {/* ── GRID PRINCIPAL ── */}
+        <div className="hero-grid">
+
+          {/* ── COLONNE GAUCHE : Logo + Titre + CTAs ── */}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0" }} className="hero-right-col">
+
+            {/* Logo */}
+            <div style={{ position: "relative", width: "150px", height: "150px", marginBottom: "20px", animation: "heroLogoIn 0.9s cubic-bezier(0.34,1.56,0.64,1) 0.2s both" }}>
+              <div style={{
+                position: "absolute", inset: "-30px", borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(37,99,235,0.4) 0%, transparent 70%)",
+                filter: "blur(16px)",
+              }} />
+              <img src="/logo-vlp.png" alt="Logo FC Vaux-le-Pénil"
+                style={{ width: "150px", height: "150px", objectFit: "contain", position: "relative", zIndex: 1 }}
+              />
+            </div>
+
+            {/* Séparateur */}
+            <div className="hero-separator" style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px", animation: "heroBadgeIn 0.6s ease 0.6s both" }}>
+              <div style={{ width: "40px", height: "1px", background: "linear-gradient(to right, transparent, rgba(59,130,246,0.8))" }} />
+              <span style={{ fontSize: "0.58rem", letterSpacing: "0.5em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase" }}>Depuis 1971 · Vaux-le-Pénil · 77</span>
+              <div style={{ width: "40px", height: "1px", background: "linear-gradient(to left, transparent, rgba(59,130,246,0.8))" }} />
+            </div>
+
+            {/* Titre */}
+            <h1 style={{
+              fontSize: "clamp(3.5rem, 12vw, 8.5rem)",
+              fontWeight: 900, lineHeight: 0.85,
+              letterSpacing: "-0.04em", textTransform: "uppercase",
+              margin: "0 0 28px",
+              animation: "heroTitleIn 0.8s ease 0.5s both",
+            }}>
+              <span style={{ display: "block", color: "#fff", textShadow: "0 2px 30px rgba(0,0,0,0.9)" }}>ALLEZ</span>
+              <span style={{
+                display: "block",
+                background: "linear-gradient(135deg, #60a5fa 0%, #fff 45%, #93c5fd 100%)",
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                filter: "drop-shadow(0 0 20px rgba(59,130,246,0.45))",
+              }}>VAUX</span>
+            </h1>
+
+            {/* Dernier résultat */}
             <div style={{
-              position: "absolute", inset: "-20px",
-              borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(37,99,235,0.35) 0%, transparent 70%)",
-              filter: "blur(12px)",
-            }} />
-            <img
-              src="/logo-vlp.png"
-              alt="Logo FC Vaux-le-Pénil"
-              style={{
-                width: "160px", height: "160px",
-                objectFit: "contain",
-                position: "relative", zIndex: 1,
-                filter: "drop-shadow(0 0 24px rgba(59,130,246,0.5)) drop-shadow(0 4px 16px rgba(0,0,0,0.6))",
-              }}
-            />
-          </div>
-
-          {/* Nom du club */}
-          <div style={{ marginBottom: "6px" }}>
-            <p style={{
-              fontSize: "0.6rem", letterSpacing: "0.55em",
-              color: "#93c5fd", textTransform: "uppercase",
-              fontWeight: 700, margin: 0,
+              display: "flex", alignItems: "center", gap: "10px",
+              background: "rgba(21,128,61,0.15)",
+              border: "1px solid rgba(21,128,61,0.35)",
+              backdropFilter: "blur(8px)",
+              padding: "8px 18px", marginBottom: "16px",
+              fontSize: "0.65rem", letterSpacing: "0.15em",
+              animation: "heroBadgeIn 0.6s ease 0.9s both",
             }}>
-              Football Club
-            </p>
-          </div>
-
-          {/* Séparateur décoratif */}
-          <div style={{ display: "flex", alignItems: "center", gap: "14px", margin: "18px 0" }}>
-            <div style={{ width: "60px", height: "1px", background: "linear-gradient(to right, transparent, rgba(59,130,246,0.7))" }} />
-            <div style={{ width: "5px", height: "5px", background: "#3b82f6", transform: "rotate(45deg)" }} />
-            <p style={{ fontSize: "0.6rem", letterSpacing: "0.5em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", margin: 0, fontWeight: 500 }}>
-              Depuis 1971 · Vaux-le-Pénil · 77
-            </p>
-            <div style={{ width: "5px", height: "5px", background: "#3b82f6", transform: "rotate(45deg)" }} />
-            <div style={{ width: "60px", height: "1px", background: "linear-gradient(to left, transparent, rgba(59,130,246,0.7))" }} />
-          </div>
-
-          {/* Titre principal */}
-          <h1 style={{
-            fontSize: "clamp(3.2rem, 13vw, 9.5rem)",
-            fontWeight: 900, lineHeight: 0.88,
-            letterSpacing: "-0.03em",
-            textTransform: "uppercase",
-            margin: "0 0 32px",
-            textShadow: "0 4px 40px rgba(0,0,0,0.8)",
-          }}>
-            <span style={{ display: "block", color: "#fff" }}>ALLEZ</span>
-            <span style={{
-              display: "block",
-              background: "linear-gradient(135deg, #60a5fa 0%, #ffffff 40%, #93c5fd 100%)",
-              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 0 30px rgba(59,130,246,0.4))",
-            }}>
-              VAUX
-            </span>
-          </h1>
-
-          {/* Badge prochain match */}
-          <div style={{
-            display: "flex", alignItems: "center", gap: "10px",
-            background: "rgba(5,49,175,0.25)",
-            border: "1px solid rgba(59,130,246,0.4)",
-            backdropFilter: "blur(8px)",
-            padding: "8px 20px", marginBottom: "28px",
-            fontSize: "0.65rem", letterSpacing: "0.25em", textTransform: "uppercase",
-            color: "#93c5fd",
-          }}>
-            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3b82f6", display: "inline-block", animation: "pulse 2s infinite" }} />
-            Prochain match · Sam. 12 Avr. · 15h00
-          </div>
-
-          {/* Card match */}
-          <div style={{
-            display: "flex", alignItems: "center", gap: "20px",
-            background: "rgba(7,9,15,0.7)",
-            border: "1px solid rgba(59,130,246,0.25)",
-            backdropFilter: "blur(16px)",
-            padding: "18px 32px", marginBottom: "36px",
-            flexWrap: "wrap", justifyContent: "center",
-          }}>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "0.55rem", letterSpacing: "0.25em", color: "#475569", textTransform: "uppercase", marginBottom: "4px" }}>Domicile</div>
-              <div style={{ fontSize: "1rem", fontWeight: 800 }}>FC Vaux-le-Pénil</div>
+              <span style={{ fontSize: "0.55rem", background: "#15803d", color: "#fff", padding: "2px 7px", fontWeight: 800, letterSpacing: "0.1em" }}>VICTOIRE</span>
+              <span style={{ color: "rgba(255,255,255,0.7)" }}>VLP <strong style={{ color: "#fff" }}>3 – 1</strong> ES Maincy · 05/04</span>
             </div>
+
+            {/* CTAs */}
+            <div className="hero-ctas" style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center", animation: "heroTitleIn 0.7s ease 1s both" }}>
+              <a href="#resultats" style={{
+                padding: "13px 28px", background: "#2563eb", color: "#fff",
+                fontSize: "0.7rem", letterSpacing: "0.16em", textDecoration: "none",
+                textTransform: "uppercase", fontWeight: 700,
+              }}>Résultats</a>
+              <a href="#le-club" style={{
+                padding: "13px 28px",
+                border: "1px solid rgba(59,130,246,0.45)", color: "#93c5fd",
+                background: "rgba(7,9,15,0.45)", backdropFilter: "blur(8px)",
+                fontSize: "0.7rem", letterSpacing: "0.16em", textDecoration: "none",
+                textTransform: "uppercase", fontWeight: 600,
+              }}>Le Club</a>
+            </div>
+          </div>
+
+          {/* ── COLONNE DROITE : Prochain match + Stats ── */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "40px", animation: "heroCardIn 0.8s ease 0.7s both" }}>
+
+            {/* Card prochain match */}
             <div style={{
-              fontSize: "0.72rem", fontWeight: 900, color: "#3b82f6",
-              padding: "8px 18px", border: "1px solid rgba(59,130,246,0.3)",
-              letterSpacing: "0.15em",
+              background: "rgba(7,9,15,0.75)",
+              border: "1px solid rgba(59,130,246,0.3)",
+              backdropFilter: "blur(20px)",
+              padding: "28px 28px 24px",
             }}>
-              VS
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "0.55rem", letterSpacing: "0.25em", color: "#475569", textTransform: "uppercase", marginBottom: "4px" }}>Extérieur</div>
-              <div style={{ fontSize: "1rem", fontWeight: 800, color: "rgba(255,255,255,0.8)" }}>AS Dammarie-les-Lys</div>
-            </div>
-          </div>
+              {/* Header card */}
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
+                <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#3b82f6", display: "inline-block", animation: "dotPulse 1.8s infinite" }} />
+                <span style={{ fontSize: "0.58rem", letterSpacing: "0.35em", color: "#3b82f6", textTransform: "uppercase", fontWeight: 700 }}>Prochain Match</span>
+                <span style={{ marginLeft: "auto", fontSize: "0.6rem", color: "#475569" }}>Sam. 12 Avr. · 15h00</span>
+              </div>
 
-          {/* CTAs */}
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
-            <a href="#resultats" style={{
-              padding: "14px 32px", background: "#2563eb", color: "#fff",
-              fontSize: "0.72rem", letterSpacing: "0.16em", textDecoration: "none",
-              textTransform: "uppercase", fontWeight: 700,
+              {/* Équipes */}
+              <div style={{ display: "flex", alignItems: "center", gap: "16px", justifyContent: "center", marginBottom: "16px" }}>
+                <div style={{ textAlign: "center", flex: 1 }}>
+                  <img src="/logo-vlp.png" alt="VLP" style={{ width: "48px", height: "48px", objectFit: "contain", marginBottom: "6px" }} />
+                  <div style={{ fontSize: "0.78rem", fontWeight: 800, lineHeight: 1.2 }}>FC Vaux-le-Pénil</div>
+                  <div style={{ fontSize: "0.55rem", color: "#3b82f6", marginTop: "2px" }}>Domicile</div>
+                </div>
+                <div style={{
+                  fontSize: "1.4rem", fontWeight: 900, color: "#fff",
+                  padding: "10px 16px",
+                  background: "rgba(37,99,235,0.15)",
+                  border: "1px solid rgba(59,130,246,0.25)",
+                }}>VS</div>
+                <div style={{ textAlign: "center", flex: 1 }}>
+                  <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 6px", fontSize: "0.55rem", color: "#64748b", fontWeight: 700 }}>ADL</div>
+                  <div style={{ fontSize: "0.78rem", fontWeight: 800, lineHeight: 1.2, color: "rgba(255,255,255,0.75)" }}>AS Dammarie</div>
+                  <div style={{ fontSize: "0.55rem", color: "#475569", marginTop: "2px" }}>Extérieur</div>
+                </div>
+              </div>
+
+              {/* Infos match */}
+              <div style={{ borderTop: "1px solid rgba(59,130,246,0.1)", paddingTop: "14px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
+                <span style={{ fontSize: "0.62rem", color: "#475569" }}>📍 Stade Paul Doumer</span>
+                <span style={{ fontSize: "0.62rem", color: "#475569" }}>District · Division 2</span>
+              </div>
+            </div>
+
+            {/* Mini stats */}
+            <div style={{
+              display: "grid", gridTemplateColumns: "1fr 1fr",
+              gap: "2px",
             }}>
-              Résultats & Classement
-            </a>
-            <a href="#le-club" style={{
-              padding: "14px 32px",
-              border: "1px solid rgba(59,130,246,0.45)", color: "#93c5fd",
-              background: "rgba(7,9,15,0.5)", backdropFilter: "blur(8px)",
-              fontSize: "0.72rem", letterSpacing: "0.16em", textDecoration: "none",
-              textTransform: "uppercase", fontWeight: 600,
-            }}>
-              Découvrir le club
-            </a>
+              {[
+                { n: "2ème", label: "Au classement", color: "#3b82f6" },
+                { n: "3V · 1N · 1D", label: "5 derniers matchs", color: "#15803d" },
+                { n: "450+", label: "Licenciés", color: "#f59e0b" },
+                { n: "20", label: "Équipes", color: "#8b5cf6" },
+              ].map((s) => (
+                <div key={s.label} style={{
+                  padding: "14px 16px",
+                  background: "rgba(7,9,15,0.7)",
+                  border: "1px solid rgba(59,130,246,0.12)",
+                  backdropFilter: "blur(12px)",
+                  textAlign: "center",
+                }}>
+                  <div style={{ fontSize: "1rem", fontWeight: 900, color: s.color, lineHeight: 1 }}>{s.n}</div>
+                  <div style={{ fontSize: "0.55rem", color: "#475569", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: "4px" }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Stats rapides — barre en bas */}
+        {/* Barre stats bas */}
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3,
-          background: "rgba(7,9,15,0.92)",
-          backdropFilter: "blur(16px)",
-          borderTop: "1px solid rgba(59,130,246,0.18)",
+          background: "rgba(7,9,15,0.92)", backdropFilter: "blur(16px)",
+          borderTop: "1px solid rgba(59,130,246,0.15)",
           display: "flex", justifyContent: "center", flexWrap: "wrap",
         }}>
           {CHIFFRES.map((c, i) => (
-            <div key={i} style={{
-              padding: "16px 44px", textAlign: "center",
-              borderRight: "1px solid rgba(59,130,246,0.08)",
-            }}>
-              <div style={{ fontSize: "1.5rem", fontWeight: 900, color: "#3b82f6", lineHeight: 1 }}>{c.n}</div>
-              <div style={{ fontSize: "0.55rem", color: "#475569", letterSpacing: "0.22em", textTransform: "uppercase", marginTop: "5px" }}>{c.label}</div>
+            <div key={i} style={{ padding: "14px 40px", textAlign: "center", borderRight: "1px solid rgba(59,130,246,0.08)" }}>
+              <div style={{ fontSize: "1.4rem", fontWeight: 900, color: "#3b82f6", lineHeight: 1 }}>{c.n}</div>
+              <div style={{ fontSize: "0.52rem", color: "#475569", letterSpacing: "0.22em", textTransform: "uppercase", marginTop: "4px" }}>{c.label}</div>
             </div>
           ))}
         </div>
