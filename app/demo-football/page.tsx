@@ -160,13 +160,32 @@ export default function DemoFootball() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
   }, []);
 
-  // ── Countdown live prochain match
+  // ── Countdown live — prochain dimanche à 15h heure Paris
   useEffect(() => {
-    const target = new Date("2025-04-12T15:00:00");
+    // Renvoie le timestamp UTC du prochain dimanche 15h Paris
+    const getNextSunday15h = (): number => {
+      const now = new Date();
+      for (let i = 0; i <= 7; i++) {
+        const probe = new Date(now.getTime() + i * 86400000);
+        // Jour de la semaine à Paris
+        const wd = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Paris", weekday: "short" }).format(probe);
+        if (wd !== "Sun") continue;
+        // Date locale Paris (YYYY-MM-DD)
+        const dateStr = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris" }).format(probe);
+        // Chercher le bon timestamp UTC : Paris = UTC+1 ou UTC+2
+        for (const utcH of [13, 14]) {
+          const ts = new Date(`${dateStr}T${String(utcH).padStart(2, "0")}:00:00Z`).getTime();
+          const parisH = parseInt(new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Paris", hour: "numeric", hour12: false }).format(new Date(ts)));
+          if (parisH === 15 && ts > now.getTime()) return ts;
+        }
+      }
+      return now.getTime() + 7 * 86400000;
+    };
+
     const update = () => {
       const el = countdownRef.current;
       if (!el) return;
-      const diff = target.getTime() - Date.now();
+      const diff = getNextSunday15h() - Date.now();
       if (diff <= 0) return;
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
@@ -306,19 +325,19 @@ export default function DemoFootball() {
 
           /* ── PROJECTEURS DE STADE ── */
           @keyframes sweep1 {
-            0%   { transform: rotate(-28deg); opacity: 0.09; }
-            50%  { transform: rotate(18deg);  opacity: 0.16; }
-            100% { transform: rotate(-28deg); opacity: 0.09; }
+            0%   { transform: rotate(-28deg); opacity: 0.32; }
+            50%  { transform: rotate(18deg);  opacity: 0.52; }
+            100% { transform: rotate(-28deg); opacity: 0.32; }
           }
           @keyframes sweep2 {
-            0%   { transform: rotate(22deg);  opacity: 0.07; }
-            50%  { transform: rotate(-20deg); opacity: 0.13; }
-            100% { transform: rotate(22deg);  opacity: 0.07; }
+            0%   { transform: rotate(22deg);  opacity: 0.28; }
+            50%  { transform: rotate(-20deg); opacity: 0.46; }
+            100% { transform: rotate(22deg);  opacity: 0.28; }
           }
           @keyframes sweep3 {
-            0%   { transform: rotate(-8deg);  opacity: 0.05; }
-            50%  { transform: rotate(32deg);  opacity: 0.11; }
-            100% { transform: rotate(-8deg);  opacity: 0.05; }
+            0%   { transform: rotate(-8deg);  opacity: 0.20; }
+            50%  { transform: rotate(32deg);  opacity: 0.38; }
+            100% { transform: rotate(-8deg);  opacity: 0.20; }
           }
 
           /* ── COUNTDOWN ── */
@@ -403,7 +422,7 @@ export default function DemoFootball() {
             .hero-stats-bar > div { padding: 10px 0 !important; }
             .hero-stats-bar .stat-num { font-size: 1rem !important; }
             .hero-stats-bar .stat-label { font-size: 0.42rem !important; letter-spacing: 0.1em !important; }
-            .hero-watermark { font-size: 52vw !important; transform: translate(-50%, -25%) !important; }
+            .hero-watermark { font-size: 38vw !important; bottom: 72px !important; right: -0.02em !important; }
           }
 
           /* ── MOBILE NAVBAR ── */
@@ -456,17 +475,17 @@ export default function DemoFootball() {
 
         {/* ── PROJECTEURS DE STADE ── */}
         <div style={{ position: "absolute", inset: 0, overflow: "hidden", zIndex: 1, pointerEvents: "none" }}>
-          <div style={{ position: "absolute", top: "-5%", left: "12%", width: "500px", height: "110%", background: "linear-gradient(180deg, rgba(180,210,255,0.09) 0%, rgba(100,160,255,0.03) 50%, transparent 85%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep1 11s ease-in-out infinite" }} />
-          <div style={{ position: "absolute", top: "-5%", right: "10%", width: "450px", height: "110%", background: "linear-gradient(180deg, rgba(180,210,255,0.07) 0%, rgba(100,160,255,0.025) 50%, transparent 85%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep2 14s ease-in-out infinite" }} />
-          <div style={{ position: "absolute", top: "-5%", left: "calc(50% - 190px)", width: "380px", height: "110%", background: "linear-gradient(180deg, rgba(200,220,255,0.05) 0%, transparent 70%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep3 18s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", top: "-5%", left: "12%", width: "500px", height: "110%", background: "linear-gradient(180deg, rgba(200,225,255,0.38) 0%, rgba(140,185,255,0.12) 45%, transparent 80%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep1 11s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", top: "-5%", right: "10%", width: "450px", height: "110%", background: "linear-gradient(180deg, rgba(200,225,255,0.32) 0%, rgba(140,185,255,0.10) 45%, transparent 80%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep2 14s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", top: "-5%", left: "calc(50% - 190px)", width: "380px", height: "110%", background: "linear-gradient(180deg, rgba(200,225,255,0.22) 0%, rgba(140,185,255,0.07) 45%, transparent 80%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep3 18s ease-in-out infinite" }} />
         </div>
 
-        {/* WATERMARK "1971" */}
+        {/* WATERMARK "1971" — bas droite */}
         <div className="hero-watermark" style={{
           position: "absolute", zIndex: 1,
-          fontSize: "clamp(11rem, 32vw, 30rem)", fontWeight: 900, letterSpacing: "-0.05em",
-          color: "rgba(255,255,255,0.06)", lineHeight: 1,
-          top: "50%", left: "50%", transform: "translate(-50%, -30%)",
+          fontSize: "clamp(7rem, 22vw, 20rem)", fontWeight: 900, letterSpacing: "-0.05em",
+          color: "rgba(255,255,255,0.055)", lineHeight: 1,
+          bottom: "72px", right: "-0.02em",
           whiteSpace: "nowrap", userSelect: "none", pointerEvents: "none",
         }}>1971</div>
 
@@ -584,7 +603,7 @@ export default function DemoFootball() {
           ))}
         </div>
         <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.3)", fontWeight: 600 }}>
-          VLP <span style={{ color: "#3b82f6", margin: "0 6px" }}>VS</span> AS Dammarie · Sam. 12 Avr. · 15h00
+          Match du dimanche <span style={{ color: "#3b82f6", margin: "0 4px" }}>·</span> Coup d&apos;envoi 15h00 <span style={{ color: "#3b82f6", margin: "0 4px" }}>·</span> Heure de Paris
         </div>
       </div>
 
