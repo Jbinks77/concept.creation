@@ -211,15 +211,15 @@ export default function DemoFootball() {
           background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.35) 20%, rgba(59,130,246,0.7) 50%, rgba(59,130,246,0.35) 80%, transparent)",
         }} />
 
-        {/* WATERMARK "1971" — derrière le titre, bien visible */}
+        {/* WATERMARK "1971" — calé derrière "ALLEZ VAUX" */}
         <div style={{
           position: "absolute", zIndex: 1,
-          fontSize: "clamp(10rem, 28vw, 26rem)",
+          fontSize: "clamp(11rem, 32vw, 30rem)",
           fontWeight: 900, letterSpacing: "-0.05em",
-          color: "rgba(255,255,255,0.055)",
+          color: "rgba(255,255,255,0.06)",
           lineHeight: 1,
-          bottom: "18%", left: "50%",
-          transform: "translateX(-50%)",
+          top: "50%", left: "50%",
+          transform: "translate(-50%, -30%)",
           whiteSpace: "nowrap",
           userSelect: "none", pointerEvents: "none",
         }}>
