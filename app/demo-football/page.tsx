@@ -110,14 +110,11 @@ export default function DemoFootball() {
       }}>
         {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <div style={{
-            width: "40px", height: "40px", borderRadius: "50%",
-            background: "linear-gradient(135deg, #1e3a8a, #3b82f6)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "1rem", fontWeight: 900, color: "#fff", flexShrink: 0,
-          }}>
-            VLP
-          </div>
+          <img
+            src="https://www.vlpfoot.fr/wp-content/uploads/2023/09/Logo-vlr-foot.png"
+            alt="FC Vaux-le-Pénil"
+            style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }}
+          />
           <div>
             <div style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.08em", lineHeight: 1 }}>FC VAUX-LE-PÉNIL</div>
             <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1971</div>
@@ -152,120 +149,185 @@ export default function DemoFootball() {
 
       {/* ── HERO ── */}
       <section style={{
-        minHeight: "100dvh", paddingTop: "64px",
-        background: `
-          radial-gradient(ellipse at 20% 50%, rgba(30,64,175,0.35) 0%, transparent 55%),
-          radial-gradient(ellipse at 80% 20%, rgba(37,99,235,0.2) 0%, transparent 45%),
-          linear-gradient(180deg, #07090f 0%, #0c1228 50%, #07090f 100%)
-        `,
-        display: "flex", flexDirection: "column", justifyContent: "center",
-        alignItems: "center", textAlign: "center",
+        minHeight: "100dvh",
         position: "relative", overflow: "hidden",
-        padding: "64px 24px 0",
+        display: "flex", flexDirection: "column",
+        justifyContent: "center", alignItems: "center",
+        textAlign: "center",
+        padding: "64px 24px 90px",
       }}>
-        {/* Background grid */}
+
+        {/* Photo château en fond */}
         <div style={{
-          position: "absolute", inset: 0, opacity: 0.04,
-          backgroundImage: `
-            linear-gradient(rgba(59,130,246,1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59,130,246,1) 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
-          pointerEvents: "none",
+          position: "absolute", inset: 0,
+          backgroundImage: "url('/hero-football-1.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center 30%",
+          backgroundRepeat: "no-repeat",
         }} />
 
-        {/* Prochain match card */}
-        <div style={{
-          background: "rgba(30,64,175,0.15)",
-          border: "1px solid rgba(59,130,246,0.3)",
-          borderRadius: "4px",
-          padding: "10px 24px", marginBottom: "40px",
-          fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase",
-          color: "#93c5fd",
-        }}>
-          ▶ Prochain match · Sam. 12 Avr. · 15h00
-        </div>
+        {/* Couches d'overlay superposées */}
+        {/* 1 - assombrissement général */}
+        <div style={{ position: "absolute", inset: 0, background: "rgba(2,8,25,0.72)" }} />
+        {/* 2 - teinte bleue côté gauche */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(105deg, rgba(5,49,175,0.45) 0%, transparent 55%)" }} />
+        {/* 3 - vignette bords */}
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center, transparent 35%, rgba(2,8,25,0.65) 100%)" }} />
+        {/* 4 - fondu bas vers couleur du site */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "45%", background: "linear-gradient(to top, #07090f 0%, transparent 100%)" }} />
+        {/* 5 - liseré lumineux bleu en haut */}
+        <div style={{ position: "absolute", top: 64, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(59,130,246,0.4) 30%, rgba(59,130,246,0.6) 50%, rgba(59,130,246,0.4) 70%, transparent 100%)" }} />
 
-        {/* Main title */}
-        <h1 style={{
-          fontSize: "clamp(3.5rem, 15vw, 11rem)",
-          fontWeight: 900, lineHeight: 0.85,
-          letterSpacing: "-0.03em",
-          marginBottom: "0",
-          textTransform: "uppercase",
-        }}>
-          <span style={{ display: "block", color: "#fff" }}>ALLEZ</span>
-          <span style={{
-            display: "block",
-            background: "linear-gradient(135deg, #3b82f6, #60a5fa, #93c5fd)",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          }}>
-            VAUX
-          </span>
-        </h1>
+        {/* Contenu */}
+        <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: "0" }}>
 
-        <div style={{
-          width: "80px", height: "3px",
-          background: "linear-gradient(90deg, transparent, #3b82f6, transparent)",
-          margin: "32px auto",
-        }} />
-
-        {/* Next match detail */}
-        <div style={{
-          display: "flex", alignItems: "center", gap: "24px",
-          background: "rgba(15,23,42,0.8)",
-          border: "1px solid rgba(59,130,246,0.2)",
-          borderRadius: "4px", padding: "20px 32px",
-          marginBottom: "40px", flexWrap: "wrap", justifyContent: "center",
-        }}>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "0.6rem", letterSpacing: "0.25em", color: "#64748b", textTransform: "uppercase", marginBottom: "4px" }}>Domicile</div>
-            <div style={{ fontSize: "1.1rem", fontWeight: 800, letterSpacing: "0.03em" }}>FC Vaux-le-Pénil</div>
-          </div>
+          {/* LOGO DU CLUB — pièce maîtresse */}
           <div style={{
-            fontSize: "1.6rem", fontWeight: 900, color: "#3b82f6",
-            padding: "8px 20px",
-            border: "1px solid rgba(59,130,246,0.3)", borderRadius: "2px",
+            position: "relative",
+            width: "160px", height: "160px",
+            marginBottom: "24px",
           }}>
-            VS
+            {/* Halo lumineux derrière le logo */}
+            <div style={{
+              position: "absolute", inset: "-20px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(37,99,235,0.35) 0%, transparent 70%)",
+              filter: "blur(12px)",
+            }} />
+            <img
+              src="https://www.vlpfoot.fr/wp-content/uploads/2023/09/Logo-vlr-foot.png"
+              alt="Logo FC Vaux-le-Pénil"
+              style={{
+                width: "160px", height: "160px",
+                objectFit: "contain",
+                position: "relative", zIndex: 1,
+                filter: "drop-shadow(0 0 24px rgba(59,130,246,0.5)) drop-shadow(0 4px 16px rgba(0,0,0,0.6))",
+              }}
+            />
           </div>
-          <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "0.6rem", letterSpacing: "0.25em", color: "#64748b", textTransform: "uppercase", marginBottom: "4px" }}>Extérieur</div>
-            <div style={{ fontSize: "1.1rem", fontWeight: 800, letterSpacing: "0.03em" }}>AS Dammarie-les-Lys</div>
+
+          {/* Nom du club */}
+          <div style={{ marginBottom: "6px" }}>
+            <p style={{
+              fontSize: "0.6rem", letterSpacing: "0.55em",
+              color: "#93c5fd", textTransform: "uppercase",
+              fontWeight: 700, margin: 0,
+            }}>
+              Football Club
+            </p>
+          </div>
+
+          {/* Séparateur décoratif */}
+          <div style={{ display: "flex", alignItems: "center", gap: "14px", margin: "18px 0" }}>
+            <div style={{ width: "60px", height: "1px", background: "linear-gradient(to right, transparent, rgba(59,130,246,0.7))" }} />
+            <div style={{ width: "5px", height: "5px", background: "#3b82f6", transform: "rotate(45deg)" }} />
+            <p style={{ fontSize: "0.6rem", letterSpacing: "0.5em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", margin: 0, fontWeight: 500 }}>
+              Depuis 1971 · Vaux-le-Pénil · 77
+            </p>
+            <div style={{ width: "5px", height: "5px", background: "#3b82f6", transform: "rotate(45deg)" }} />
+            <div style={{ width: "60px", height: "1px", background: "linear-gradient(to left, transparent, rgba(59,130,246,0.7))" }} />
+          </div>
+
+          {/* Titre principal */}
+          <h1 style={{
+            fontSize: "clamp(3.2rem, 13vw, 9.5rem)",
+            fontWeight: 900, lineHeight: 0.88,
+            letterSpacing: "-0.03em",
+            textTransform: "uppercase",
+            margin: "0 0 32px",
+            textShadow: "0 4px 40px rgba(0,0,0,0.8)",
+          }}>
+            <span style={{ display: "block", color: "#fff" }}>ALLEZ</span>
+            <span style={{
+              display: "block",
+              background: "linear-gradient(135deg, #60a5fa 0%, #ffffff 40%, #93c5fd 100%)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+              filter: "drop-shadow(0 0 30px rgba(59,130,246,0.4))",
+            }}>
+              VAUX
+            </span>
+          </h1>
+
+          {/* Badge prochain match */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: "10px",
+            background: "rgba(5,49,175,0.25)",
+            border: "1px solid rgba(59,130,246,0.4)",
+            backdropFilter: "blur(8px)",
+            padding: "8px 20px", marginBottom: "28px",
+            fontSize: "0.65rem", letterSpacing: "0.25em", textTransform: "uppercase",
+            color: "#93c5fd",
+          }}>
+            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3b82f6", display: "inline-block", animation: "pulse 2s infinite" }} />
+            Prochain match · Sam. 12 Avr. · 15h00
+          </div>
+
+          {/* Card match */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: "20px",
+            background: "rgba(7,9,15,0.7)",
+            border: "1px solid rgba(59,130,246,0.25)",
+            backdropFilter: "blur(16px)",
+            padding: "18px 32px", marginBottom: "36px",
+            flexWrap: "wrap", justifyContent: "center",
+          }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "0.55rem", letterSpacing: "0.25em", color: "#475569", textTransform: "uppercase", marginBottom: "4px" }}>Domicile</div>
+              <div style={{ fontSize: "1rem", fontWeight: 800 }}>FC Vaux-le-Pénil</div>
+            </div>
+            <div style={{
+              fontSize: "0.72rem", fontWeight: 900, color: "#3b82f6",
+              padding: "8px 18px", border: "1px solid rgba(59,130,246,0.3)",
+              letterSpacing: "0.15em",
+            }}>
+              VS
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "0.55rem", letterSpacing: "0.25em", color: "#475569", textTransform: "uppercase", marginBottom: "4px" }}>Extérieur</div>
+              <div style={{ fontSize: "1rem", fontWeight: 800, color: "rgba(255,255,255,0.8)" }}>AS Dammarie-les-Lys</div>
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+            <a href="#resultats" style={{
+              padding: "14px 32px", background: "#2563eb", color: "#fff",
+              fontSize: "0.72rem", letterSpacing: "0.16em", textDecoration: "none",
+              textTransform: "uppercase", fontWeight: 700,
+            }}>
+              Résultats & Classement
+            </a>
+            <a href="#le-club" style={{
+              padding: "14px 32px",
+              border: "1px solid rgba(59,130,246,0.45)", color: "#93c5fd",
+              background: "rgba(7,9,15,0.5)", backdropFilter: "blur(8px)",
+              fontSize: "0.72rem", letterSpacing: "0.16em", textDecoration: "none",
+              textTransform: "uppercase", fontWeight: 600,
+            }}>
+              Découvrir le club
+            </a>
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "12px", marginBottom: "60px", flexWrap: "wrap", justifyContent: "center" }}>
-          <a href="#resultats" style={{
-            padding: "14px 32px", background: "#2563eb", color: "#fff",
-            fontSize: "0.75rem", letterSpacing: "0.15em", textDecoration: "none",
-            textTransform: "uppercase", fontWeight: 700, borderRadius: "3px",
-          }}>Voir les résultats</a>
-          <a href="#le-club" style={{
-            padding: "14px 32px",
-            border: "1px solid rgba(59,130,246,0.4)", color: "#93c5fd",
-            fontSize: "0.75rem", letterSpacing: "0.15em", textDecoration: "none",
-            textTransform: "uppercase", fontWeight: 700, borderRadius: "3px",
-          }}>Découvrir le club</a>
-        </div>
-
-        {/* Stats rapides */}
+        {/* Stats rapides — barre en bas */}
         <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0,
-          background: "rgba(15,23,42,0.9)",
-          borderTop: "1px solid rgba(59,130,246,0.15)",
+          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3,
+          background: "rgba(7,9,15,0.92)",
+          backdropFilter: "blur(16px)",
+          borderTop: "1px solid rgba(59,130,246,0.18)",
           display: "flex", justifyContent: "center", flexWrap: "wrap",
         }}>
           {CHIFFRES.map((c, i) => (
             <div key={i} style={{
-              padding: "18px 40px", textAlign: "center",
-              borderRight: "1px solid rgba(59,130,246,0.1)",
+              padding: "16px 44px", textAlign: "center",
+              borderRight: "1px solid rgba(59,130,246,0.08)",
             }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#3b82f6", lineHeight: 1 }}>{c.n}</div>
-              <div style={{ fontSize: "0.58rem", color: "#475569", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "4px" }}>{c.label}</div>
+              <div style={{ fontSize: "1.5rem", fontWeight: 900, color: "#3b82f6", lineHeight: 1 }}>{c.n}</div>
+              <div style={{ fontSize: "0.55rem", color: "#475569", letterSpacing: "0.22em", textTransform: "uppercase", marginTop: "5px" }}>{c.label}</div>
             </div>
           ))}
         </div>
+
       </section>
 
       {/* ── TICKER ── */}
