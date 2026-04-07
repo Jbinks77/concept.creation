@@ -74,8 +74,11 @@ const SPONSORS = ["Mairie de Vaux-le-Pénil", "BNP Paribas", "Intersport Melun",
 /* ─── COMPONENT ─── */
 
 export default function DemoFootball() {
-  const tickerRef = useRef<HTMLDivElement>(null);
-  const heroBgRef = useRef<HTMLDivElement>(null);
+  const tickerRef    = useRef<HTMLDivElement>(null);
+  const heroBgRef    = useRef<HTMLDivElement>(null);
+  const canvasRef    = useRef<HTMLCanvasElement>(null);
+  const countdownRef = useRef<HTMLDivElement>(null);
+  const statsBarRef  = useRef<HTMLDivElement>(null);
 
   // Ticker animation
   useEffect(() => {
@@ -110,6 +113,106 @@ export default function DemoFootball() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // ── Canvas hexagones flottants (motif ballon de foot)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+    resize();
+    window.addEventListener("resize", resize);
+    type Hex = { x: number; y: number; size: number; speed: number; rot: number; rotS: number; op: number; drift: number; };
+    const hexs: Hex[] = Array.from({ length: 22 }, () => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight * 2,
+      size: 12 + Math.random() * 40,
+      speed: 0.12 + Math.random() * 0.3,
+      rot: Math.random() * Math.PI * 2,
+      rotS: (Math.random() - 0.5) * 0.007,
+      op: 0.025 + Math.random() * 0.055,
+      drift: (Math.random() - 0.5) * 0.25,
+    }));
+    const drawHex = (x: number, y: number, r: number, rot: number, op: number) => {
+      ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (Math.PI / 3) * i - Math.PI / 6;
+        i === 0 ? ctx.moveTo(r * Math.cos(a), r * Math.sin(a)) : ctx.lineTo(r * Math.cos(a), r * Math.sin(a));
+      }
+      ctx.closePath();
+      ctx.strokeStyle = `rgba(59,130,246,${op})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+    };
+    let raf: number;
+    const tick = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hexs.forEach(h => {
+        h.y -= h.speed; h.x += h.drift; h.rot += h.rotS;
+        if (h.y < -h.size * 2) { h.y = canvas.height + h.size; h.x = Math.random() * canvas.width; }
+        drawHex(h.x, h.y, h.size, h.rot, h.op);
+      });
+      raf = requestAnimationFrame(tick);
+    };
+    tick();
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
+  }, []);
+
+  // ── Countdown live prochain match
+  useEffect(() => {
+    const target = new Date("2025-04-12T15:00:00");
+    const update = () => {
+      const el = countdownRef.current;
+      if (!el) return;
+      const diff = target.getTime() - Date.now();
+      if (diff <= 0) return;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      const items = el.querySelectorAll<HTMLElement>("[data-cd]");
+      if (items[0]) items[0].textContent = String(d).padStart(2, "0");
+      if (items[1]) items[1].textContent = String(h).padStart(2, "0");
+      if (items[2]) items[2].textContent = String(m).padStart(2, "0");
+      if (items[3]) items[3].textContent = String(s).padStart(2, "0");
+    };
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // ── Compteurs animés dans la stats bar
+  useEffect(() => {
+    const bar = statsBarRef.current;
+    if (!bar) return;
+    const targets = [1971, 450, 20, 54];
+    const durations = [1800, 1400, 1000, 1200];
+    let started = false;
+    const animate = () => {
+      if (started) return;
+      started = true;
+      targets.forEach((target, i) => {
+        const el = bar.querySelectorAll<HTMLElement>(".stat-num")[i];
+        if (!el) return;
+        const suffix = el.dataset.suffix || "";
+        const start = Date.now();
+        const dur = durations[i];
+        const step = () => {
+          const p = Math.min((Date.now() - start) / dur, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(ease * target) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        step();
+      });
+    };
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) animate(); }, { threshold: 0.5 });
+    io.observe(bar);
+    return () => io.disconnect();
+  }, []);
+
   // Scroll reveal via IntersectionObserver
   useEffect(() => {
     const io = new IntersectionObserver(
@@ -122,6 +225,12 @@ export default function DemoFootball() {
 
   return (
     <div style={{ background: "#07090f", color: "#fff", fontFamily: "'Inter', -apple-system, sans-serif", minHeight: "100vh", overflowX: "hidden" }}>
+
+      {/* ── CANVAS HEXAGONES FLOTTANTS ── */}
+      <canvas ref={canvasRef} style={{
+        position: "fixed", inset: 0, zIndex: 0,
+        pointerEvents: "none", mixBlendMode: "screen",
+      }} />
 
       {/* ── NAV ── */}
       <nav style={{
@@ -194,6 +303,34 @@ export default function DemoFootball() {
             0%, 100% { border-color: rgba(59,130,246,0.3); }
             50%       { border-color: rgba(59,130,246,0.7); box-shadow: 0 0 20px rgba(59,130,246,0.15); }
           }
+
+          /* ── PROJECTEURS DE STADE ── */
+          @keyframes sweep1 {
+            0%   { transform: rotate(-28deg); opacity: 0.09; }
+            50%  { transform: rotate(18deg);  opacity: 0.16; }
+            100% { transform: rotate(-28deg); opacity: 0.09; }
+          }
+          @keyframes sweep2 {
+            0%   { transform: rotate(22deg);  opacity: 0.07; }
+            50%  { transform: rotate(-20deg); opacity: 0.13; }
+            100% { transform: rotate(22deg);  opacity: 0.07; }
+          }
+          @keyframes sweep3 {
+            0%   { transform: rotate(-8deg);  opacity: 0.05; }
+            50%  { transform: rotate(32deg);  opacity: 0.11; }
+            100% { transform: rotate(-8deg);  opacity: 0.05; }
+          }
+
+          /* ── COUNTDOWN ── */
+          @keyframes cdPulse {
+            0%, 100% { border-color: rgba(59,130,246,0.25); }
+            50%       { border-color: rgba(59,130,246,0.6); box-shadow: 0 0 16px rgba(59,130,246,0.15); }
+          }
+          .cd-block { animation: cdPulse 2s ease-in-out infinite; }
+          .cd-block:nth-child(4) { animation-delay: 0s; }
+          .cd-block:nth-child(3) { animation-delay: 0.5s; }
+          .cd-block:nth-child(2) { animation-delay: 1s; }
+          .cd-block:nth-child(1) { animation-delay: 1.5s; }
 
           /* ── SCROLL REVEAL ── */
           .reveal       { opacity:0; transform:translateY(32px);  transition:opacity .7s ease, transform .7s ease; }
@@ -317,6 +454,13 @@ export default function DemoFootball() {
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "20%", background: "linear-gradient(to bottom, rgba(2,6,20,0.7) 0%, transparent 100%)" }} />
         <div style={{ position: "absolute", top: 64, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.35) 20%, rgba(59,130,246,0.7) 50%, rgba(59,130,246,0.35) 80%, transparent)" }} />
 
+        {/* ── PROJECTEURS DE STADE ── */}
+        <div style={{ position: "absolute", inset: 0, overflow: "hidden", zIndex: 1, pointerEvents: "none" }}>
+          <div style={{ position: "absolute", top: "-5%", left: "12%", width: "500px", height: "110%", background: "linear-gradient(180deg, rgba(180,210,255,0.09) 0%, rgba(100,160,255,0.03) 50%, transparent 85%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep1 11s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", top: "-5%", right: "10%", width: "450px", height: "110%", background: "linear-gradient(180deg, rgba(180,210,255,0.07) 0%, rgba(100,160,255,0.025) 50%, transparent 85%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep2 14s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", top: "-5%", left: "calc(50% - 190px)", width: "380px", height: "110%", background: "linear-gradient(180deg, rgba(200,220,255,0.05) 0%, transparent 70%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep3 18s ease-in-out infinite" }} />
+        </div>
+
         {/* WATERMARK "1971" */}
         <div className="hero-watermark" style={{
           position: "absolute", zIndex: 1,
@@ -383,10 +527,10 @@ export default function DemoFootball() {
         </div>
 
         {/* ── BARRE STATS BAS ── */}
-        <div className="hero-stats-bar" style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3, background: "rgba(5,8,20,0.9)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(59,130,246,0.15)", display: "flex", justifyContent: "center", flexWrap: "nowrap" }}>
+        <div ref={statsBarRef} className="hero-stats-bar" style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3, background: "rgba(5,8,20,0.9)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(59,130,246,0.15)", display: "flex", justifyContent: "center", flexWrap: "nowrap" }}>
           {CHIFFRES.map((c, i) => (
             <div key={i} style={{ padding: "12px 0", textAlign: "center", borderRight: "1px solid rgba(59,130,246,0.08)", flex: 1 }}>
-              <div className="stat-num" style={{ fontSize: "1.3rem", fontWeight: 900, color: "#3b82f6", lineHeight: 1 }}>{c.n}</div>
+              <div className="stat-num" data-suffix={c.n.includes("+") ? "+" : ""} style={{ fontSize: "1.3rem", fontWeight: 900, color: "#3b82f6", lineHeight: 1 }}>0</div>
               <div className="stat-label" style={{ fontSize: "0.5rem", color: "#475569", letterSpacing: "0.18em", textTransform: "uppercase", marginTop: "3px" }}>{c.label}</div>
             </div>
           ))}
@@ -409,6 +553,38 @@ export default function DemoFootball() {
               ))}
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* ── COUNTDOWN PROCHAIN MATCH ── */}
+      <div ref={countdownRef} style={{
+        background: "linear-gradient(90deg, #020510 0%, #050d20 50%, #020510 100%)",
+        borderBottom: "1px solid rgba(59,130,246,0.1)",
+        padding: "28px 24px",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        gap: "24px", flexWrap: "wrap",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3b82f6", animation: "dotPulse 1.5s infinite" }} />
+          <span style={{ fontSize: "0.62rem", letterSpacing: "0.35em", color: "#475569", textTransform: "uppercase" }}>Prochain match dans</span>
+        </div>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          {[["jours", "0"], ["h", "1"], ["min", "2"], ["sec", "3"]].map(([unit, idx]) => (
+            <div key={unit} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "3px" }}>
+              <div className="cd-block" style={{
+                minWidth: "52px", padding: "8px 10px",
+                background: "rgba(37,99,235,0.08)",
+                border: "1px solid rgba(59,130,246,0.25)",
+                textAlign: "center",
+              }}>
+                <span data-cd={idx} style={{ fontSize: "1.5rem", fontWeight: 900, color: "#fff", fontVariantNumeric: "tabular-nums", display: "block", lineHeight: 1 }}>00</span>
+              </div>
+              <span style={{ fontSize: "0.48rem", color: "#334155", letterSpacing: "0.18em", textTransform: "uppercase" }}>{unit}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.3)", fontWeight: 600 }}>
+          VLP <span style={{ color: "#3b82f6", margin: "0 6px" }}>VS</span> AS Dammarie · Sam. 12 Avr. · 15h00
         </div>
       </div>
 
