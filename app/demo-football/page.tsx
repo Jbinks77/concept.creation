@@ -111,7 +111,7 @@ export default function DemoFootball() {
         {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <img
-            src="https://www.vlpfoot.fr/wp-content/uploads/2023/09/Logo-vlr-foot.png"
+            src="/logo-vlp.png"
             alt="FC Vaux-le-Pénil"
             style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }}
           />
@@ -195,7 +195,7 @@ export default function DemoFootball() {
               filter: "blur(12px)",
             }} />
             <img
-              src="https://www.vlpfoot.fr/wp-content/uploads/2023/09/Logo-vlr-foot.png"
+              src="/logo-vlp.png"
               alt="Logo FC Vaux-le-Pénil"
               style={{
                 width: "160px", height: "160px",
