@@ -405,24 +405,30 @@ export default function DemoFootball() {
 
           /* ── MOBILE HERO ── */
           @media (max-width: 600px) {
-            .hero-logo { width: 90px !important; height: 90px !important; }
-            .hero-logo-wrap { width: 90px !important; height: 90px !important; margin-bottom: 14px !important; }
-            .hero-separator { gap: 8px !important; margin-bottom: 14px !important; }
-            .hero-separator span { font-size: 0.5rem !important; letter-spacing: 0.3em !important; }
-            .hero-separator .sep-line { width: 24px !important; }
-            .hero-title { margin-bottom: 20px !important; }
-            .hero-match-strip { flex-direction: column !important; border-left: none !important; border-top: 3px solid #3b82f6 !important; }
-            .hero-match-label { flex-direction: row !important; padding: 8px 16px !important; gap: 8px !important; justify-content: center; }
-            .hero-match-teams { padding: 12px 16px !important; width: 100%; box-sizing: border-box; }
-            .hero-match-date { border-left: none !important; border-top: 1px solid rgba(59,130,246,0.2) !important; padding: 10px 16px !important; width: 100%; display: flex !important; justify-content: center; gap: 8px; align-items: center; }
-            .hero-match-date div { display: inline !important; }
-            .hero-badge { font-size: 0.58rem !important; padding: 6px 12px !important; margin-bottom: 20px !important; }
-            .hero-ctas { gap: 8px !important; }
-            .hero-ctas a { padding: 12px 20px !important; font-size: 0.65rem !important; letter-spacing: 0.1em !important; }
+            /* Logo */
+            .hero-logo { width: 80px !important; height: 80px !important; }
+            .hero-logo-wrap { width: 80px !important; height: 80px !important; margin-bottom: 16px !important; }
+            /* Séparateur */
+            .hero-separator { gap: 8px !important; margin-bottom: 10px !important; }
+            .hero-separator span { font-size: 0.48rem !important; letter-spacing: 0.28em !important; }
+            .hero-separator .sep-line { width: 20px !important; }
+            /* Titre */
+            .hero-title { margin-bottom: 28px !important; }
+            /* Bandeau match & badge : masqués sur mobile */
+            .hero-match-strip { display: none !important; }
+            .hero-badge { display: none !important; }
+            /* Ligne info compacte visible uniquement mobile */
+            .hero-mobile-info { display: flex !important; }
+            /* CTAs : 1 seul bouton plein largeur */
+            .hero-ctas { flex-direction: column !important; gap: 10px !important; width: 100% !important; padding: 0 8px !important; }
+            .hero-ctas a { padding: 15px 0 !important; font-size: 0.72rem !important; letter-spacing: 0.12em !important; width: 100% !important; text-align: center !important; box-sizing: border-box !important; }
+            .hero-ctas a:last-child { display: none !important; }
+            /* Stats bar */
             .hero-stats-bar > div { padding: 10px 0 !important; }
-            .hero-stats-bar .stat-num { font-size: 1rem !important; }
-            .hero-stats-bar .stat-label { font-size: 0.42rem !important; letter-spacing: 0.1em !important; }
-            .hero-watermark { font-size: 38vw !important; bottom: 72px !important; right: -0.02em !important; }
+            .hero-stats-bar .stat-num { font-size: 1.1rem !important; }
+            .hero-stats-bar .stat-label { font-size: 0.4rem !important; letter-spacing: 0.08em !important; }
+            /* 1971 */
+            .hero-watermark { font-size: 42vw !important; bottom: 72px !important; right: -0.02em !important; opacity: 0.7 !important; }
           }
 
           /* ── MOBILE NAVBAR ── */
@@ -532,6 +538,20 @@ export default function DemoFootball() {
               <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#fff", whiteSpace: "nowrap" }}>12 Avr.</div>
               <div style={{ fontSize: "0.55rem", color: "#64748b" }}>15h00</div>
             </div>
+          </div>
+
+          {/* Ligne info compacte — mobile seulement */}
+          <div className="hero-mobile-info" style={{
+            display: "none",
+            alignItems: "center", gap: "10px",
+            marginBottom: "24px",
+            animation: "heroBadgeIn 0.6s ease 0.9s both",
+          }}>
+            <span style={{ background: "#15803d", color: "#fff", padding: "3px 9px", fontSize: "0.52rem", fontWeight: 800, letterSpacing: "0.1em" }}>V 3–1</span>
+            <span style={{ width: "1px", height: "12px", background: "rgba(255,255,255,0.15)" }} />
+            <span style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.5)" }}>
+              Prochain : <strong style={{ color: "#fff" }}>12 Avr. · 15h</strong> vs AS Dammarie
+            </span>
           </div>
 
           <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(21,128,61,0.12)", border: "1px solid rgba(21,128,61,0.3)", backdropFilter: "blur(8px)", padding: "7px 14px", marginBottom: "24px", fontSize: "0.62rem", animation: "heroBadgeIn 0.6s ease 1s both" }}>
