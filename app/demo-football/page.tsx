@@ -262,7 +262,7 @@ export default function DemoFootball() {
       }}>
         {/* Logo + nom club */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="/fff.png" alt="FFF" style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }} />
+          <img src="/fff.png" alt="FFF" style={{ width: "80px", height: "80px", objectFit: "contain", flexShrink: 0 }} />
           <div className="nav-text">
             <div style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.08em", lineHeight: 1 }}>FC VAUX-LE-PÉNIL</div>
             <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1974</div>
