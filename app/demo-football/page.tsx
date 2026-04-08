@@ -454,74 +454,95 @@ export default function DemoFootball() {
             background: rgba(30,64,175,0.18) !important;
           }
 
-          /* ── MOBILE HERO ── */
-          @media (max-width: 600px) {
-            /* Logo */
-            .hero-logo { width: 80px !important; height: 80px !important; }
-            .hero-logo-wrap { width: 80px !important; height: 80px !important; margin-bottom: 16px !important; }
-            /* Séparateur */
-            .hero-separator { gap: 8px !important; margin-bottom: 10px !important; }
-            .hero-separator span { font-size: 0.48rem !important; letter-spacing: 0.28em !important; }
-            .hero-separator .sep-line { width: 20px !important; }
-            /* Titre */
-            .hero-title { margin-bottom: 28px !important; }
-            /* Bandeau match & badge : masqués sur mobile */
-            .hero-match-strip { display: none !important; }
-            .hero-badge { display: none !important; }
-            /* Ligne info compacte visible uniquement mobile */
-            .hero-mobile-info { display: flex !important; }
-            /* CTAs : 1 seul bouton plein largeur */
-            .hero-ctas { flex-direction: column !important; gap: 10px !important; width: 100% !important; padding: 0 8px !important; }
-            .hero-ctas a { padding: 15px 0 !important; font-size: 0.72rem !important; letter-spacing: 0.12em !important; width: 100% !important; text-align: center !important; box-sizing: border-box !important; }
-            .hero-ctas a:last-child { display: none !important; }
-            /* Stats bar */
-            .hero-stats-bar > div { padding: 10px 0 !important; }
-            .hero-stats-bar .stat-num { font-size: 1.1rem !important; }
-            .hero-stats-bar .stat-label { font-size: 0.4rem !important; letter-spacing: 0.08em !important; }
-            /* 1971 — supprimé sur mobile */
-            .hero-watermark { display: none !important; }
-            /* Hero : hauteur auto sur mobile, pas d'espace mort */
-            .hero-section { min-height: unset !important; }
-            .hero-content { min-height: unset !important; padding: 72px 20px 24px !important; }
-            /* Hero bg : dézoom max sur mobile */
-            .hero-bg {
-              inset: 0 !important;
-              background-size: 160% !important;
-              background-position: center 30% !important;
-            }
-          }
+          /* ════════════════════════════════════════
+             MOBILE — refonte complète ≤ 640px
+             ════════════════════════════════════════ */
+          @media (max-width: 640px) {
 
-          /* ── MOBILE NAVBAR ── */
-          @media (max-width: 768px) {
-            .nav-links    { display: none !important; }
-            .nav-text     { display: none !important; }
+            /* ── NAVBAR ── */
+            .nav-links     { display: none !important; }
+            .nav-text      { display: none !important; }
             .nav-hamburger { display: flex !important; }
-          }
+            .hero-bg       { inset: 0 !important; }
 
-          /* ── MOBILE HERO BG ── */
-          @media (max-width: 768px) {
-            .hero-bg { inset: 0 !important; }
-          }
+            /* ── HERO ── */
+            .hero-section  { min-height: unset !important; }
+            .hero-content  { min-height: unset !important; padding: 72px 20px 24px !important; }
+            .hero-bg       { background-size: 160% !important; background-position: center 30% !important; }
+            .hero-logo     { width: 80px !important; height: 80px !important; }
+            .hero-logo-wrap{ width: 80px !important; height: 80px !important; margin-bottom: 14px !important; }
+            .hero-separator{ gap: 8px !important; margin-bottom: 10px !important; }
+            .hero-separator span { font-size: 0.58rem !important; letter-spacing: 0.25em !important; }
+            .hero-separator .sep-line { width: 20px !important; }
+            .hero-title    { margin-bottom: 22px !important; }
+            .hero-match-strip { display: none !important; }
+            .hero-badge    { display: none !important; }
+            .hero-mobile-info { display: flex !important; }
+            .hero-ctas     { flex-direction: row !important; gap: 8px !important; width: 100% !important; padding: 0 !important; }
+            .hero-ctas a   { padding: 14px 0 !important; font-size: 0.7rem !important; letter-spacing: 0.1em !important; flex: 1 !important; text-align: center !important; box-sizing: border-box !important; }
+            .hero-watermark{ display: none !important; }
 
-          /* ── MOBILE PROCHAINS MATCHS ── */
-          @media (max-width: 640px) {
-            .match-row {
-              grid-template-columns: 60px 1fr !important;
-              grid-template-rows: auto auto !important;
-              gap: 0 12px !important;
-            }
-            .match-lieu  { display: none !important; }
-            .match-badge { display: none !important; }
-            .match-teams { grid-column: 2 !important; }
-            .match-meta  { grid-column: 2 !important; font-size: 0.6rem !important; }
-          }
+            /* ── STATS BAR — 2 stats seulement ── */
+            .hero-stats-bar > div { padding: 12px 0 !important; }
+            .hero-stats-bar .stat-num   { font-size: 1.25rem !important; }
+            .hero-stats-bar .stat-label { font-size: 0.5rem !important; letter-spacing: 0.1em !important; }
+            .stat-hide-mobile { display: none !important; }
 
-          /* ── MOBILE CLASSEMENT ── */
-          @media (max-width: 640px) {
+            /* ── SECTIONS — padding réduit ── */
+            .section-mobile { padding: 52px 18px !important; }
+
+            /* ── TITRES SECTIONS ── */
+            .section-label  { font-size: 0.65rem !important; letter-spacing: 0.3em !important; }
+            .section-h2     { font-size: 1.65rem !important; }
+
+            /* ── RÉSULTATS ── */
+            .score-date     { display: none !important; }
+            .score-label    { width: 26px !important; height: 26px !important; font-size: 0.65rem !important; }
+            .score-text     { font-size: 0.9rem !important; }
+            .score-row      { padding: 12px 14px !important; gap: 10px !important; }
+
+            /* ── CLASSEMENT ── */
             .classement-header,
             .classement-row { grid-template-columns: 28px 1fr 32px 44px !important; }
             .classement-col-hide { display: none !important; }
-            .classement-club { font-size: 0.75rem !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+            .classement-club { font-size: 0.82rem !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+            .classement-num  { font-size: 0.82rem !important; }
+            .classement-pts  { font-size: 0.92rem !important; }
+
+            /* ── PROCHAINS MATCHS — swipe horizontal ── */
+            .matchs-scroll { display: flex !important; overflow-x: auto !important; gap: 12px !important; padding-bottom: 8px !important; scroll-snap-type: x mandatory !important; -webkit-overflow-scrolling: touch !important; }
+            .matchs-scroll::-webkit-scrollbar { display: none !important; }
+            .matchs-list   { display: none !important; }
+            .match-card-h  { min-width: 240px !important; scroll-snap-align: start !important; display: flex !important; flex-direction: column !important; }
+
+            /* ── COUNTDOWN ── */
+            .cd-num  { font-size: 2rem !important; }
+            .cd-unit { font-size: 0.55rem !important; }
+            .cd-wrap { gap: 6px !important; }
+            .cd-label{ font-size: 0.65rem !important; }
+            .cd-info { font-size: 0.65rem !important; gap: 4px !important; flex-direction: column !important; }
+
+            /* ── ACTUALITÉS — pleine largeur ── */
+            .actu-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+            .actu-card { padding: 24px 20px !important; }
+            .actu-titre{ font-size: 1.05rem !important; }
+            .actu-texte{ font-size: 0.88rem !important; line-height: 1.65 !important; }
+            .actu-emoji{ font-size: 2rem !important; margin-bottom: 14px !important; }
+
+            /* ── ÉQUIPES ── */
+            .eq-grid { grid-template-columns: 1fr 1fr !important; gap: 2px !important; }
+            .eq-cat  { font-size: 0.85rem !important; }
+            .eq-label{ font-size: 0.75rem !important; }
+            .eq-nb   { font-size: 0.7rem !important; }
+
+            /* ── CONTACT ── */
+            .contact-section { padding: 64px 18px !important; }
+            .contact-h2   { font-size: 2rem !important; }
+            .contact-desc { font-size: 0.88rem !important; }
+            .contact-ctas { flex-direction: column !important; gap: 10px !important; }
+            .contact-ctas a { padding: 15px !important; width: 100% !important; box-sizing: border-box !important; text-align: center !important; font-size: 0.78rem !important; }
+            .contact-info { gap: 24px !important; padding: 24px 18px !important; }
+            .contact-info-val { font-size: 0.82rem !important; }
           }
         `}</style>
 
@@ -630,7 +651,7 @@ export default function DemoFootball() {
         {/* ── BARRE STATS BAS ── */}
         <div ref={statsBarRef} className="hero-stats-bar" style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3, background: "rgba(5,8,20,0.9)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(59,130,246,0.15)", display: "flex", justifyContent: "center", flexWrap: "nowrap" }}>
           {CHIFFRES.map((c, i) => (
-            <div key={i} style={{ padding: "12px 0", textAlign: "center", borderRight: "1px solid rgba(59,130,246,0.08)", flex: 1 }}>
+            <div key={i} className={i === 0 || i === 3 ? "stat-hide-mobile" : undefined} style={{ padding: "12px 0", textAlign: "center", borderRight: "1px solid rgba(59,130,246,0.08)", flex: 1 }}>
               <div className="stat-num" data-suffix={c.n.includes("+") ? "+" : ""} style={{ fontSize: "1.3rem", fontWeight: 900, color: "#3b82f6", lineHeight: 1 }}>0</div>
               <div className="stat-label" style={{ fontSize: "0.5rem", color: "#475569", letterSpacing: "0.18em", textTransform: "uppercase", marginTop: "3px" }}>{c.label}</div>
             </div>
@@ -665,11 +686,11 @@ export default function DemoFootball() {
         display: "flex", alignItems: "center", justifyContent: "center",
         gap: "24px", flexWrap: "wrap",
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <div className="cd-label" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#3b82f6", animation: "dotPulse 1.5s infinite" }} />
           <span style={{ fontSize: "0.62rem", letterSpacing: "0.35em", color: "#475569", textTransform: "uppercase" }}>Prochain match dans</span>
         </div>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        <div className="cd-wrap" style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           {[["jours", "0"], ["h", "1"], ["min", "2"], ["sec", "3"]].map(([unit, idx]) => (
             <div key={unit} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "3px" }}>
               <div className="cd-block" style={{
@@ -678,20 +699,20 @@ export default function DemoFootball() {
                 border: "1px solid rgba(59,130,246,0.25)",
                 textAlign: "center",
               }}>
-                <span data-cd={idx} style={{ fontSize: "1.5rem", fontWeight: 900, color: "#fff", fontVariantNumeric: "tabular-nums", display: "block", lineHeight: 1 }}>00</span>
+                <span data-cd={idx} className="cd-num" style={{ fontSize: "1.5rem", fontWeight: 900, color: "#fff", fontVariantNumeric: "tabular-nums", display: "block", lineHeight: 1 }}>00</span>
               </div>
-              <span style={{ fontSize: "0.48rem", color: "#334155", letterSpacing: "0.18em", textTransform: "uppercase" }}>{unit}</span>
+              <span className="cd-unit" style={{ fontSize: "0.48rem", color: "#334155", letterSpacing: "0.18em", textTransform: "uppercase" }}>{unit}</span>
             </div>
           ))}
         </div>
-        <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.3)", fontWeight: 600 }}>
+        <div className="cd-info" style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.3)", fontWeight: 600 }}>
           Match du dimanche <span style={{ color: "#3b82f6", margin: "0 4px" }}>·</span> Coup d&apos;envoi 15h00 <span style={{ color: "#3b82f6", margin: "0 4px" }}>·</span> Heure de Paris
         </div>
       </div>
 
       {/* ── RÉSULTATS + CLASSEMENT ── */}
       {/* Identité : fond très sombre #04060c, grille de points en bg, accent vert/rouge */}
-      <section id="resultats" style={{
+      <section id="resultats" className="section-mobile" style={{
         padding: "100px 24px",
         background: "radial-gradient(ellipse at 85% 40%, rgba(37,99,235,0.07) 0%, transparent 55%), #04060c",
         position: "relative", overflow: "hidden",
@@ -701,8 +722,8 @@ export default function DemoFootball() {
 
         <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative" }}>
           <div className="reveal" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>Saison 2024-2025</p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Résultats & Classement</h2>
+            <p className="section-label" style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>Saison 2024-2025</p>
+            <h2 className="section-h2" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Résultats & Classement</h2>
             <div className="accent-line" style={{ margin: "14px auto 0" }} />
           </div>
 
@@ -716,17 +737,17 @@ export default function DemoFootball() {
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
                 {RESULTATS.map((r, i) => (
-                  <div key={r.id} className={`reveal d${i + 1} ${r.victoire === true ? "score-v" : ""}`} style={{
+                  <div key={r.id} className={`score-row reveal d${i + 1} ${r.victoire === true ? "score-v" : ""}`} style={{
                     display: "flex", alignItems: "center", gap: "12px",
                     padding: "13px 16px",
                     background: r.victoire === true ? "rgba(21,128,61,0.07)" : r.victoire === false ? "rgba(220,38,38,0.07)" : "rgba(71,85,105,0.08)",
                     borderLeft: `3px solid ${r.victoire === true ? "#15803d" : r.victoire === false ? "#dc2626" : "#475569"}`,
                   }}>
-                    <span style={{ fontSize: "0.55rem", color: "#475569", width: "40px", flexShrink: 0 }}>{r.date}</span>
-                    <span style={{ width: "22px", height: "22px", borderRadius: "2px", flexShrink: 0, background: r.victoire === true ? "#15803d" : r.victoire === false ? "#dc2626" : "#475569", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.55rem", fontWeight: 800, color: "#fff" }}>
+                    <span className="score-date" style={{ fontSize: "0.55rem", color: "#475569", width: "40px", flexShrink: 0 }}>{r.date}</span>
+                    <span className="score-label" style={{ width: "22px", height: "22px", borderRadius: "2px", flexShrink: 0, background: r.victoire === true ? "#15803d" : r.victoire === false ? "#dc2626" : "#475569", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.55rem", fontWeight: 800, color: "#fff" }}>
                       {r.victoire === true ? "V" : r.victoire === false ? "D" : "N"}
                     </span>
-                    <span style={{ flex: 1, fontSize: "0.8rem", fontWeight: 600 }}>
+                    <span className="score-text" style={{ flex: 1, fontSize: "0.8rem", fontWeight: 600 }}>
                       {r.domicile ? <><strong>VLP</strong> {r.score} {r.adversaire}</> : <>{r.adversaire} {r.score} <strong>VLP</strong></>}
                     </span>
                   </div>
@@ -773,7 +794,7 @@ export default function DemoFootball() {
 
       {/* ── PROCHAINS MATCHS ── */}
       {/* Identité : ambiance stade la nuit, projecteur depuis le haut */}
-      <section id="le-club" style={{
+      <section id="le-club" className="section-mobile" style={{
         padding: "100px 24px",
         background: `
           radial-gradient(ellipse at 50% -5%, rgba(37,99,235,0.22) 0%, transparent 52%),
@@ -790,12 +811,13 @@ export default function DemoFootball() {
 
         <div style={{ maxWidth: "1000px", margin: "0 auto", position: "relative" }}>
           <div className="reveal" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>Agenda</p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Prochains Matchs</h2>
+            <p className="section-label" style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>Agenda</p>
+            <h2 className="section-h2" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Prochains Matchs</h2>
             <div className="accent-line" style={{ margin: "14px auto 0" }} />
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+          {/* Desktop : liste verticale */}
+          <div className="matchs-list" style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
             {PROCHAINS_MATCHS.map((match, i) => (
               <div key={match.id} className={`match-card match-row reveal d${i + 1}`} style={{
                 display: "grid",
@@ -806,14 +828,11 @@ export default function DemoFootball() {
                 border: i === 0 ? "1px solid rgba(59,130,246,0.35)" : "1px solid rgba(255,255,255,0.05)",
                 backdropFilter: "blur(6px)",
               }}>
-                {/* Date */}
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: "0.6rem", color: "#475569", letterSpacing: "0.15em", textTransform: "uppercase" }}>{match.date.split(" ")[0]}</div>
                   <div style={{ fontSize: "1.3rem", fontWeight: 900, color: i === 0 ? "#3b82f6" : "#fff", lineHeight: 1 }}>{match.date.split(" ").slice(1).join(" ")}</div>
                   <div style={{ fontSize: "0.7rem", color: "#64748b", marginTop: "2px" }}>{match.heure}</div>
                 </div>
-
-                {/* Équipes */}
                 <div className="match-teams">
                   <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
                     <span style={{ fontSize: "0.95rem", fontWeight: 700 }}>FC Vaux-le-Pénil</span>
@@ -824,11 +843,7 @@ export default function DemoFootball() {
                     {match.competition} · {match.domicile ? "🏠 Domicile" : "✈ Extérieur"}
                   </div>
                 </div>
-
-                {/* Lieu */}
                 <div className="match-lieu" style={{ fontSize: "0.72rem", color: "#64748b" }}>📍 {match.lieu}</div>
-
-                {/* Badge */}
                 {i === 0 && (
                   <div className="match-badge" style={{ padding: "6px 14px", background: "#2563eb", color: "#fff", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 700, borderRadius: "2px", whiteSpace: "nowrap" }}>
                     Prochain match
@@ -837,12 +852,44 @@ export default function DemoFootball() {
               </div>
             ))}
           </div>
+
+          {/* Mobile : swipe horizontal */}
+          <div className="matchs-scroll" style={{ display: "none" }}>
+            {PROCHAINS_MATCHS.map((match, i) => (
+              <div key={match.id} className="match-card-h" style={{
+                padding: "20px 18px",
+                background: i === 0 ? "rgba(37,99,235,0.14)" : "rgba(255,255,255,0.03)",
+                border: i === 0 ? "1px solid rgba(59,130,246,0.4)" : "1px solid rgba(255,255,255,0.07)",
+                borderRadius: "4px",
+                gap: "12px",
+              }}>
+                {/* Top : badge + date */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
+                  <span style={{ fontSize: "0.52rem", letterSpacing: "0.18em", color: "#475569", textTransform: "uppercase" }}>{match.competition}</span>
+                  {i === 0 && <span style={{ padding: "3px 8px", background: "#2563eb", color: "#fff", fontSize: "0.52rem", fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", borderRadius: "2px" }}>Prochain</span>}
+                </div>
+                {/* Date + heure */}
+                <div style={{ marginBottom: "10px" }}>
+                  <div style={{ fontSize: "0.92rem", fontWeight: 800, color: i === 0 ? "#3b82f6" : "#fff" }}>{match.date}</div>
+                  <div style={{ fontSize: "0.75rem", color: "#64748b", marginTop: "2px" }}>{match.heure} · {match.domicile ? "Domicile" : "Extérieur"}</div>
+                </div>
+                {/* VS */}
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "0.82rem", fontWeight: 700 }}>VLP</span>
+                  <span style={{ fontSize: "0.6rem", color: "#3b82f6", fontWeight: 700 }}>VS</span>
+                  <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "rgba(255,255,255,0.7)" }}>{match.adversaire}</span>
+                </div>
+                {/* Lieu */}
+                <div style={{ fontSize: "0.65rem", color: "#475569" }}>📍 {match.lieu}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── ACTUALITÉS ── */}
       {/* Identité : teinte verte très subtile (gazon), cards avec top border colorée */}
-      <section id="actualités" style={{
+      <section id="actualités" className="section-mobile" style={{
         padding: "100px 24px",
         background: `
           radial-gradient(ellipse at 15% 60%, rgba(16,64,32,0.14) 0%, transparent 45%),
@@ -853,12 +900,12 @@ export default function DemoFootball() {
       }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <div className="reveal" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>News</p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Actualités du Club</h2>
+            <p className="section-label" style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>News</p>
+            <h2 className="section-h2" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Actualités du Club</h2>
             <div className="accent-line" style={{ margin: "14px auto 0" }} />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
+          <div className="actu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
             {ACTUALITES.map((actu, i) => (
               <article key={actu.id} className={`actu-card reveal-scale d${i + 1}`} style={{
                 background: "rgba(8,12,24,0.95)",
@@ -867,15 +914,15 @@ export default function DemoFootball() {
                 padding: "32px 28px",
                 cursor: "pointer",
               }}>
-                <div style={{ fontSize: "2.5rem", marginBottom: "20px", lineHeight: 1 }}>{actu.img}</div>
+                <div className="actu-emoji" style={{ fontSize: "2.5rem", marginBottom: "20px", lineHeight: 1 }}>{actu.img}</div>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
                   <span style={{ padding: "3px 10px", background: `${actu.categorieColor}1a`, border: `1px solid ${actu.categorieColor}40`, fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: actu.categorieColor, borderRadius: "2px" }}>
                     {actu.categorie}
                   </span>
                   <span style={{ fontSize: "0.65rem", color: "#475569" }}>{actu.date}</span>
                 </div>
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 700, marginBottom: "12px", lineHeight: 1.4 }}>{actu.titre}</h3>
-                <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: "20px" }}>{actu.extrait}</p>
+                <h3 className="actu-titre" style={{ fontSize: "1.05rem", fontWeight: 700, marginBottom: "12px", lineHeight: 1.4 }}>{actu.titre}</h3>
+                <p className="actu-texte" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: "20px" }}>{actu.extrait}</p>
                 <div style={{ fontSize: "0.68rem", color: actu.categorieColor, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 600 }}>Lire la suite →</div>
               </article>
             ))}
@@ -885,7 +932,7 @@ export default function DemoFootball() {
 
       {/* ── ÉQUIPES ── */}
       {/* Identité : dégradé bleu nuit profond, cards avec bande colorée à gauche */}
-      <section id="equipes" style={{
+      <section id="equipes" className="section-mobile" style={{
         padding: "100px 24px",
         background: "linear-gradient(160deg, #040810 0%, #07101e 40%, #060c18 70%, #040810 100%)",
         position: "relative", overflow: "hidden",
@@ -895,12 +942,12 @@ export default function DemoFootball() {
 
         <div style={{ maxWidth: "1100px", margin: "0 auto", position: "relative" }}>
           <div className="reveal" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>De 3 à 55 ans</p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Nos Équipes</h2>
+            <p className="section-label" style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "12px" }}>De 3 à 55 ans</p>
+            <h2 className="section-h2" style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Nos Équipes</h2>
             <div className="accent-line" style={{ margin: "14px auto 0" }} />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(190px, 1fr))", gap: "3px" }}>
+          <div className="eq-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(190px, 1fr))", gap: "3px" }}>
             {EQUIPES.map((eq, i) => (
               <div key={eq.cat} className={`eq-card reveal d${(i % 5) + 1}`} style={{
                 padding: "22px 20px",
@@ -910,9 +957,9 @@ export default function DemoFootball() {
                 borderLeftColor: eq.couleur,
                 cursor: "pointer",
               }}>
-                <div style={{ fontSize: "0.8rem", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "5px", color: "#fff" }}>{eq.cat}</div>
-                <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.45)", marginBottom: "6px" }}>{eq.label}</div>
-                <div style={{ fontSize: "0.65rem", color: eq.couleur, fontWeight: 700, letterSpacing: "0.05em" }}>{eq.nb}</div>
+                <div className="eq-cat" style={{ fontSize: "0.8rem", fontWeight: 800, letterSpacing: "0.05em", marginBottom: "5px", color: "#fff" }}>{eq.cat}</div>
+                <div className="eq-label" style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.45)", marginBottom: "6px" }}>{eq.label}</div>
+                <div className="eq-nb" style={{ fontSize: "0.65rem", color: eq.couleur, fontWeight: 700, letterSpacing: "0.05em" }}>{eq.nb}</div>
               </div>
             ))}
           </div>
@@ -944,7 +991,7 @@ export default function DemoFootball() {
 
       {/* ── CONTACT / INSCRIPTION ── */}
       {/* Identité : climax dramatique, grand radial bleu centré */}
-      <section id="contact" style={{
+      <section id="contact" className="contact-section" style={{
         padding: "120px 24px",
         textAlign: "center",
         background: `
@@ -957,19 +1004,19 @@ export default function DemoFootball() {
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.5) 30%, rgba(59,130,246,0.9) 50%, rgba(59,130,246,0.5) 70%, transparent)" }} />
 
         <p className="reveal" style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "#3b82f6", textTransform: "uppercase", marginBottom: "20px" }}>Rejoignez-nous</p>
-        <h2 className="reveal" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: "16px" }}>
+        <h2 className="contact-h2 reveal" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: "16px" }}>
           Prêt à jouer<br />pour Vaux ?
         </h2>
-        <p className="reveal d1" style={{ color: "rgba(255,255,255,0.35)", maxWidth: "480px", margin: "0 auto 48px", fontSize: "0.9rem", lineHeight: 1.8 }}>
+        <p className="contact-desc reveal d1" style={{ color: "rgba(255,255,255,0.35)", maxWidth: "480px", margin: "0 auto 48px", fontSize: "0.9rem", lineHeight: 1.8 }}>
           Inscriptions ouvertes pour toutes les catégories. Présentez-vous à l&apos;entraînement ou contactez-nous directement.
         </p>
-        <div className="reveal d2" style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+        <div className="contact-ctas reveal d2" style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
           <a href="#" style={{ padding: "16px 36px", background: "#2563eb", color: "#fff", fontSize: "0.78rem", letterSpacing: "0.15em", textDecoration: "none", textTransform: "uppercase", fontWeight: 700, borderRadius: "3px" }}>S&apos;inscrire en ligne</a>
           <a href="mailto:contact@fc-vauxlepenil.fr" style={{ padding: "16px 36px", border: "1px solid rgba(59,130,246,0.35)", color: "#93c5fd", fontSize: "0.78rem", letterSpacing: "0.15em", textDecoration: "none", textTransform: "uppercase", fontWeight: 700, borderRadius: "3px" }}>Nous écrire</a>
         </div>
 
         {/* Infos pratiques */}
-        <div className="reveal d3" style={{ display: "flex", justifyContent: "center", gap: "48px", marginTop: "64px", flexWrap: "wrap", padding: "36px 32px", background: "rgba(10,14,28,0.7)", border: "1px solid rgba(59,130,246,0.12)", backdropFilter: "blur(12px)", maxWidth: "720px", margin: "64px auto 0" }}>
+        <div className="contact-info reveal d3" style={{ display: "flex", justifyContent: "center", gap: "48px", marginTop: "64px", flexWrap: "wrap", padding: "36px 32px", background: "rgba(10,14,28,0.7)", border: "1px solid rgba(59,130,246,0.12)", backdropFilter: "blur(12px)", maxWidth: "720px", margin: "64px auto 0" }}>
           {[
             { icon: "📍", label: "Terrain", val: "Stade Paul Doumer, Vaux-le-Pénil" },
             { icon: "📅", label: "Entraînements", val: "Mer & Ven · 19h00" },
@@ -978,7 +1025,7 @@ export default function DemoFootball() {
             <div key={info.label} className={`reveal-scale d${i + 1}`} style={{ textAlign: "center" }}>
               <div style={{ fontSize: "1.8rem", marginBottom: "8px" }}>{info.icon}</div>
               <div style={{ fontSize: "0.6rem", color: "#475569", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "5px" }}>{info.label}</div>
-              <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{info.val}</div>
+              <div className="contact-info-val" style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{info.val}</div>
             </div>
           ))}
         </div>
