@@ -262,7 +262,7 @@ export default function DemoFootball() {
       }}>
         {/* Logo + nom club */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="/logo2.png" alt="FC Vaux-le-Pénil" style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }} />
+          <img src="/logo2-removebg-preview.png" alt="FC Vaux-le-Pénil" style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }} />
           <div className="nav-text">
             <div style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.08em", lineHeight: 1 }}>FC VAUX-LE-PÉNIL</div>
             <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1971</div>
@@ -589,7 +589,7 @@ export default function DemoFootball() {
           <div className="hero-logo-wrap" style={{ position: "relative", marginBottom: "20px", animation: "heroLogoIn 1s cubic-bezier(0.34,1.4,0.64,1) 0.15s both" }}>
             <div style={{ position: "absolute", inset: "-32px", borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.5) 0%, transparent 70%)", filter: "blur(22px)", pointerEvents: "none" }} />
             <img
-              src="/logo2.png"
+              src="/logo2-removebg-preview.png"
               alt="FC Vaux-le-Pénil"
               className="hero-logo"
               style={{ width: "200px", height: "200px", objectFit: "contain", position: "relative", zIndex: 1, filter: "drop-shadow(0 8px 32px rgba(0,0,0,0.7))" }}
