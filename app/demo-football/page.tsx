@@ -377,21 +377,25 @@ export default function DemoFootball() {
 
           /* ── ORBES AURORA PREMIUM ── */
           @keyframes orb1 {
-            0%   { transform: translate(0%, 0%)   scale(1);    opacity: 0.55; }
-            30%  { transform: translate(6%, -8%)  scale(1.12); opacity: 0.70; }
-            60%  { transform: translate(-4%, 6%)  scale(0.93); opacity: 0.50; }
-            100% { transform: translate(0%, 0%)   scale(1);    opacity: 0.55; }
+            0%   { transform: translate(0%, 0%)   scale(1);    }
+            35%  { transform: translate(7%, -10%) scale(1.15); }
+            65%  { transform: translate(-5%, 7%)  scale(0.90); }
+            100% { transform: translate(0%, 0%)   scale(1);    }
           }
           @keyframes orb2 {
-            0%   { transform: translate(0%, 0%)   scale(1);    opacity: 0.45; }
-            40%  { transform: translate(-8%, 5%)  scale(1.15); opacity: 0.62; }
-            70%  { transform: translate(5%, -6%)  scale(0.88); opacity: 0.40; }
-            100% { transform: translate(0%, 0%)   scale(1);    opacity: 0.45; }
+            0%   { transform: translate(0%, 0%)   scale(1);    }
+            40%  { transform: translate(-9%, 6%)  scale(1.18); }
+            72%  { transform: translate(6%, -7%)  scale(0.85); }
+            100% { transform: translate(0%, 0%)   scale(1);    }
           }
           @keyframes orb3 {
-            0%   { transform: translate(0%, 0%)   scale(1);    opacity: 0.35; }
-            50%  { transform: translate(4%, 8%)   scale(1.08); opacity: 0.50; }
-            100% { transform: translate(0%, 0%)   scale(1);    opacity: 0.35; }
+            0%   { transform: translate(0%, 0%)   scale(1);    }
+            50%  { transform: translate(5%, 9%)   scale(1.10); }
+            100% { transform: translate(0%, 0%)   scale(1);    }
+          }
+          @keyframes orbPulse {
+            0%, 100% { transform: scale(1);    opacity: 0.55; }
+            50%       { transform: scale(1.12); opacity: 0.80; }
           }
 
           /* ── COUNTDOWN ── */
@@ -558,39 +562,49 @@ export default function DemoFootball() {
           backgroundRepeat: "no-repeat",
           willChange: "transform",
         }} />
-        <div style={{ position: "absolute", inset: 0, background: "rgba(2,6,20,0.52)" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(5,40,160,0.55) 0%, rgba(5,40,160,0.1) 45%, transparent 70%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "rgba(2,6,20,0.38)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(5,40,160,0.35) 0%, rgba(5,40,160,0.08) 45%, transparent 70%)" }} />
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "55%", background: "linear-gradient(to top, #07090f 0%, rgba(7,9,15,0.7) 40%, transparent 100%)" }} />
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "20%", background: "linear-gradient(to bottom, rgba(2,6,20,0.7) 0%, transparent 100%)" }} />
         <div style={{ position: "absolute", top: 64, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.35) 20%, rgba(59,130,246,0.7) 50%, rgba(59,130,246,0.35) 80%, transparent)" }} />
 
         {/* ── ORBES LUMINEUX AURORA ── */}
         <div style={{ position: "absolute", inset: 0, overflow: "hidden", zIndex: 1, pointerEvents: "none" }}>
+          {/* Orbe centre — halo pulsant derrière le logo */}
+          <div style={{
+            position: "absolute", top: "5%", left: "50%",
+            transform: "translateX(-50%)",
+            width: "55vw", height: "55vw", maxWidth: "580px", maxHeight: "580px",
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse at center, rgba(59,130,246,0.55) 0%, rgba(37,99,235,0.22) 40%, transparent 70%)",
+            filter: "blur(30px)",
+            animation: "orbPulse 6s ease-in-out infinite",
+          }} />
           {/* Orbe 1 — bleu électrique, haut gauche */}
           <div style={{
-            position: "absolute", top: "-10%", left: "-5%",
-            width: "65vw", height: "65vw", maxWidth: "700px", maxHeight: "700px",
+            position: "absolute", top: "-15%", left: "-8%",
+            width: "60vw", height: "60vw", maxWidth: "650px", maxHeight: "650px",
             borderRadius: "50%",
-            background: "radial-gradient(ellipse at center, rgba(37,99,235,0.35) 0%, rgba(37,99,235,0.12) 45%, transparent 70%)",
-            filter: "blur(48px)",
+            background: "radial-gradient(ellipse at center, rgba(37,99,235,0.65) 0%, rgba(37,99,235,0.22) 45%, transparent 70%)",
+            filter: "blur(22px)",
             animation: "orb1 18s ease-in-out infinite",
           }} />
-          {/* Orbe 2 — bleu-violet, droite */}
+          {/* Orbe 2 — violet, droite */}
           <div style={{
-            position: "absolute", top: "5%", right: "-10%",
-            width: "55vw", height: "55vw", maxWidth: "600px", maxHeight: "600px",
+            position: "absolute", top: "0%", right: "-12%",
+            width: "50vw", height: "50vw", maxWidth: "550px", maxHeight: "550px",
             borderRadius: "50%",
-            background: "radial-gradient(ellipse at center, rgba(99,60,220,0.28) 0%, rgba(59,130,246,0.10) 45%, transparent 70%)",
-            filter: "blur(56px)",
+            background: "radial-gradient(ellipse at center, rgba(109,40,217,0.55) 0%, rgba(99,60,220,0.18) 45%, transparent 70%)",
+            filter: "blur(28px)",
             animation: "orb2 24s ease-in-out infinite",
           }} />
-          {/* Orbe 3 — cyan subtil, centre bas */}
+          {/* Orbe 3 — cyan, bas */}
           <div style={{
-            position: "absolute", bottom: "-5%", left: "30%",
-            width: "50vw", height: "50vw", maxWidth: "500px", maxHeight: "500px",
+            position: "absolute", bottom: "0%", left: "25%",
+            width: "45vw", height: "45vw", maxWidth: "480px", maxHeight: "480px",
             borderRadius: "50%",
-            background: "radial-gradient(ellipse at center, rgba(6,182,212,0.18) 0%, rgba(37,99,235,0.06) 45%, transparent 70%)",
-            filter: "blur(60px)",
+            background: "radial-gradient(ellipse at center, rgba(6,182,212,0.42) 0%, rgba(14,116,144,0.14) 45%, transparent 70%)",
+            filter: "blur(32px)",
             animation: "orb3 30s ease-in-out infinite",
           }} />
         </div>
