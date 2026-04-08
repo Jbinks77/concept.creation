@@ -262,7 +262,7 @@ export default function DemoFootball() {
       }}>
         {/* Logo + nom club */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="/logo-vlp.png" alt="FC Vaux-le-Pénil" style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }} />
+          <img src="/logo-transparent.png" alt="FC Vaux-le-Pénil" className="nav-logo-holo" style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }} />
           <div className="nav-text">
             <div style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.08em", lineHeight: 1 }}>FC VAUX-LE-PÉNIL</div>
             <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1971</div>
@@ -338,8 +338,66 @@ export default function DemoFootball() {
         <style>{`
           @keyframes heroLogoIn {
             0%   { opacity: 0; transform: scale(0.65); }
-            65%  { transform: scale(1.06); filter: drop-shadow(0 0 40px rgba(59,130,246,0.9)); }
-            100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 20px rgba(59,130,246,0.45)) drop-shadow(0 4px 20px rgba(0,0,0,0.7)); }
+            65%  { transform: scale(1.06); }
+            100% { opacity: 1; transform: scale(1); }
+          }
+
+          /* ── LOGO HOLOGRAPHIQUE ── */
+          @keyframes logoHoloGlow {
+            0%   { filter: invert(1) drop-shadow(0 0 22px rgba(59,130,246,0.9))  drop-shadow(0 0 55px rgba(59,130,246,0.35)); }
+            20%  { filter: invert(1) drop-shadow(0 0 22px rgba(139,92,246,0.9))  drop-shadow(0 0 55px rgba(139,92,246,0.35)); }
+            40%  { filter: invert(1) drop-shadow(0 0 22px rgba(236,72,153,0.9))  drop-shadow(0 0 55px rgba(236,72,153,0.35)); }
+            60%  { filter: invert(1) drop-shadow(0 0 22px rgba(6,182,212,0.9))   drop-shadow(0 0 55px rgba(6,182,212,0.35)); }
+            80%  { filter: invert(1) drop-shadow(0 0 22px rgba(99,230,186,0.9))  drop-shadow(0 0 55px rgba(99,230,186,0.35)); }
+            100% { filter: invert(1) drop-shadow(0 0 22px rgba(59,130,246,0.9))  drop-shadow(0 0 55px rgba(59,130,246,0.35)); }
+          }
+          @keyframes logoGlitch {
+            0%, 82%, 100% {
+              transform: none;
+              filter: invert(1) drop-shadow(0 0 22px rgba(59,130,246,0.9)) drop-shadow(0 0 55px rgba(59,130,246,0.35));
+            }
+            84% {
+              transform: translateX(-5px) skewX(-3deg);
+              filter: invert(1) drop-shadow(-5px 0 0 rgba(255,0,100,0.85)) drop-shadow(5px 0 0 rgba(0,240,255,0.85));
+            }
+            86% {
+              transform: translateX(5px) skewX(3deg);
+              filter: invert(1) drop-shadow(5px 0 0 rgba(255,0,100,0.85)) drop-shadow(-5px 0 0 rgba(0,240,255,0.85));
+            }
+            88% {
+              transform: translateX(-3px);
+              filter: invert(1) drop-shadow(-3px 0 0 rgba(255,0,100,0.5)) drop-shadow(3px 0 0 rgba(0,240,255,0.5));
+            }
+            90% { transform: none; filter: invert(1); }
+            92% {
+              transform: translateX(2px) skewX(1deg);
+              filter: invert(1) drop-shadow(2px 0 0 rgba(255,200,0,0.6)) drop-shadow(-2px 0 0 rgba(0,240,255,0.6));
+            }
+            94% { transform: none; filter: invert(1) drop-shadow(0 0 22px rgba(59,130,246,0.9)); }
+          }
+          @keyframes logoShimmer {
+            0%   { left: -80%; opacity: 0; }
+            5%   { opacity: 1; }
+            45%  { opacity: 0.6; }
+            50%, 100% { left: 160%; opacity: 0; }
+          }
+          .hero-logo-holo {
+            animation: heroLogoIn 1s cubic-bezier(0.34,1.4,0.64,1) 0.15s both, logoHoloGlow 6s ease-in-out 1.2s infinite, logoGlitch 9s ease-in-out 2s infinite;
+          }
+          .logo-holo-wrap { position: relative; overflow: hidden; border-radius: 50%; }
+          .logo-shimmer {
+            position: absolute; top: -10%; width: 35%; height: 120%;
+            background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.55) 50%, transparent 80%);
+            animation: logoShimmer 5s ease-in-out 1.5s infinite;
+            pointer-events: none; z-index: 2;
+          }
+          /* Nav logo : glow simple sans glitch */
+          .nav-logo-holo {
+            filter: invert(1) drop-shadow(0 0 8px rgba(59,130,246,0.6));
+            transition: filter 0.3s;
+          }
+          .nav-logo-holo:hover {
+            filter: invert(1) drop-shadow(0 0 14px rgba(139,92,246,0.9)) drop-shadow(0 0 28px rgba(59,130,246,0.4));
           }
           @keyframes heroTitleIn {
             0%   { opacity: 0; transform: translateY(36px); }
@@ -585,9 +643,16 @@ export default function DemoFootball() {
         }}>
 
           {/* Logo */}
-          <div className="hero-logo-wrap" style={{ position: "relative", width: "110px", height: "110px", marginBottom: "16px", animation: "heroLogoIn 1s cubic-bezier(0.34,1.4,0.64,1) 0.15s both" }}>
-            <div style={{ position: "absolute", inset: "-24px", borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.5) 0%, transparent 70%)", filter: "blur(16px)" }} />
-            <img src="/logo-vlp.png" alt="FC Vaux-le-Pénil" className="hero-logo" style={{ width: "110px", height: "110px", objectFit: "contain", position: "relative", zIndex: 1 }} />
+          <div className="hero-logo-wrap logo-holo-wrap" style={{ position: "relative", width: "110px", height: "110px", marginBottom: "16px" }}>
+            <div style={{ position: "absolute", inset: "-28px", borderRadius: "50%", background: "radial-gradient(circle, rgba(37,99,235,0.45) 0%, transparent 70%)", filter: "blur(18px)", animation: "logoHoloGlow 6s ease-in-out 1.2s infinite" }} />
+            <img
+              src="/logo-transparent.png"
+              alt="FC Vaux-le-Pénil"
+              className="hero-logo hero-logo-holo"
+              style={{ width: "110px", height: "110px", objectFit: "contain", position: "relative", zIndex: 1 }}
+            />
+            {/* Shimmer sweep */}
+            <div className="logo-shimmer" />
           </div>
 
           {/* Séparateur */}
