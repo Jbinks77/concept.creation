@@ -63,7 +63,7 @@ const EQUIPES = [
 ];
 
 const CHIFFRES = [
-  { n: "1971", label: "Année de création" },
+  { n: "1974", label: "Année de création" },
   { n: "450+", label: "Licenciés" },
   { n: "20", label: "Équipes" },
   { n: "54", label: "Ans d'histoire" },
@@ -207,7 +207,7 @@ export default function DemoFootball() {
   useEffect(() => {
     const bar = statsBarRef.current;
     if (!bar) return;
-    const targets = [1971, 450, 20, 54];
+    const targets = [1974, 450, 20, 54];
     const durations = [1800, 1400, 1000, 1200];
     let started = false;
     const animate = () => {
@@ -265,7 +265,7 @@ export default function DemoFootball() {
           <img src="/logo2-removebg-preview.png" alt="FC Vaux-le-Pénil" style={{ width: "40px", height: "40px", objectFit: "contain", flexShrink: 0 }} />
           <div className="nav-text">
             <div style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.08em", lineHeight: 1 }}>FC VAUX-LE-PÉNIL</div>
-            <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1971</div>
+            <div style={{ fontSize: "0.55rem", color: "#3b82f6", letterSpacing: "0.2em", textTransform: "uppercase", marginTop: "2px" }}>Fondé en 1974</div>
           </div>
         </div>
 
@@ -375,21 +375,23 @@ export default function DemoFootball() {
             50%       { border-color: rgba(59,130,246,0.7); box-shadow: 0 0 20px rgba(59,130,246,0.15); }
           }
 
-          /* ── PROJECTEURS DE STADE ── */
-          @keyframes sweep1 {
-            0%   { transform: rotate(-28deg); opacity: 0.32; }
-            50%  { transform: rotate(18deg);  opacity: 0.52; }
-            100% { transform: rotate(-28deg); opacity: 0.32; }
+          /* ── ORBES AURORA PREMIUM ── */
+          @keyframes orb1 {
+            0%   { transform: translate(0%, 0%)   scale(1);    opacity: 0.55; }
+            30%  { transform: translate(6%, -8%)  scale(1.12); opacity: 0.70; }
+            60%  { transform: translate(-4%, 6%)  scale(0.93); opacity: 0.50; }
+            100% { transform: translate(0%, 0%)   scale(1);    opacity: 0.55; }
           }
-          @keyframes sweep2 {
-            0%   { transform: rotate(22deg);  opacity: 0.28; }
-            50%  { transform: rotate(-20deg); opacity: 0.46; }
-            100% { transform: rotate(22deg);  opacity: 0.28; }
+          @keyframes orb2 {
+            0%   { transform: translate(0%, 0%)   scale(1);    opacity: 0.45; }
+            40%  { transform: translate(-8%, 5%)  scale(1.15); opacity: 0.62; }
+            70%  { transform: translate(5%, -6%)  scale(0.88); opacity: 0.40; }
+            100% { transform: translate(0%, 0%)   scale(1);    opacity: 0.45; }
           }
-          @keyframes sweep3 {
-            0%   { transform: rotate(-8deg);  opacity: 0.20; }
-            50%  { transform: rotate(32deg);  opacity: 0.38; }
-            100% { transform: rotate(-8deg);  opacity: 0.20; }
+          @keyframes orb3 {
+            0%   { transform: translate(0%, 0%)   scale(1);    opacity: 0.35; }
+            50%  { transform: translate(4%, 8%)   scale(1.08); opacity: 0.50; }
+            100% { transform: translate(0%, 0%)   scale(1);    opacity: 0.35; }
           }
 
           /* ── COUNTDOWN ── */
@@ -562,21 +564,45 @@ export default function DemoFootball() {
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "20%", background: "linear-gradient(to bottom, rgba(2,6,20,0.7) 0%, transparent 100%)" }} />
         <div style={{ position: "absolute", top: 64, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(59,130,246,0.35) 20%, rgba(59,130,246,0.7) 50%, rgba(59,130,246,0.35) 80%, transparent)" }} />
 
-        {/* ── PROJECTEURS DE STADE ── */}
+        {/* ── ORBES LUMINEUX AURORA ── */}
         <div style={{ position: "absolute", inset: 0, overflow: "hidden", zIndex: 1, pointerEvents: "none" }}>
-          <div style={{ position: "absolute", top: "-5%", left: "12%", width: "500px", height: "110%", background: "linear-gradient(180deg, rgba(200,225,255,0.38) 0%, rgba(140,185,255,0.12) 45%, transparent 80%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep1 11s ease-in-out infinite" }} />
-          <div style={{ position: "absolute", top: "-5%", right: "10%", width: "450px", height: "110%", background: "linear-gradient(180deg, rgba(200,225,255,0.32) 0%, rgba(140,185,255,0.10) 45%, transparent 80%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep2 14s ease-in-out infinite" }} />
-          <div style={{ position: "absolute", top: "-5%", left: "calc(50% - 190px)", width: "380px", height: "110%", background: "linear-gradient(180deg, rgba(200,225,255,0.22) 0%, rgba(140,185,255,0.07) 45%, transparent 80%)", clipPath: "polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%)", transformOrigin: "top center", animation: "sweep3 18s ease-in-out infinite" }} />
+          {/* Orbe 1 — bleu électrique, haut gauche */}
+          <div style={{
+            position: "absolute", top: "-10%", left: "-5%",
+            width: "65vw", height: "65vw", maxWidth: "700px", maxHeight: "700px",
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse at center, rgba(37,99,235,0.35) 0%, rgba(37,99,235,0.12) 45%, transparent 70%)",
+            filter: "blur(48px)",
+            animation: "orb1 18s ease-in-out infinite",
+          }} />
+          {/* Orbe 2 — bleu-violet, droite */}
+          <div style={{
+            position: "absolute", top: "5%", right: "-10%",
+            width: "55vw", height: "55vw", maxWidth: "600px", maxHeight: "600px",
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse at center, rgba(99,60,220,0.28) 0%, rgba(59,130,246,0.10) 45%, transparent 70%)",
+            filter: "blur(56px)",
+            animation: "orb2 24s ease-in-out infinite",
+          }} />
+          {/* Orbe 3 — cyan subtil, centre bas */}
+          <div style={{
+            position: "absolute", bottom: "-5%", left: "30%",
+            width: "50vw", height: "50vw", maxWidth: "500px", maxHeight: "500px",
+            borderRadius: "50%",
+            background: "radial-gradient(ellipse at center, rgba(6,182,212,0.18) 0%, rgba(37,99,235,0.06) 45%, transparent 70%)",
+            filter: "blur(60px)",
+            animation: "orb3 30s ease-in-out infinite",
+          }} />
         </div>
 
-        {/* WATERMARK "1971" — bas droite */}
+        {/* WATERMARK "1974" — bas droite */}
         <div className="hero-watermark" style={{
           position: "absolute", zIndex: 1,
           fontSize: "clamp(7rem, 22vw, 20rem)", fontWeight: 900, letterSpacing: "-0.05em",
           color: "rgba(255,255,255,0.055)", lineHeight: 1,
           bottom: "72px", right: "-0.02em",
           whiteSpace: "nowrap", userSelect: "none", pointerEvents: "none",
-        }}>1971</div>
+        }}>1974</div>
 
         {/* ── CONTENU CENTRÉ ── */}
         <div className="hero-content" style={{
@@ -599,7 +625,7 @@ export default function DemoFootball() {
           {/* Séparateur */}
           <div className="hero-separator" style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "16px", animation: "heroBadgeIn 0.6s ease 0.5s both" }}>
             <div className="sep-line" style={{ width: "50px", height: "1px", background: "linear-gradient(to right, transparent, rgba(59,130,246,0.8))" }} />
-            <span style={{ fontSize: "0.58rem", letterSpacing: "0.48em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>Depuis 1971 · Vaux-le-Pénil · 77</span>
+            <span style={{ fontSize: "0.58rem", letterSpacing: "0.48em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase" }}>Depuis 1974 · Vaux-le-Pénil · 77</span>
             <div className="sep-line" style={{ width: "50px", height: "1px", background: "linear-gradient(to left, transparent, rgba(59,130,246,0.8))" }} />
           </div>
 
@@ -1036,7 +1062,7 @@ export default function DemoFootball() {
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg, #1e3a8a, #3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.55rem", fontWeight: 900 }}>VLP</div>
           <span style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em" }}>FC VAUX-LE-PÉNIL</span>
-          <span style={{ color: "#1e3a8a", fontSize: "0.7rem" }}>· Fondé en 1971</span>
+          <span style={{ color: "#1e3a8a", fontSize: "0.7rem" }}>· Fondé en 1974</span>
         </div>
         <div style={{ display: "flex", gap: "20px" }}>
           {["Facebook", "Instagram", "YouTube"].map((s) => (
