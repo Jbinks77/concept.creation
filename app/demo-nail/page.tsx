@@ -256,8 +256,8 @@ export default function DemoNail() {
             border-top:1px solid rgba(201,169,110,0.18); padding:14px 20px;
           }
           .sticky-mobile a { display:block; text-align:center; }
-          .cta-row { flex-direction:column !important; }
-          .cta-row a { width:100% !important; text-align:center; }
+          .cta-row { display:none !important; }
+          .scroll-ind { display:none !important; }
         }
       `}</style>
 
@@ -313,8 +313,9 @@ export default function DemoNail() {
         position: "fixed", top: "68px", left: 0, right: 0, zIndex: 99,
         background: "rgba(8,6,5,0.98)", backdropFilter: "blur(24px)",
         borderBottom: "1px solid rgba(201,169,110,0.12)",
-        transform: menuOpen ? "translateY(0)" : "translateY(-105%)",
-        transition: "transform .35s cubic-bezier(0.4,0,0.2,1)",
+        transform: menuOpen ? "translateY(0)" : "translateY(-110%)",
+        visibility: menuOpen ? "visible" : "hidden",
+        transition: "transform .35s cubic-bezier(0.4,0,0.2,1), visibility .35s",
         pointerEvents: menuOpen ? "auto" : "none",
       }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -335,10 +336,11 @@ export default function DemoNail() {
 
         {/* ── Photo hero ── */}
         <div ref={heroBgRef} style={{
-          position: "absolute", inset: "-10%",
+          position: "absolute", inset: "-8%",
           backgroundImage: "url('/hero-nail.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center 40%",
+          backgroundSize: "75%",
+          backgroundPosition: "center 55%",
+          backgroundRepeat: "no-repeat",
           willChange: "transform",
         }} />
         {/* Overlays */}
