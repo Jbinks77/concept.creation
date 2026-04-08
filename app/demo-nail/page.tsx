@@ -73,14 +73,74 @@ const GALERIE = [
   { gradient: "linear-gradient(145deg, #0a0808 0%, #2a1010 50%, #9b2020 100%)", tall: false },
 ];
 
+/* ─── CALENDAR HELPERS ─── */
+const MONTH_FR = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+const DAY_FR   = ["L","M","M","J","V","S","D"];
+const SLOTS_WEEK = ["9h00","10h30","12h00","14h00","15h30","17h00"];
+const SLOTS_SAT  = ["9h00","10h30","12h00","14h00","15h30"];
+
+function getSlots(dateStr: string) {
+  const d = new Date(dateStr + "T12:00:00");
+  const day = d.getDay();
+  if (day === 0) return [];
+  return day === 6 ? SLOTS_SAT : SLOTS_WEEK;
+}
+function slotAvail(dateStr: string, slot: string) {
+  const h = (dateStr + slot).split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  return h % 4 !== 0;
+}
+function fmtDate(y: number, m: number, d: number) {
+  return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+}
+function isDateAvail(y: number, m: number, d: number) {
+  const date = new Date(y, m, d);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const diff = Math.floor((date.getTime() - today.getTime()) / 86400000);
+  const dow = date.getDay();
+  return diff >= 1 && diff <= 45 && dow !== 0;
+}
+function isToday(y: number, m: number, d: number) {
+  const t = new Date();
+  return t.getFullYear() === y && t.getMonth() === m && t.getDate() === d;
+}
+function fmtDateFR(dateStr: string) {
+  const d = new Date(dateStr + "T12:00:00");
+  return d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+}
+
 /* ─── COMPONENT ─── */
 
 export default function DemoNail() {
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const statsRef   = useRef<HTMLDivElement>(null);
   const heroBgRef  = useRef<HTMLDivElement>(null);
-  const [menuOpen, setMenuOpen]     = useState(false);
-  const [navScrolled, setNavScrolled] = useState(false);
+  const [menuOpen, setMenuOpen]         = useState(false);
+  const [navScrolled, setNavScrolled]   = useState(false);
+  const [calYear, setCalYear]           = useState(() => new Date().getFullYear());
+  const [calMonth, setCalMonth]         = useState(() => new Date().getMonth());
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+
+  /* Calendar navigation */
+  const prevMonth = () => {
+    if (calMonth === 0) { setCalMonth(11); setCalYear(y => y - 1); }
+    else setCalMonth(m => m - 1);
+    setSelectedDate(null); setSelectedSlot(null);
+  };
+  const nextMonth = () => {
+    if (calMonth === 11) { setCalMonth(0); setCalYear(y => y + 1); }
+    else setCalMonth(m => m + 1);
+    setSelectedDate(null); setSelectedSlot(null);
+  };
+
+  const firstDow = new Date(calYear, calMonth, 1).getDay();
+  const calOffset = firstDow === 0 ? 6 : firstDow - 1;
+  const daysInCal = new Date(calYear, calMonth + 1, 0).getDate();
+  const slots = selectedDate ? getSlots(selectedDate) : [];
+
+  const waMessage = selectedDate && selectedSlot
+    ? encodeURIComponent(`Bonjour, je souhaite réserver une séance chez Vénera Studio le ${fmtDateFR(selectedDate)} à ${selectedSlot}. Pourriez-vous confirmer ma réservation ? Merci !`)
+    : "";
 
   /* Canvas — poussière d'or */
   useEffect(() => {
@@ -235,6 +295,94 @@ export default function DemoNail() {
         @keyframes scrollBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
         .scroll-ind { animation:scrollBounce 2.2s ease-in-out infinite; }
 
+        /* ── DIFF SECTION ── */
+        .diff-outer { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+        .diff-grid-desktop { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+        .diff-grid-mobile  { display:none; }
+        .diff-card-desk {
+          padding:28px 22px; background:#fff; border-bottom:2px solid rgba(201,169,110,0.3);
+          transition:transform .25s, box-shadow .25s;
+        }
+        .diff-card-desk:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.08); }
+
+        /* ── CALENDAR ── */
+        .cal-wrap { max-width:560px; margin:0 auto; }
+        .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; }
+        .cal-arrow {
+          background:none; border:1px solid rgba(201,169,110,0.25); color:#C9A96E;
+          width:40px; height:40px; cursor:pointer; font-size:1.1rem;
+          transition:background .2s, border-color .2s;
+          display:flex; align-items:center; justify-content:center;
+        }
+        .cal-arrow:hover { background:rgba(201,169,110,0.1); border-color:rgba(201,169,110,0.6); }
+        .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+        .cal-day-head {
+          text-align:center; font-size:0.5rem; letter-spacing:0.18em;
+          color:rgba(201,169,110,0.45); padding:10px 0 8px; text-transform:uppercase;
+        }
+        .cal-cell {
+          aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+          font-size:0.72rem; font-weight:400; cursor:default;
+          border:1px solid transparent; transition:all .18s; position:relative;
+        }
+        .cal-cell.avail {
+          cursor:pointer; color:rgba(255,255,255,0.82);
+          border-color:rgba(201,169,110,0.1);
+        }
+        .cal-cell.avail:hover {
+          border-color:rgba(201,169,110,0.55); color:#C9A96E;
+          background:rgba(201,169,110,0.07);
+        }
+        .cal-cell.sel {
+          background:#C9A96E !important; color:#0D0B0A !important;
+          border-color:#C9A96E !important; font-weight:700;
+        }
+        .cal-cell.past   { color:rgba(255,255,255,0.14); }
+        .cal-cell.today-mark { color:#C9A96E; font-weight:600; }
+        .cal-cell.today-mark::after {
+          content:''; position:absolute; bottom:4px; left:50%; transform:translateX(-50%);
+          width:3px; height:3px; background:#C9A96E; border-radius:50%;
+        }
+        .slots-wrap { margin-top:32px; }
+        .slots-label {
+          font-size:0.52rem; letter-spacing:0.28em; color:rgba(201,169,110,0.55);
+          text-transform:uppercase; margin-bottom:14px;
+        }
+        .slots-grid { display:flex; flex-wrap:wrap; gap:10px; }
+        .slot-pill {
+          padding:11px 22px; border:1px solid rgba(201,169,110,0.2);
+          font-size:0.65rem; letter-spacing:0.1em; color:rgba(255,255,255,0.35);
+          cursor:not-allowed; transition:all .2s; font-weight:400;
+        }
+        .slot-pill.avail {
+          color:rgba(255,255,255,0.75); border-color:rgba(201,169,110,0.35); cursor:pointer;
+        }
+        .slot-pill.avail:hover {
+          border-color:#C9A96E; color:#C9A96E; background:rgba(201,169,110,0.07);
+        }
+        .slot-pill.taken {
+          opacity:0.22; text-decoration:line-through; cursor:not-allowed;
+          color:rgba(255,255,255,0.25);
+        }
+        .slot-pill.sel {
+          background:#C9A96E; color:#0D0B0A; border-color:#C9A96E; font-weight:700; cursor:pointer;
+        }
+        .cal-confirm {
+          margin-top:40px; padding:28px 32px;
+          border:1px solid rgba(201,169,110,0.2);
+          background:rgba(201,169,110,0.04);
+          animation: fadeInUp .4s ease forwards;
+        }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+        .cal-summary-date {
+          font-family:'Cormorant Garamond',serif; font-style:italic;
+          font-size:1.4rem; color:#C9A96E; margin-bottom:6px; font-weight:300;
+        }
+        .cal-summary-slot {
+          font-size:0.68rem; letter-spacing:0.14em; color:rgba(255,255,255,0.45);
+          text-transform:uppercase; margin-bottom:24px;
+        }
+
         /* ── MOBILE ── */
         .hamburger { display:none; }
         .sticky-mobile { display:none; }
@@ -243,7 +391,20 @@ export default function DemoNail() {
           .nav-desktop { display:none !important; }
           .hamburger   { display:flex !important; }
           .presta-grid { grid-template-columns:1fr !important; }
-          .diff-grid   { grid-template-columns:1fr 1fr !important; }
+          .diff-outer          { grid-template-columns:1fr !important; gap:0 !important; }
+          .diff-grid-desktop   { display:none !important; }
+          .diff-grid-mobile    { display:flex !important; flex-direction:column; gap:0; margin-top:32px; }
+          .diff-card-mobile    {
+            display:flex; align-items:flex-start; gap:16px;
+            padding:20px 0;
+            border-bottom:1px solid rgba(201,169,110,0.1);
+          }
+          .diff-mob-icon {
+            flex-shrink:0; width:38px; height:38px; margin-top:2px;
+            border:1px solid rgba(201,169,110,0.3);
+            display:flex; align-items:center; justify-content:center;
+          }
+          .diff-intro-text { display:none; }
           .avis-grid   { grid-template-columns:1fr !important; }
           .gallery-grid{ grid-template-columns:repeat(2,1fr) !important; }
           .gallery-tall{ grid-row:span 1 !important; }
@@ -259,6 +420,11 @@ export default function DemoNail() {
           .cta-row { display:none !important; }
           .scroll-ind { display:none !important; }
           .hero-bg { background-size: 110% !important; background-position: center 50% !important; }
+          .cal-cell { font-size:0.65rem; }
+          .slot-pill { padding:10px 16px; font-size:0.6rem; }
+          .cal-confirm { padding:22px 20px; }
+          .cal-summary-date { font-size:1.15rem; }
+          .infos-grid { grid-template-columns:1fr !important; gap:28px !important; }
         }
       `}</style>
 
@@ -352,8 +518,7 @@ export default function DemoNail() {
 
         <div style={{ position: "relative", zIndex: 2, maxWidth: "760px" }}>
           {/* Eyebrow */}
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "12px", marginBottom: "32px", animation: "none" }}
-            className="reveal">
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "12px", marginBottom: "32px" }} className="reveal">
             <div style={{ width: "28px", height: "1px", background: "#C9A96E" }} />
             <span style={{ fontSize: "0.58rem", letterSpacing: "0.45em", color: "#C9A96E", textTransform: "uppercase" }}>Atelier Nail Art · Melun · 77</span>
             <div style={{ width: "28px", height: "1px", background: "#C9A96E" }} />
@@ -453,28 +618,43 @@ export default function DemoNail() {
       </section>
 
       {/* ═══════════════════════════════════════
-          DIFFÉRENCIATION (fond ivoire)
+          NOTRE ENGAGEMENT (fond ivoire)
       ═══════════════════════════════════════ */}
       <section style={{ background: "#F5F0EB", padding: "100px 40px" }} className="section-pad">
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", alignItems: "center" }}>
+          <div className="diff-outer">
 
-            {/* Left — text */}
+            {/* Left — intitulé + texte */}
             <div>
               <p className="reveal" style={{ fontSize: "0.58rem", letterSpacing: "0.42em", color: "#C9A96E", textTransform: "uppercase", marginBottom: "16px" }}>Notre engagement</p>
               <h2 className="font-disp reveal d1" style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)", fontWeight: 300, fontStyle: "italic", color: "#1A1A1A", letterSpacing: "-0.01em", marginBottom: "20px" }}>
                 Chaque ongle est<br />une signature.
               </h2>
               <div className="gold-line reveal d1" style={{ marginBottom: "28px" }} />
-              <p className="reveal d2" style={{ fontSize: "0.85rem", color: "#6B6560", lineHeight: 1.85, fontWeight: 300 }}>
+              <p className="reveal d2 diff-intro-text" style={{ fontSize: "0.85rem", color: "#6B6560", lineHeight: 1.85, fontWeight: 300 }}>
                 Ici, rien n&apos;est standard. Chaque pose est pensée selon votre style, votre rythme de vie, votre silhouette de main. Nous travaillons avec les meilleures marques professionnelles. Nous prenons le temps. Toujours.
               </p>
+
+              {/* ── Mobile : piliers en lignes ── */}
+              <div className="diff-grid-mobile">
+                {DIFFERENCIATIONS.map((d, i) => (
+                  <div key={i} className={`diff-card-mobile reveal d${i + 1}`}>
+                    <div className="diff-mob-icon">
+                      <span style={{ fontSize: "0.7rem", color: "#C9A96E" }}>{d.icon}</span>
+                    </div>
+                    <div>
+                      <h4 style={{ fontSize: "0.8rem", fontWeight: 600, color: "#1A1A1A", letterSpacing: "0.04em", marginBottom: "7px", lineHeight: 1.4 }}>{d.titre}</h4>
+                      <p style={{ fontSize: "0.72rem", color: "#6B6560", lineHeight: 1.7, fontWeight: 300, margin: 0 }}>{d.texte}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Right — pillars */}
-            <div className="diff-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+            {/* Right — piliers 2×2 (desktop) */}
+            <div className="diff-grid-desktop">
               {DIFFERENCIATIONS.map((d, i) => (
-                <div key={i} className={`reveal-scale d${i + 1}`} style={{ padding: "28px 22px", background: "#fff", borderBottom: "2px solid rgba(201,169,110,0.3)" }}>
+                <div key={i} className={`diff-card-desk reveal-scale d${i + 1}`} style={{ padding: "28px 22px", background: "#fff", borderBottom: "2px solid rgba(201,169,110,0.3)" }}>
                   <div style={{ fontSize: "0.75rem", color: "#C9A96E", marginBottom: "12px" }}>{d.icon}</div>
                   <h4 style={{ fontSize: "0.78rem", fontWeight: 600, color: "#1A1A1A", letterSpacing: "0.04em", marginBottom: "10px", lineHeight: 1.4 }}>{d.titre}</h4>
                   <p style={{ fontSize: "0.72rem", color: "#6B6560", lineHeight: 1.7, fontWeight: 300 }}>{d.texte}</p>
@@ -573,38 +753,179 @@ export default function DemoNail() {
       </section>
 
       {/* ═══════════════════════════════════════
-          CTA FINAL
+          RÉSERVATION — CALENDRIER
       ═══════════════════════════════════════ */}
-      <section id="reservation" style={{ padding: "120px 40px", textAlign: "center", position: "relative", overflow: "hidden" }} className="section-pad">
-        {/* Background radial */}
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,169,110,0.09) 0%, transparent 65%)", pointerEvents: "none" }} />
-        {/* Top line */}
-        <div style={{ position: "absolute", top: 0, left: "20%", right: "20%", height: "1px", background: "linear-gradient(90deg, transparent, #C9A96E, transparent)" }} />
+      <section id="reservation" style={{ padding: "120px 40px", position: "relative", overflow: "hidden" }} className="section-pad">
 
-        <div style={{ position: "relative", zIndex: 1, maxWidth: "580px", margin: "0 auto" }}>
-          <p className="reveal" style={{ fontSize: "0.58rem", letterSpacing: "0.42em", color: "#C9A96E", textTransform: "uppercase", marginBottom: "20px" }}>Rejoignez-nous</p>
-          <h2 className="font-disp reveal d1" style={{ fontSize: "clamp(2.5rem, 5vw, 4.2rem)", fontWeight: 300, fontStyle: "italic", letterSpacing: "-0.01em", marginBottom: "18px" }}>
-            Vos prochains ongles<br />vous attendent.
-          </h2>
-          <div className="gold-line-c reveal d1" style={{ marginBottom: "24px" }} />
-          <p className="reveal d2" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.85, marginBottom: "48px", fontWeight: 300 }}>
-            Les créneaux partent vite.<br />Réservez votre séance dès maintenant.
-          </p>
-          <div className="cta-row reveal d3" style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="https://wa.me/33600000000?text=Bonjour,%20je%20souhaite%20prendre%20rendez-vous%20chez%20Vénera%20Studio." target="_blank" rel="noopener noreferrer" className="btn-gold">
-              Réserver par WhatsApp
-            </a>
-            <a href="mailto:contact@venera-studio.fr" className="btn-outline">
-              Écrire un message
+        {/* Radial ambiance */}
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,169,110,0.07) 0%, transparent 65%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: 0, left: "15%", right: "15%", height: "1px", background: "linear-gradient(90deg, transparent, rgba(201,169,110,0.4), transparent)" }} />
+
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "800px", margin: "0 auto" }}>
+
+          {/* Header */}
+          <div className="reveal" style={{ textAlign: "center", marginBottom: "64px" }}>
+            <p style={{ fontSize: "0.58rem", letterSpacing: "0.42em", color: "#C9A96E", textTransform: "uppercase", marginBottom: "20px" }}>Réservation en ligne</p>
+            <h2 className="font-disp" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 300, fontStyle: "italic", letterSpacing: "-0.01em", marginBottom: "18px" }}>
+              Choisissez votre<br />créneau idéal.
+            </h2>
+            <div className="gold-line-c" style={{ marginBottom: "20px" }} />
+            <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.35)", letterSpacing: "0.04em", lineHeight: 1.8, fontWeight: 300 }}>
+              Sélectionnez une date puis un horaire disponible.<br />
+              La confirmation se fait par WhatsApp sous 2h.
+            </p>
+          </div>
+
+          {/* ── CALENDAR WIDGET ── */}
+          <div className="cal-wrap reveal d1">
+
+            {/* Month navigation */}
+            <div className="cal-header">
+              <button className="cal-arrow" onClick={prevMonth}>‹</button>
+              <div style={{ textAlign: "center" }}>
+                <div className="font-disp" style={{ fontSize: "1.5rem", fontWeight: 300, fontStyle: "italic", color: "#fff", letterSpacing: "0.02em" }}>
+                  {MONTH_FR[calMonth]}
+                </div>
+                <div style={{ fontSize: "0.5rem", color: "rgba(201,169,110,0.45)", letterSpacing: "0.3em", marginTop: "2px" }}>
+                  {calYear}
+                </div>
+              </div>
+              <button className="cal-arrow" onClick={nextMonth}>›</button>
+            </div>
+
+            {/* Top separator */}
+            <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(201,169,110,0.2), transparent)", marginBottom: "16px" }} />
+
+            {/* Day headers */}
+            <div className="cal-grid" style={{ marginBottom: "4px" }}>
+              {DAY_FR.map((d, i) => (
+                <div key={i} className="cal-day-head">{d}</div>
+              ))}
+            </div>
+
+            {/* Day cells */}
+            <div className="cal-grid">
+              {/* Empty cells before first day */}
+              {Array.from({ length: calOffset }).map((_, i) => (
+                <div key={`e-${i}`} className="cal-cell" />
+              ))}
+              {/* Day cells */}
+              {Array.from({ length: daysInCal }).map((_, i) => {
+                const day = i + 1;
+                const dateStr = fmtDate(calYear, calMonth, day);
+                const avail = isDateAvail(calYear, calMonth, day);
+                const sel = selectedDate === dateStr;
+                const today = isToday(calYear, calMonth, day);
+                return (
+                  <div
+                    key={day}
+                    className={`cal-cell${avail ? " avail" : " past"}${sel ? " sel" : ""}${today ? " today-mark" : ""}`}
+                    onClick={() => {
+                      if (!avail) return;
+                      setSelectedDate(sel ? null : dateStr);
+                      setSelectedSlot(null);
+                    }}
+                  >
+                    {day}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Bottom separator */}
+            <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(201,169,110,0.2), transparent)", marginTop: "16px" }} />
+
+            {/* Légende */}
+            <div style={{ display: "flex", gap: "24px", marginTop: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+              {[
+                { color: "rgba(255,255,255,0.8)", label: "Disponible" },
+                { color: "#C9A96E", label: "Sélectionné" },
+                { color: "rgba(255,255,255,0.14)", label: "Indisponible" },
+              ].map(l => (
+                <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+                  <div style={{ width: "8px", height: "8px", background: l.color, borderRadius: "1px" }} />
+                  <span style={{ fontSize: "0.5rem", color: "rgba(255,255,255,0.3)", letterSpacing: "0.14em" }}>{l.label}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* ── TIME SLOTS ── */}
+            {selectedDate && slots.length > 0 && (
+              <div className="slots-wrap">
+                <div className="slots-label">Créneaux disponibles · {fmtDateFR(selectedDate)}</div>
+                <div className="slots-grid">
+                  {slots.map(slot => {
+                    const avail = slotAvail(selectedDate, slot);
+                    const sel   = selectedSlot === slot;
+                    return (
+                      <div
+                        key={slot}
+                        className={`slot-pill${sel ? " sel" : avail ? " avail" : " taken"}`}
+                        onClick={() => { if (avail) setSelectedSlot(sel ? null : slot); }}
+                      >
+                        {avail ? slot : `${slot} · complet`}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ── CONFIRMATION ── */}
+            {selectedDate && selectedSlot && (
+              <div className="cal-confirm">
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "16px", flexWrap: "wrap" }}>
+                  {/* Recap */}
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "0.5rem", letterSpacing: "0.28em", color: "rgba(201,169,110,0.5)", textTransform: "uppercase", marginBottom: "10px" }}>
+                      Votre sélection
+                    </div>
+                    <div className="cal-summary-date font-disp">
+                      {fmtDateFR(selectedDate)}
+                    </div>
+                    <div className="cal-summary-slot">à {selectedSlot}</div>
+                    <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                      {["✦ Confirmation sous 2h", "✦ Paiement sur place", "✦ Annulation libre"].map(r => (
+                        <span key={r} style={{ fontSize: "0.55rem", color: "rgba(201,169,110,0.45)", letterSpacing: "0.1em" }}>{r}</span>
+                      ))}
+                    </div>
+                  </div>
+                  {/* CTA */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: "180px" }}>
+                    <a
+                      href={`https://wa.me/33600000000?text=${waMessage}`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="btn-gold"
+                      style={{ textAlign: "center", padding: "14px 24px", fontSize: "0.65rem", whiteSpace: "nowrap" }}
+                    >
+                      Confirmer sur WhatsApp
+                    </a>
+                    <button
+                      onClick={() => { setSelectedDate(null); setSelectedSlot(null); }}
+                      style={{ background: "none", border: "none", cursor: "pointer", fontSize: "0.55rem", color: "rgba(255,255,255,0.25)", letterSpacing: "0.12em", textTransform: "uppercase", padding: "6px 0" }}
+                    >
+                      Modifier
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </div>
+
+          {/* Autre moyen de contact */}
+          <div className="reveal d3" style={{ textAlign: "center", marginTop: "56px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "20px", justifyContent: "center", marginBottom: "16px" }}>
+              <div style={{ flex: 1, height: "1px", background: "linear-gradient(to right, transparent, rgba(201,169,110,0.15))" }} />
+              <span style={{ fontSize: "0.5rem", color: "rgba(255,255,255,0.2)", letterSpacing: "0.22em" }}>OU</span>
+              <div style={{ flex: 1, height: "1px", background: "linear-gradient(to left, transparent, rgba(201,169,110,0.15))" }} />
+            </div>
+            <a href="mailto:contact@venera-studio.fr"
+              style={{ fontSize: "0.62rem", color: "rgba(201,169,110,0.45)", letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none", borderBottom: "1px solid rgba(201,169,110,0.2)", paddingBottom: "2px" }}>
+              Écrire par e-mail →
             </a>
           </div>
 
-          {/* Réassurance */}
-          <div className="reveal d4" style={{ display: "flex", justifyContent: "center", gap: "32px", marginTop: "44px", flexWrap: "wrap" }}>
-            {["✦ Réponse sous 24h", "✦ Paiement sur place", "✦ Annulation flexible"].map(r => (
-              <span key={r} style={{ fontSize: "0.6rem", color: "rgba(201,169,110,0.5)", letterSpacing: "0.12em" }}>{r}</span>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -612,18 +933,20 @@ export default function DemoNail() {
           INFOS PRATIQUES
       ═══════════════════════════════════════ */}
       <section style={{ padding: "72px 40px", background: "rgba(201,169,110,0.04)", borderTop: "1px solid rgba(201,169,110,0.1)" }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "48px", textAlign: "center" }}>
-          {[
-            { icon: "📍", label: "Adresse", val: "Melun, Seine-et-Marne · 77" },
-            { icon: "🕐", label: "Horaires", val: "Mar–Sam · 9h00–19h00" },
-            { icon: "📞", label: "Réservation", val: "Sur RDV uniquement" },
-          ].map((info, i) => (
-            <div key={i} className={`reveal-scale d${i + 1}`} style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "1.6rem", marginBottom: "10px" }}>{info.icon}</div>
-              <div style={{ fontSize: "0.52rem", color: "#C9A96E", letterSpacing: "0.28em", textTransform: "uppercase", marginBottom: "7px" }}>{info.label}</div>
-              <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.55)", fontWeight: 300 }}>{info.val}</div>
-            </div>
-          ))}
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+          <div className="infos-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "48px", textAlign: "center" }}>
+            {[
+              { icon: "📍", label: "Adresse", val: "Melun, Seine-et-Marne · 77" },
+              { icon: "🕐", label: "Horaires", val: "Mar–Sam · 9h00–19h00" },
+              { icon: "📞", label: "Réservation", val: "Sur RDV uniquement" },
+            ].map((info, i) => (
+              <div key={i} className={`reveal-scale d${i + 1}`} style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "1.6rem", marginBottom: "10px" }}>{info.icon}</div>
+                <div style={{ fontSize: "0.52rem", color: "#C9A96E", letterSpacing: "0.28em", textTransform: "uppercase", marginBottom: "7px" }}>{info.label}</div>
+                <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.55)", fontWeight: 300 }}>{info.val}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
