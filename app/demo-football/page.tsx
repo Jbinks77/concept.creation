@@ -483,10 +483,10 @@ export default function DemoFootball() {
 
             /* ── HERO ── */
             .hero-section  { min-height: 100dvh !important; }
-            .hero-content  { min-height: 100dvh !important; padding: 72px 20px 100px !important; }
+            .hero-content  { min-height: 100dvh !important; padding: 72px 20px 90px !important; justify-content: flex-end !important; }
             .hero-bg       { background-size: 160% !important; background-position: center 30% !important; }
-            .hero-logo     { width: 150px !important; height: 150px !important; }
-            .hero-logo-wrap{ width: 150px !important; height: 150px !important; margin-bottom: 14px !important; }
+            .hero-logo     { width: 120px !important; height: 120px !important; }
+            .hero-logo-wrap{ width: 120px !important; height: 120px !important; margin-bottom: 10px !important; }
             .hero-separator{ gap: 8px !important; margin-bottom: 10px !important; }
             .hero-separator span { font-size: 0.58rem !important; letter-spacing: 0.25em !important; }
             .hero-separator .sep-line { width: 20px !important; }
