@@ -493,9 +493,36 @@ export default function DemoFootball() {
             .hero-title    { margin-bottom: 22px !important; }
             .hero-match-strip { display: none !important; }
             .hero-badge    { display: none !important; }
-            .hero-mobile-info { display: flex !important; }
-            .hero-ctas     { flex-direction: row !important; gap: 8px !important; width: 100% !important; padding: 0 !important; }
-            .hero-ctas a   { padding: 14px 0 !important; font-size: 0.7rem !important; letter-spacing: 0.1em !important; flex: 1 !important; text-align: center !important; box-sizing: border-box !important; }
+            .hero-mobile-info { display: none !important; }
+            .hero-badge    { display: none !important; }
+            .hero-ctas     { display: none !important; }
+
+            /* ── BANDE MOBILE SOUS LE HERO ── */
+            .hero-mobile-band {
+              display: flex !important;
+              flex-direction: column !important;
+              gap: 10px !important;
+              padding: 16px 18px 14px !important;
+              background: rgba(5,8,20,0.97) !important;
+              border-bottom: 1px solid rgba(59,130,246,0.15) !important;
+            }
+            .hero-mobile-band-pill {
+              display: flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+            }
+            .hero-mobile-band-ctas {
+              display: flex !important;
+              gap: 8px !important;
+            }
+            .hero-mobile-band-ctas a {
+              flex: 1 !important;
+              padding: 13px 0 !important;
+              font-size: 0.68rem !important;
+              letter-spacing: 0.1em !important;
+              text-align: center !important;
+              box-sizing: border-box !important;
+            }
             .hero-watermark{ display: none !important; }
 
             /* ── STATS BAR — 2 stats seulement ── */
@@ -707,6 +734,33 @@ export default function DemoFootball() {
           ))}
         </div>
       </section>
+
+      {/* ── BANDE MOBILE : pill + CTAs sous le hero ── */}
+      <div className="hero-mobile-band" style={{ display: "none" }}>
+        <div className="hero-mobile-band-pill">
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(12px)", padding: "8px 16px", borderRadius: "100px" }}>
+            <span style={{ background: "#15803d", color: "#fff", padding: "2px 8px", fontSize: "0.52rem", fontWeight: 800, letterSpacing: "0.08em", borderRadius: "3px" }}>V 3–1</span>
+            <span style={{ width: "1px", height: "12px", background: "rgba(255,255,255,0.15)", flexShrink: 0 }} />
+            <span style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.6)", whiteSpace: "nowrap" }}>
+              Prochain <strong style={{ color: "#fff" }}>12 Avr. · 15h</strong>
+            </span>
+          </div>
+        </div>
+        <div className="hero-mobile-band-ctas">
+          <a href="#resultats" style={{
+            background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
+            color: "#fff", textDecoration: "none", textTransform: "uppercase", fontWeight: 700,
+            borderRadius: "3px", boxShadow: "0 4px 18px rgba(37,99,235,0.4)",
+          }}>Résultats & Classement</a>
+          <a href="#le-club" style={{
+            border: "1px solid rgba(255,255,255,0.18)",
+            color: "rgba(255,255,255,0.85)",
+            background: "rgba(255,255,255,0.06)",
+            textDecoration: "none", textTransform: "uppercase", fontWeight: 600,
+            borderRadius: "3px",
+          }}>Le club ↓</a>
+        </div>
+      </div>
 
       {/* ── TICKER ── */}
       <div className="ticker-bar" style={{ background: "#1e3a8a", padding: "12px 0", overflow: "hidden", borderTop: "2px solid #3b82f6", borderBottom: "1px solid rgba(59,130,246,0.3)" }}>
