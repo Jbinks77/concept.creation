@@ -78,6 +78,7 @@ const GALERIE = [
 export default function DemoNail() {
   const canvasRef  = useRef<HTMLCanvasElement>(null);
   const statsRef   = useRef<HTMLDivElement>(null);
+  const heroBgRef  = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen]     = useState(false);
   const [navScrolled, setNavScrolled] = useState(false);
 
@@ -118,9 +119,13 @@ export default function DemoNail() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
   }, []);
 
-  /* Nav scroll */
+  /* Nav scroll + parallax */
   useEffect(() => {
-    const fn = () => setNavScrolled(window.scrollY > 50);
+    const fn = () => {
+      setNavScrolled(window.scrollY > 50);
+      const bg = heroBgRef.current;
+      if (bg && window.innerWidth >= 768) bg.style.transform = `translateY(${window.scrollY * 0.22}px)`;
+    };
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
@@ -328,9 +333,19 @@ export default function DemoNail() {
       ═══════════════════════════════════════ */}
       <section style={{ minHeight: "100dvh", position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "100px 32px 100px", overflow: "hidden" }}>
 
-        {/* Radial glow */}
-        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(201,169,110,0.07) 0%, transparent 65%)", pointerEvents: "none", zIndex: 1 }} />
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", background: "linear-gradient(to top, #0D0B0A 0%, transparent 100%)", zIndex: 1, pointerEvents: "none" }} />
+        {/* ── Photo hero ── */}
+        <div ref={heroBgRef} style={{
+          position: "absolute", inset: "-10%",
+          backgroundImage: "url('/hero-nail.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center 40%",
+          willChange: "transform",
+        }} />
+        {/* Overlays */}
+        <div style={{ position: "absolute", inset: 0, background: "rgba(8,6,5,0.55)", zIndex: 1 }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg, rgba(8,6,5,0.6) 0%, rgba(8,6,5,0.15) 50%, transparent 75%)", zIndex: 1 }} />
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "30%", background: "linear-gradient(to bottom, rgba(8,6,5,0.8) 0%, transparent 100%)", zIndex: 1 }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "45%", background: "linear-gradient(to top, #0D0B0A 0%, transparent 100%)", zIndex: 1, pointerEvents: "none" }} />
 
         <div style={{ position: "relative", zIndex: 2, maxWidth: "760px" }}>
           {/* Eyebrow */}
