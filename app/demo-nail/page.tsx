@@ -258,6 +258,7 @@ export default function DemoNail() {
           .sticky-mobile a { display:block; text-align:center; }
           .cta-row { display:none !important; }
           .scroll-ind { display:none !important; }
+          .hero-bg { background-size: 110% !important; background-position: center 50% !important; }
         }
       `}</style>
 
@@ -335,7 +336,7 @@ export default function DemoNail() {
       <section style={{ minHeight: "100dvh", position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "100px 32px 100px", overflow: "hidden" }}>
 
         {/* ── Photo hero ── */}
-        <div ref={heroBgRef} style={{
+        <div ref={heroBgRef} className="hero-bg" style={{
           position: "absolute", inset: "-8%",
           backgroundImage: "url('/hero-nail.jpg')",
           backgroundSize: "75%",
