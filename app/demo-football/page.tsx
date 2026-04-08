@@ -472,9 +472,18 @@ export default function DemoFootball() {
             .nav-hamburger { display: flex !important; }
             .hero-bg       { inset: 0 !important; }
 
+            /* ── TICKER FIXÉ EN BAS ── */
+            .ticker-bar {
+              position: fixed !important;
+              bottom: 0 !important; left: 0 !important; right: 0 !important;
+              z-index: 50 !important;
+              border-top: 2px solid #3b82f6 !important;
+              border-bottom: none !important;
+            }
+
             /* ── HERO ── */
-            .hero-section  { min-height: unset !important; }
-            .hero-content  { min-height: unset !important; padding: 72px 20px 24px !important; }
+            .hero-section  { min-height: 100dvh !important; }
+            .hero-content  { min-height: 100dvh !important; padding: 72px 20px 100px !important; }
             .hero-bg       { background-size: 160% !important; background-position: center 30% !important; }
             .hero-logo     { width: 150px !important; height: 150px !important; }
             .hero-logo-wrap{ width: 150px !important; height: 150px !important; margin-bottom: 14px !important; }
@@ -700,7 +709,7 @@ export default function DemoFootball() {
       </section>
 
       {/* ── TICKER ── */}
-      <div style={{ background: "#1e3a8a", padding: "12px 0", overflow: "hidden", borderTop: "2px solid #3b82f6", borderBottom: "1px solid rgba(59,130,246,0.3)" }}>
+      <div className="ticker-bar" style={{ background: "#1e3a8a", padding: "12px 0", overflow: "hidden", borderTop: "2px solid #3b82f6", borderBottom: "1px solid rgba(59,130,246,0.3)" }}>
         <div style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
           <div ref={tickerRef} style={{ display: "inline-flex", gap: "0" }}>
             <div className="ticker-inner" style={{ display: "inline-flex", gap: "48px", paddingRight: "48px" }}>
