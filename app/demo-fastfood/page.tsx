@@ -211,14 +211,21 @@ export default function DemoFastFood() {
 
       /* ─ RESPONSIVE ─ */
       @media(max-width:768px) {
-        .hide-mob { display:none!important; }
-        .mob-col  { flex-direction:column!important; }
-        .mob-full { width:100%!important; }
+        .hide-mob  { display:none!important; }
+        .mob-col   { flex-direction:column!important; }
+        .mob-full  { width:100%!important; }
         .tabs-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:4px; }
         .menu-grid { grid-template-columns:1fr!important; }
         .feat-grid { grid-template-columns:1fr!important; }
         .info-grid { grid-template-columns:1fr!important; }
         .stats-grid{ grid-template-columns:1fr 1fr!important; }
+
+        /* Hero mobile — simplifié */
+        .hero-title { font-size:clamp(3.6rem,17vw,6rem)!important; }
+        .hero-sub   { font-size:.78rem!important; }
+        .hero-btns  { flex-direction:column!important; }
+        .hero-btns a, .hero-btns button { width:100%!important; justify-content:center!important; box-sizing:border-box!important; }
+        .hero-content { padding:0 5vw 70px!important; }
       }
     `}</style>
 
@@ -265,6 +272,7 @@ export default function DemoFastFood() {
 
       {/* Vidéo full bleed */}
       <video className="hero-vid" autoPlay muted loop playsInline
+        poster={IMG.smash}
         style={{
           position:"absolute", inset:0, width:"100%", height:"100%",
           objectFit:"cover", objectPosition:"center",
@@ -282,7 +290,7 @@ export default function DemoFastFood() {
         background:"linear-gradient(to right, rgba(8,8,8,.7) 0%, transparent 50%)" }} />
 
       {/* Contenu */}
-      <div className={loaded ? "loaded" : ""} style={{ position:"relative", zIndex:2, height:"100%", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"0 6vw 80px" }}>
+      <div className={loaded ? "loaded" : ""} style={{ position:"relative", zIndex:2, height:"100%", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"0 6vw 80px" }} data-class="hero-content">
 
         {/* Eyebrow */}
         <div className="hl" style={{ transitionDelay:".1s", display:"flex", alignItems:"center", gap:"12px", marginBottom:"20px" }}>
@@ -294,45 +302,44 @@ export default function DemoFastFood() {
 
         {/* Titre */}
         <div className="hl" style={{ transitionDelay:".22s" }}>
-          <h1 className="bebas" style={{ fontSize:"clamp(4.5rem,11vw,11rem)", lineHeight:.88, color:C.cream, marginBottom:"4px" }}>
+          <h1 className="bebas hero-title" style={{ fontSize:"clamp(4.5rem,11vw,11rem)", lineHeight:.88, color:C.cream, marginBottom:"4px" }}>
             BURGERS
           </h1>
         </div>
         <div className="hl" style={{ transitionDelay:".34s" }}>
-          <h1 className="bebas" style={{
+          <h1 className="bebas hero-title" style={{
             fontSize:"clamp(4.5rem,11vw,11rem)", lineHeight:.88, marginBottom:"4px",
             color:"transparent", WebkitTextStroke:`2px ${C.red}`,
           }}>
             &amp; POULET
           </h1>
         </div>
-        <div className="hl" style={{ transitionDelay:".46s", marginBottom:"32px" }}>
-          <h1 className="bebas" style={{ fontSize:"clamp(4.5rem,11vw,11rem)", lineHeight:.88, color:C.gold }}>
+        <div className="hl" style={{ transitionDelay:".46s", marginBottom:"24px" }}>
+          <h1 className="bebas hero-title" style={{ fontSize:"clamp(4.5rem,11vw,11rem)", lineHeight:.88, color:C.gold }}>
             À MELUN.
           </h1>
         </div>
 
         {/* Sous-titre */}
-        <div className="hl" style={{ transitionDelay:".56s", marginBottom:"36px" }}>
-          <p style={{ fontSize:".85rem", color:"rgba(245,239,224,.45)", fontWeight:300, lineHeight:1.7, maxWidth:"440px" }}>
-            Tout fait à la commande. Viande fraîche livrée chaque matin.<br/>
-            Livraison 30 min sur Melun et alentours.
+        <div className="hl" style={{ transitionDelay:".54s", marginBottom:"28px" }}>
+          <p className="hero-sub" style={{ fontSize:".85rem", color:"rgba(245,239,224,.5)", fontWeight:300, lineHeight:1.7, maxWidth:"420px" }}>
+            Fait à la commande · Viande fraîche · Livraison 30 min
           </p>
         </div>
 
         {/* CTAs */}
-        <div className="hl" style={{ transitionDelay:".64s", display:"flex", gap:"12px", flexWrap:"wrap" }}>
+        <div className="hl hero-btns" style={{ transitionDelay:".62s", display:"flex", gap:"10px", flexWrap:"wrap" }}>
           <button onClick={goMenu} className="btn-red pulse" style={{ cursor:"pointer" }}>
             Voir le menu
           </button>
           <a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer" className="btn-ghost">
-            Commander en ligne
+            Commander →
           </a>
         </div>
       </div>
 
-      {/* Badge prix — coin supérieur droit */}
-      <div className={loaded ? "loaded" : ""} style={{ position:"absolute", top:"90px", right:"6vw", zIndex:3, textAlign:"center" }}>
+      {/* Badge prix — coin supérieur droit (desktop only) */}
+      <div className={`hide-mob${loaded ? " loaded" : ""}`} style={{ position:"absolute", top:"90px", right:"6vw", zIndex:3, textAlign:"center" }}>
         <div className="hl" style={{ transitionDelay:".8s",
           background:C.gold, color:C.bg,
           padding:"20px 24px",
