@@ -75,9 +75,18 @@ const MENU: Record<string, { nom:string; desc:string; prix:string; spicy?:boolea
 
 const TABS = Object.keys(MENU);
 
+const REVIEWS = [
+  { name:"Ilyes B.", note:5, text:"Le OG Smash c'est une tuerie, meilleur burger de Melun sans hésiter 🔥", date:"il y a 2 jours" },
+  { name:"Sarah M.", note:5, text:"La sauce secrète... je veux la recette 😭 Livraison ultra rapide aussi", date:"il y a 5 jours" },
+  { name:"Kevin T.", note:5, text:"Les tenders sont incroyables, poulet vraiment croustillant comme à Nashville", date:"il y a 1 semaine" },
+  { name:"Manon D.", note:5, text:"Y'a pas mieux en Seine-et-Marne, on revient chaque semaine 🙌", date:"il y a 2 semaines" },
+  { name:"Théo L.", note:5, text:"Commande tous les jeudis soir, jamais déçu. Les loaded fries sont 🤌", date:"il y a 3 semaines" },
+];
+
 /* ─── COMPONENT ────────────────────────────────── */
 export default function DemoFastFood() {
   const [tab, setTab]             = useState(TABS[0]);
+  const [mobNav, setMobNav] = useState(false);
   const [loaded, setLoaded]       = useState(false);
   const [statsVisible, setStats]  = useState(false);
   const [countVal, setCount]      = useState(0);
@@ -234,7 +243,7 @@ export default function DemoFastFood() {
         position:relative;
       }
       .diag-after::after {
-        content:''; position:absolute; bottom:-38px; left:0; right:0; height:40px;
+        content:''; position:absolute; bottom:-28px; left:0; right:0; height:30px;
         background:inherit; clip-path:polygon(0 0, 100% 0, 100% 0, 0 100%);
         z-index:4; pointer-events:none;
       }
@@ -261,6 +270,28 @@ export default function DemoFastFood() {
         transition:transform .2s, box-shadow .2s;
       }
       .sticky-cta:hover { transform:translateX(-50%) scale(1.04); box-shadow:0 12px 50px rgba(232,53,10,.7); }
+
+      /* ─ MOB NAV ─ */
+      .mob-nav-overlay {
+        position:fixed; inset:0; background:rgba(8,8,8,.96); z-index:300;
+        display:flex; flex-direction:column; justify-content:center; align-items:center; gap:0;
+        transform:translateX(100%); transition:transform .35s cubic-bezier(.16,1,.3,1);
+      }
+      .mob-nav-overlay.open { transform:translateX(0); }
+      .mob-nav-link {
+        font-family:'Bebas Neue',sans-serif; font-size:3rem; letter-spacing:.08em;
+        color:rgba(245,239,224,.5); text-decoration:none; padding:12px 0;
+        transition:color .2s, transform .2s;
+      }
+      .mob-nav-link:hover { color:#F5EFE0; transform:translateX(8px); }
+      /* ─ OFFER BANNER ─ */
+      @keyframes offerPulse { 0%,100%{opacity:1} 50%{opacity:.75} }
+      .offer-pill { animation:offerPulse 2.5s ease-in-out infinite; }
+      /* ─ REVIEWS ─ */
+      .review-card { transition:transform .25s ease, box-shadow .25s ease; }
+      .review-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,.15); }
+      /* ─ STAR ─ */
+      .star { color:#FFD166; font-size:.85rem; }
 
       /* ─ RESPONSIVE ─ */
       @media(max-width:768px) {
@@ -297,6 +328,8 @@ export default function DemoFastFood() {
 
         /* Menu card image height on mobile */
         .mcard-img { height:130px!important; }
+        .mob-ham { display:flex!important; }
+        .hide-mob-nav { display:none!important; }
       }
     `}</style>
 
@@ -308,16 +341,12 @@ export default function DemoFastFood() {
       position:"fixed", top:0, left:0, right:0, zIndex:200,
       height:"62px", padding:"0 5vw",
       display:"flex", alignItems:"center", justifyContent:"space-between",
-      background:"rgba(8,8,8,0.88)", backdropFilter:"blur(16px) saturate(1.4)",
+      background:"rgba(8,8,8,0.92)", backdropFilter:"blur(16px) saturate(1.4)",
       borderBottom:`1px solid rgba(245,239,224,.06)`,
     }}>
       <div style={{ display:"flex", alignItems:"center" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/smash77-logo.png"
-          alt="77 SMASH"
-          style={{ height:"42px", width:"auto", objectFit:"contain" }}
-        />
+        <img src="/smash77-logo.png" alt="77 SMASH" style={{ height:"42px", width:"auto", objectFit:"contain" }} />
       </div>
 
       <div className="hide-mob" style={{ display:"flex", gap:"32px" }}>
@@ -329,10 +358,37 @@ export default function DemoFastFood() {
         ))}
       </div>
 
-      <a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer" className="btn-red" style={{ padding:"9px 22px", fontSize:".75rem" }}>
-        Commander →
-      </a>
+      <div style={{ display:"flex", alignItems:"center", gap:"12px" }}>
+        <a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer" className="btn-red hide-mob" style={{ padding:"9px 22px", fontSize:".75rem" }}>
+          Commander →
+        </a>
+        {/* Hamburger mobile */}
+        <button className="mob-ham" onClick={() => setMobNav(true)} style={{
+          display:"none", background:"none", border:"none", cursor:"pointer",
+          padding:"6px", flexDirection:"column", gap:"5px",
+        }}>
+          <span style={{ display:"block", width:"22px", height:"2px", background:C.cream }} />
+          <span style={{ display:"block", width:"22px", height:"2px", background:C.cream }} />
+          <span style={{ display:"block", width:"14px", height:"2px", background:C.red }} />
+        </button>
+      </div>
     </nav>
+
+    {/* Mobile nav overlay */}
+    <div className={`mob-nav-overlay${mobNav ? " open" : ""}`}>
+      <button onClick={() => setMobNav(false)} style={{
+        position:"absolute", top:"20px", right:"5vw",
+        background:"none", border:"none", cursor:"pointer",
+        color:C.cream, fontSize:"1.8rem", lineHeight:1,
+      }}>✕</button>
+      {[["Menu","#menu"],["Signature","#featured"],["Avis","#reviews"],["Infos","#infos"]].map(([l,h]) => (
+        <a key={l} href={h} className="mob-nav-link" onClick={() => setMobNav(false)}>{l}</a>
+      ))}
+      <a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer"
+        className="btn-red" style={{ marginTop:"32px", padding:"16px 48px", fontSize:"1.1rem" }}
+        onClick={() => setMobNav(false)}
+      >🍔 COMMANDER →</a>
+    </div>
 
     {/* ══ HERO ═════════════════════════════════════ */}
     <section className="hero-section diag-after" style={{ position:"relative", height:"100dvh", overflow:"hidden", paddingTop:"62px", background:C.bg }}>
@@ -470,8 +526,27 @@ export default function DemoFastFood() {
       </div>
     </section>
 
+    {/* ══ OFFRE DU MOMENT ══════════════════════════ */}
+    <div style={{ background:`linear-gradient(135deg, #1a0a00, #2a0f00)`, borderTop:`1px solid rgba(232,53,10,.3)`, borderBottom:`1px solid rgba(232,53,10,.2)`, padding:"18px 6vw", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"12px" }}>
+      <div style={{ display:"flex", alignItems:"center", gap:"14px" }}>
+        <div className="offer-pill" style={{ background:C.red, padding:"4px 12px", borderRadius:"100px" }}>
+          <span style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:".72rem", letterSpacing:".15em", color:"#fff" }}>⚡ OFFRE DU JEUDI</span>
+        </div>
+        <span className="bebas" style={{ fontSize:"1.1rem", color:C.cream, letterSpacing:".06em" }}>
+          Menu Smash + Loaded Fries + Boisson
+        </span>
+      </div>
+      <div style={{ display:"flex", alignItems:"center", gap:"12px" }}>
+        <span style={{ textDecoration:"line-through", color:"rgba(245,239,224,.3)", fontFamily:"'Bebas Neue',sans-serif", fontSize:".95rem" }}>13,90€</span>
+        <span className="bebas" style={{ fontSize:"1.6rem", color:C.gold, letterSpacing:".04em" }}>9,90€</span>
+        <a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer" style={{ background:C.gold, color:C.bg, padding:"8px 18px", fontFamily:"'Bebas Neue',sans-serif", fontSize:".8rem", letterSpacing:".12em", textDecoration:"none", whiteSpace:"nowrap" }}>
+          J&apos;en profite →
+        </a>
+      </div>
+    </div>
+
     {/* ══ STATS ════════════════════════════════════ */}
-    <div id="ctr" className="diag-after" style={{ background:C.s1, borderTop:`2px solid ${C.red}`, borderBottom:`1px solid rgba(245,239,224,.06)`, marginTop:"38px" }}>
+    <div id="ctr" className="diag-after" style={{ background:C.s1, borderTop:`2px solid ${C.red}`, borderBottom:`1px solid rgba(245,239,224,.06)` }}>
       <div className="stats-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", maxWidth:"1100px", margin:"0 auto" }}>
         {[
           { val: countVal.toLocaleString("fr-FR"), label:"clients servis", accent:C.cream },
@@ -488,7 +563,7 @@ export default function DemoFastFood() {
     </div>
 
     {/* ══ FEATURED ═════════════════════════════════ */}
-    <section id="featured" className="diag-after" style={{ padding:"100px 6vw 120px", background:C.bg, position:"relative", overflow:"hidden", marginTop:"38px" }}>
+    <section id="featured" className="diag-after" style={{ padding:"100px 6vw 120px", background:C.bg, position:"relative", overflow:"hidden" }}>
       <div className="hide-mob" style={{ position:"absolute", right:"-3vw", top:"50%", transform:"translateY(-50%)", fontFamily:"'Bebas Neue',sans-serif", fontSize:"clamp(10rem,22vw,26rem)", color:"rgba(245,239,224,.025)", lineHeight:1, userSelect:"none", pointerEvents:"none", letterSpacing:"-.02em" }}>
         SMASH
       </div>
@@ -551,7 +626,7 @@ export default function DemoFastFood() {
     </section>
 
     {/* ══ MENU ═════════════════════════════════════ */}
-    <section ref={menuRef} id="menu" className="diag-after" style={{ padding:"80px 6vw 120px", background:C.s1, marginTop:"38px" }}>
+    <section ref={menuRef} id="menu" className="diag-after" style={{ padding:"80px 6vw 120px", background:C.s1 }}>
       <div className="sr" style={{ marginBottom:"44px" }}>
         <div style={{ display:"flex", alignItems:"flex-end", justifyContent:"space-between", flexWrap:"wrap", gap:"20px", marginBottom:"28px" }}>
           <div>
@@ -627,7 +702,7 @@ export default function DemoFastFood() {
     </section>
 
     {/* ══ VIBE ═════════════════════════════════════ */}
-    <section className="diag-after" style={{ padding:"100px 6vw 130px", background:"#0e0a09", position:"relative", overflow:"hidden", marginTop:"38px" }}>
+    <section className="diag-after" style={{ padding:"100px 6vw 130px", background:"#0e0a09", position:"relative", overflow:"hidden" }}>
       {/* Fond texturé — chaleur rouge profonde */}
       <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse 70% 90% at 15% 60%, rgba(232,53,10,.13) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 85% 20%, rgba(255,122,48,.07) 0%, transparent 55%)`, pointerEvents:"none" }} />
       {/* Grain chaud */}
@@ -660,73 +735,179 @@ export default function DemoFastFood() {
       </div>
     </section>
 
+    {/* ══ AVIS ═════════════════════════════════════ */}
+    <section id="reviews" style={{ padding:"80px 6vw 90px", background:C.cream, position:"relative", overflow:"hidden" }}>
+      {/* Grain léger sur fond clair */}
+      <div style={{ position:"absolute", inset:0, background:"url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E\")", opacity:.03, pointerEvents:"none" }} />
+
+      <div className="sr" style={{ marginBottom:"40px" }}>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:"12px", marginBottom:"16px" }}>
+          <div style={{ width:"32px", height:"2px", background:C.red }} />
+          <span style={{ fontSize:".55rem", fontWeight:700, letterSpacing:".4em", textTransform:"uppercase", color:C.red }}>Ce qu&apos;ils disent</span>
+        </div>
+        <div style={{ display:"flex", alignItems:"baseline", gap:"16px", flexWrap:"wrap" }}>
+          <h2 className="bebas" style={{ fontSize:"clamp(2rem,5vw,4rem)", color:C.bg, lineHeight:1 }}>4.8 sur Google</h2>
+          <div style={{ display:"flex", gap:"3px" }}>
+            {"★★★★★".split("").map((s,i) => <span key={i} className="star">{s}</span>)}
+          </div>
+          <span style={{ fontSize:".72rem", color:"rgba(8,8,8,.4)", fontWeight:500 }}>127 avis</span>
+        </div>
+      </div>
+
+      {/* Carousel scroll horizontal */}
+      <div style={{ display:"flex", gap:"14px", overflowX:"auto", paddingBottom:"12px", scrollSnapType:"x mandatory", WebkitOverflowScrolling:"touch", msOverflowStyle:"none" }}>
+        {REVIEWS.map((r,i) => (
+          <div key={i} className={`review-card sr d${Math.min(i+1,5)}`} style={{
+            background:"#fff", padding:"24px", minWidth:"260px", maxWidth:"280px",
+            flexShrink:0, scrollSnapAlign:"start",
+            borderBottom:`3px solid ${C.red}`,
+            boxShadow:"0 4px 24px rgba(8,8,8,.08)",
+          }}>
+            <div style={{ display:"flex", gap:"3px", marginBottom:"12px" }}>
+              {"★★★★★".split("").map((s,j) => <span key={j} className="star">{s}</span>)}
+            </div>
+            <p style={{ fontSize:".82rem", color:"rgba(8,8,8,.75)", lineHeight:1.7, fontWeight:400, marginBottom:"16px" }}>&ldquo;{r.text}&rdquo;</p>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
+                <div style={{ width:"28px", height:"28px", borderRadius:"50%", background:`linear-gradient(135deg,${C.red},${C.amber})`, display:"flex", alignItems:"center", justifyContent:"center" }}>
+                  <span style={{ fontSize:".7rem", fontWeight:700, color:"#fff" }}>{r.name[0]}</span>
+                </div>
+                <span style={{ fontSize:".72rem", fontWeight:600, color:"rgba(8,8,8,.7)" }}>{r.name}</span>
+              </div>
+              <span style={{ fontSize:".6rem", color:"rgba(8,8,8,.35)" }}>{r.date}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Google badge */}
+      <div className="sr" style={{ marginTop:"28px", display:"flex", alignItems:"center", gap:"10px" }}>
+        <span style={{ fontSize:".6rem", fontWeight:600, color:"rgba(8,8,8,.4)", letterSpacing:".1em", textTransform:"uppercase" }}>Avis vérifiés sur</span>
+        <span style={{ fontSize:".75rem", fontWeight:700, color:"rgba(8,8,8,.5)" }}>Google Maps</span>
+        <div style={{ width:"16px", height:"16px", borderRadius:"50%", background:"linear-gradient(135deg,#4285F4,#EA4335,#FBBC04,#34A853)", display:"inline-block", verticalAlign:"middle" }} />
+      </div>
+    </section>
+
     {/* ══ LIVRAISON ════════════════════════════════ */}
-    <section style={{ padding:"80px 6vw", background:C.s1, borderTop:`1px solid rgba(245,239,224,.05)` }}>
-      <div className="sr" style={{ textAlign:"center", marginBottom:"48px" }}>
+    <section style={{ padding:"70px 6vw", background:C.bg, borderTop:`1px solid rgba(245,239,224,.05)` }}>
+      <div className="sr" style={{ textAlign:"center", marginBottom:"40px" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:"12px", marginBottom:"12px", justifyContent:"center" }}>
           <div style={{ width:"24px", height:"2px", background:C.red }} />
           <span style={{ fontSize:".55rem", fontWeight:700, letterSpacing:".4em", textTransform:"uppercase", color:C.red }}>Commande en ligne</span>
           <div style={{ width:"24px", height:"2px", background:C.red }} />
         </div>
-        <h2 className="bebas" style={{ fontSize:"clamp(1.8rem,4vw,3.5rem)", color:C.cream }}>Livré chez toi en 30 min</h2>
+        <h2 className="bebas" style={{ fontSize:"clamp(1.8rem,4vw,3.2rem)", color:C.cream }}>Livré chez toi en 30 min</h2>
       </div>
-      <div style={{ display:"flex", gap:"3px", justifyContent:"center", flexWrap:"wrap" }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"2px", maxWidth:"700px", margin:"0 auto" }}>
         {[
-          { name:"Uber Eats",       color:"#06C167", bg:"rgba(6,193,103,.08)",   emoji:"🟢" },
-          { name:"Deliveroo",       color:"#00CCBC", bg:"rgba(0,204,188,.08)",   emoji:"🩵" },
-          { name:"Click & Collect", color:C.gold,   bg:`rgba(255,209,102,.08)`, emoji:"⚡" },
+          { name:"Uber Eats", color:"#06C167", label:"Disponible", icon:"🛵" },
+          { name:"Deliveroo", color:"#00CCBC", label:"Disponible", icon:"🛵" },
+          { name:"Click & Collect", color:C.gold, label:"Sur place", icon:"⚡" },
         ].map((p,i) => (
-          <div key={i} className={`delivery-card mcard sr d${i+1}`} style={{
-            background:p.bg, border:`1px solid ${p.color}22`,
-            padding:"32px 48px", textAlign:"center", minWidth:"200px",
-          }}>
-            <div style={{ fontSize:"2rem", marginBottom:"12px" }}>{p.emoji}</div>
-            <div style={{ fontWeight:700, fontSize:".9rem", color:C.cream, letterSpacing:".06em", marginBottom:"6px" }}>{p.name}</div>
-            <div className="bebas" style={{ fontSize:".85rem", color:p.color, letterSpacing:".15em" }}>COMMANDER →</div>
-          </div>
+          <a key={i} href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer"
+            className={`sr d${i+1}`}
+            style={{
+              display:"block", textDecoration:"none",
+              background:C.s1, padding:"24px 16px", textAlign:"center",
+              borderTop:`2px solid ${p.color}`,
+              transition:"background .2s, transform .2s",
+            }}
+            onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.background=C.s2;(e.currentTarget as HTMLElement).style.transform="translateY(-3px)"}}
+            onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.background=C.s1;(e.currentTarget as HTMLElement).style.transform="translateY(0)"}}
+          >
+            <div style={{ fontSize:"1.6rem", marginBottom:"10px" }}>{p.icon}</div>
+            <div style={{ fontWeight:700, fontSize:".75rem", color:C.cream, letterSpacing:".06em", marginBottom:"4px" }}>{p.name}</div>
+            <div style={{ fontSize:".55rem", color:p.color, fontWeight:600, letterSpacing:".15em", textTransform:"uppercase" }}>{p.label} →</div>
+          </a>
         ))}
       </div>
+      <p className="sr" style={{ textAlign:"center", marginTop:"24px", fontSize:".65rem", color:"rgba(245,239,224,.25)", letterSpacing:".08em" }}>
+        Livraison disponible dans un rayon de 5km autour de Melun centre
+      </p>
     </section>
 
     {/* ══ INFOS ════════════════════════════════════ */}
-    <section id="infos" style={{ padding:"100px 6vw", background:C.bg }}>
-      <div className="sr" style={{ marginBottom:"48px" }}>
+    <section id="infos" style={{ padding:"80px 6vw", background:C.s1 }}>
+      <div className="sr" style={{ marginBottom:"40px" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:"12px", marginBottom:"16px" }}>
           <div style={{ width:"32px", height:"2px", background:C.red }} />
-          <span style={{ fontSize:".55rem", fontWeight:700, letterSpacing:".4em", textTransform:"uppercase", color:C.red }}>Nous trouver</span>
+          <span style={{ fontSize:".55rem", fontWeight:700, letterSpacing:".4em", textTransform:"uppercase", color:C.red }}>Venir nous voir</span>
         </div>
-        <h2 className="bebas" style={{ fontSize:"clamp(2rem,4vw,4rem)", color:C.cream }}>Infos pratiques</h2>
+        <h2 className="bebas" style={{ fontSize:"clamp(2rem,4vw,3.5rem)", color:C.cream }}>On est à Melun</h2>
       </div>
-      <div className="info-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"3px" }}>
-        {[
-          { icon:"📍", titre:"Adresse",  lines:["12 Rue du Marché","77000 Melun","Centre commercial Grand Melun"] },
-          { icon:"🕐", titre:"Horaires", lines:["Lun – Sam : 11h → 23h","Dimanche : 12h → 22h","Jours fériés : 12h → 22h"] },
-          { icon:"📞", titre:"Contact",  lines:["01 64 XX XX XX","contact@77smash.fr","@77smash"] },
-        ].map((c,i) => (
-          <div key={i} className={`info-card sr d${i+1}`} style={{ background:C.s1, padding:"36px 32px", position:"relative", overflow:"hidden" }}>
-            <div style={{ position:"absolute", top:0, left:0, right:0, height:"2px", background:`linear-gradient(90deg,${C.red},transparent)` }} />
-            <div style={{ fontSize:"2rem", marginBottom:"20px" }}>{c.icon}</div>
-            <div style={{ fontSize:".52rem", fontWeight:700, letterSpacing:".28em", textTransform:"uppercase", color:C.red, marginBottom:"16px" }}>{c.titre}</div>
-            {c.lines.map((l,j) => (
-              <div key={j} style={{ fontSize:".82rem", color:"rgba(245,239,224,.5)", lineHeight:2, fontWeight:300 }}>{l}</div>
-            ))}
+
+      {/* Map placeholder + info */}
+      <div className="feat-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"2px", maxWidth:"1100px" }}>
+        {/* Map visuel */}
+        <div className="sr from-left d1" style={{ position:"relative", minHeight:"280px", overflow:"hidden", background:"#0d1117" }}>
+          {/* Simulated map dark */}
+          <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg,#0d1117 0%,#111a22 50%,#0d1117 100%)" }} />
+          {/* Grid lines */}
+          {[...Array(8)].map((_,i) => (
+            <div key={i} style={{ position:"absolute", left:0, right:0, top:`${i*14}%`, height:"1px", background:"rgba(255,255,255,.04)" }} />
+          ))}
+          {[...Array(8)].map((_,i) => (
+            <div key={i} style={{ position:"absolute", top:0, bottom:0, left:`${i*14}%`, width:"1px", background:"rgba(255,255,255,.04)" }} />
+          ))}
+          {/* Center pin */}
+          <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-60%)", textAlign:"center" }}>
+            <div style={{ width:"16px", height:"16px", background:C.red, borderRadius:"50%", margin:"0 auto 4px", boxShadow:`0 0 0 6px rgba(232,53,10,.2), 0 0 0 12px rgba(232,53,10,.08)` }} />
+            <div style={{ background:"rgba(8,8,8,.9)", padding:"6px 12px", whiteSpace:"nowrap", border:`1px solid rgba(232,53,10,.4)` }}>
+              <div style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:".85rem", color:C.cream, letterSpacing:".1em" }}>77 SMASH</div>
+              <div style={{ fontSize:".55rem", color:C.muted, marginTop:"1px" }}>Melun, Seine-et-Marne</div>
+            </div>
           </div>
-        ))}
+          {/* Open in maps */}
+          <a href="https://maps.google.com/?q=Melun+77000" target="_blank" rel="noopener noreferrer"
+            style={{ position:"absolute", bottom:"16px", right:"16px", background:C.red, padding:"8px 14px", textDecoration:"none", display:"flex", alignItems:"center", gap:"6px" }}>
+            <span style={{ fontFamily:"'Bebas Neue',sans-serif", fontSize:".7rem", color:"#fff", letterSpacing:".12em" }}>OUVRIR MAPS →</span>
+          </a>
+        </div>
+
+        {/* Info cards */}
+        <div className="sr from-right d2" style={{ display:"flex", flexDirection:"column", gap:"2px" }}>
+          {[
+            { icon:"📍", titre:"Adresse",  lines:["12 Rue du Marché","77000 Melun","Centre commercial Grand Melun"] },
+            { icon:"🕐", titre:"Horaires", lines:["Lun – Sam : 11h → 23h","Dim & Fériés : 12h → 22h"] },
+            { icon:"📲", titre:"Réseaux",  lines:["@77smash sur Instagram","@77smash sur TikTok","contact@77smash.fr"] },
+          ].map((c,i) => (
+            <div key={i} className="info-card" style={{ background:C.s2, padding:"20px 24px", display:"flex", gap:"16px", alignItems:"flex-start", borderLeft:`2px solid ${i===0?C.red:i===1?C.amber:C.gold}` }}>
+              <span style={{ fontSize:"1.2rem", flexShrink:0 }}>{c.icon}</span>
+              <div>
+                <div style={{ fontSize:".5rem", fontWeight:700, letterSpacing:".28em", textTransform:"uppercase", color:i===0?C.red:i===1?C.amber:C.gold, marginBottom:"6px" }}>{c.titre}</div>
+                {c.lines.map((l,j) => (
+                  <div key={j} style={{ fontSize:".78rem", color:"rgba(245,239,224,.55)", lineHeight:1.8, fontWeight:300 }}>{l}</div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
 
     {/* ══ FOOTER ═══════════════════════════════════ */}
-    <footer className="footer-inner" style={{ padding:"28px 6vw", background:"#050505", borderTop:`1px solid rgba(245,239,224,.05)`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"16px" }}>
-      <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-        <div style={{ width:"30px", height:"30px", background:C.red, display:"flex", alignItems:"center", justifyContent:"center" }}>
-          <span className="bebas" style={{ fontSize:".85rem", color:"#fff" }}>77</span>
+    <footer style={{ background:"#050505", borderTop:`2px solid rgba(232,53,10,.2)` }}>
+      {/* Top strip */}
+      <div style={{ padding:"32px 6vw", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"20px", borderBottom:`1px solid rgba(245,239,224,.04)` }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/smash77-logo.png" alt="77 SMASH" style={{ height:"36px", width:"auto", opacity:.8 }} />
+        <div style={{ display:"flex", gap:"16px" }}>
+          {["Instagram","TikTok","UberEats"].map(s => (
+            <a key={s} href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer"
+              style={{ fontSize:".58rem", fontWeight:600, letterSpacing:".1em", textTransform:"uppercase", color:"rgba(245,239,224,.3)", textDecoration:"none", transition:"color .2s" }}
+              onMouseEnter={e=>e.currentTarget.style.color=C.cream}
+              onMouseLeave={e=>e.currentTarget.style.color="rgba(245,239,224,.3)"}
+            >{s}</a>
+          ))}
         </div>
-        <span style={{ fontSize:".55rem", letterSpacing:".2em", color:"rgba(245,239,224,.2)", textTransform:"uppercase" }}>77 Smash · Burgers & Poulet · Melun 77</span>
       </div>
-      <span style={{ fontSize:".5rem", color:"rgba(245,239,224,.12)" }}>© 2025 77 SMASH</span>
-      <div style={{ display:"flex", gap:"10px", alignItems:"center" }}>
-        <span style={{ fontSize:".5rem", color:"rgba(245,239,224,.12)" }}>Site réalisé par</span>
-        <Link href="/" style={{ fontSize:".58rem", color:`rgba(232,53,10,.55)`, textDecoration:"none", fontWeight:600, letterSpacing:".08em" }}>CC Création</Link>
+      {/* Bottom strip */}
+      <div className="footer-inner" style={{ padding:"16px 6vw", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"10px" }}>
+        <span style={{ fontSize:".5rem", color:"rgba(245,239,224,.12)", letterSpacing:".1em" }}>© 2025 77 SMASH · Melun · Seine-et-Marne</span>
+        <div style={{ display:"flex", gap:"8px", alignItems:"center" }}>
+          <span style={{ fontSize:".5rem", color:"rgba(245,239,224,.1)" }}>Site par</span>
+          <Link href="/" style={{ fontSize:".58rem", color:`rgba(232,53,10,.5)`, textDecoration:"none", fontWeight:600, letterSpacing:".08em" }}>CC Création</Link>
+        </div>
       </div>
     </footer>
 
