@@ -230,6 +230,8 @@ export default function DemoFastFood() {
         .stats-grid{ grid-template-columns:1fr 1fr!important; }
 
         /* Hero mobile */
+        .hero-section { height:75vh!important; min-height:560px!important; }
+        .hero-vid { object-position:50% 50%!important; transform:scale(0.82)!important; transform-origin:center center!important; }
         .hero-title { font-size:clamp(3.2rem,16vw,5.5rem)!important; }
         .hero-sub   { font-size:.76rem!important; }
         .hero-btns  { flex-direction:column!important; gap:8px!important; }
@@ -289,7 +291,7 @@ export default function DemoFastFood() {
     </nav>
 
     {/* ══ HERO ═════════════════════════════════════ */}
-    <section style={{ position:"relative", height:"100dvh", overflow:"hidden", paddingTop:"62px" }}>
+    <section className="hero-section" style={{ position:"relative", height:"100dvh", overflow:"hidden", paddingTop:"62px" }}>
 
       {/* Vidéo full bleed */}
       <video ref={videoRef} className="hero-vid" autoPlay muted loop playsInline preload="auto"
