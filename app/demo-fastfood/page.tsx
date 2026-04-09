@@ -263,17 +263,13 @@ export default function DemoFastFood() {
       background:"rgba(8,8,8,0.88)", backdropFilter:"blur(16px) saturate(1.4)",
       borderBottom:`1px solid rgba(245,239,224,.06)`,
     }}>
-      <div style={{ display:"flex", alignItems:"center", gap:"12px" }}>
-        <div className="pulse" style={{
-          width:"38px", height:"38px", background:C.red,
-          display:"flex", alignItems:"center", justifyContent:"center",
-        }}>
-          <span className="bebas" style={{ fontSize:"1rem", color:"#fff", lineHeight:1 }}>77</span>
-        </div>
-        <div>
-          <div className="bebas" style={{ fontSize:"1.15rem", color:C.cream, lineHeight:1, letterSpacing:".06em" }}>SMASH</div>
-          <div style={{ fontSize:".4rem", color:C.muted, letterSpacing:".28em", textTransform:"uppercase", marginTop:"1px" }}>Burgers & Poulet · Melun</div>
-        </div>
+      <div style={{ display:"flex", alignItems:"center" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/smash77-logo.png"
+          alt="77 SMASH"
+          style={{ height:"42px", width:"auto", objectFit:"contain" }}
+        />
       </div>
 
       <div className="hide-mob" style={{ display:"flex", gap:"32px" }}>
