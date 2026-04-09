@@ -81,10 +81,19 @@ export default function DemoFastFood() {
   const [loaded, setLoaded]       = useState(false);
   const [statsVisible, setStats]  = useState(false);
   const [countVal, setCount]      = useState(0);
-  const menuRef = useRef<HTMLElement>(null);
+  const menuRef  = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  /* Mount */
-  useEffect(() => { const t = setTimeout(() => setLoaded(true), 80); return () => clearTimeout(t); }, []);
+  /* Mount + iOS video autoplay */
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 80);
+    const v = videoRef.current;
+    if (v) {
+      v.muted = true;
+      v.play().catch(() => {});
+    }
+    return () => clearTimeout(t);
+  }, []);
 
   /* Scroll reveal */
   useEffect(() => {
@@ -220,12 +229,24 @@ export default function DemoFastFood() {
         .info-grid { grid-template-columns:1fr!important; }
         .stats-grid{ grid-template-columns:1fr 1fr!important; }
 
-        /* Hero mobile — simplifié */
-        .hero-title { font-size:clamp(3.6rem,17vw,6rem)!important; }
-        .hero-sub   { font-size:.78rem!important; }
-        .hero-btns  { flex-direction:column!important; }
+        /* Hero mobile */
+        .hero-title { font-size:clamp(3.2rem,16vw,5.5rem)!important; }
+        .hero-sub   { font-size:.76rem!important; }
+        .hero-btns  { flex-direction:column!important; gap:8px!important; }
         .hero-btns a, .hero-btns button { width:100%!important; justify-content:center!important; box-sizing:border-box!important; }
-        .hero-content { padding:0 5vw 70px!important; }
+        .hero-content { padding:0 5vw 60px!important; }
+
+        /* Featured section */
+        .feat-detail { padding:32px 24px!important; }
+
+        /* Delivery cards */
+        .delivery-card { padding:24px 20px!important; min-width:unset!important; width:100%!important; }
+
+        /* Info cards */
+        .info-card { padding:28px 24px!important; }
+
+        /* Footer */
+        .footer-inner { flex-direction:column!important; text-align:center!important; justify-content:center!important; align-items:center!important; }
       }
     `}</style>
 
@@ -271,7 +292,7 @@ export default function DemoFastFood() {
     <section style={{ position:"relative", height:"100dvh", overflow:"hidden", paddingTop:"62px" }}>
 
       {/* Vidéo full bleed */}
-      <video className="hero-vid" autoPlay muted loop playsInline
+      <video ref={videoRef} className="hero-vid" autoPlay muted loop playsInline preload="auto"
         poster={IMG.smash}
         style={{
           position:"absolute", inset:0, width:"100%", height:"100%",
@@ -290,7 +311,7 @@ export default function DemoFastFood() {
         background:"linear-gradient(to right, rgba(8,8,8,.7) 0%, transparent 50%)" }} />
 
       {/* Contenu */}
-      <div className={loaded ? "loaded" : ""} style={{ position:"relative", zIndex:2, height:"100%", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"0 6vw 80px" }} data-class="hero-content">
+      <div className={`hero-content${loaded ? " loaded" : ""}`} style={{ position:"relative", zIndex:2, height:"100%", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"0 6vw 80px" }}>
 
         {/* Eyebrow */}
         <div className="hl" style={{ transitionDelay:".1s", display:"flex", alignItems:"center", gap:"12px", marginBottom:"20px" }}>
@@ -427,7 +448,7 @@ export default function DemoFastFood() {
         </div>
 
         {/* Détail */}
-        <div className="sr from-right d2" style={{ background:C.s1, padding:"48px 44px", display:"flex", flexDirection:"column", justifyContent:"space-between" }}>
+        <div className="feat-detail sr from-right d2" style={{ background:C.s1, padding:"48px 44px", display:"flex", flexDirection:"column", justifyContent:"space-between" }}>
           <div>
             <p style={{ fontSize:"1rem", color:"rgba(245,239,224,.55)", lineHeight:1.9, fontWeight:300, marginBottom:"40px" }}>
               {FEATURED.desc}
@@ -573,7 +594,7 @@ export default function DemoFastFood() {
           { name:"Deliveroo",       color:"#00CCBC", bg:"rgba(0,204,188,.08)",   emoji:"🩵" },
           { name:"Click & Collect", color:C.gold,   bg:`rgba(255,209,102,.08)`, emoji:"⚡" },
         ].map((p,i) => (
-          <div key={i} className={`mcard sr d${i+1}`} style={{
+          <div key={i} className={`delivery-card mcard sr d${i+1}`} style={{
             background:p.bg, border:`1px solid ${p.color}22`,
             padding:"32px 48px", textAlign:"center", minWidth:"200px",
           }}>
@@ -600,7 +621,7 @@ export default function DemoFastFood() {
           { icon:"🕐", titre:"Horaires", lines:["Lun – Sam : 11h → 23h","Dimanche : 12h → 22h","Jours fériés : 12h → 22h"] },
           { icon:"📞", titre:"Contact",  lines:["01 64 XX XX XX","contact@77smash.fr","@77smash"] },
         ].map((c,i) => (
-          <div key={i} className={`sr d${i+1}`} style={{ background:C.s1, padding:"36px 32px", position:"relative", overflow:"hidden" }}>
+          <div key={i} className={`info-card sr d${i+1}`} style={{ background:C.s1, padding:"36px 32px", position:"relative", overflow:"hidden" }}>
             <div style={{ position:"absolute", top:0, left:0, right:0, height:"2px", background:`linear-gradient(90deg,${C.red},transparent)` }} />
             <div style={{ fontSize:"2rem", marginBottom:"20px" }}>{c.icon}</div>
             <div style={{ fontSize:".52rem", fontWeight:700, letterSpacing:".28em", textTransform:"uppercase", color:C.red, marginBottom:"16px" }}>{c.titre}</div>
@@ -613,7 +634,7 @@ export default function DemoFastFood() {
     </section>
 
     {/* ══ FOOTER ═══════════════════════════════════ */}
-    <footer style={{ padding:"28px 6vw", background:"#050505", borderTop:`1px solid rgba(245,239,224,.05)`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"16px" }}>
+    <footer className="footer-inner" style={{ padding:"28px 6vw", background:"#050505", borderTop:`1px solid rgba(245,239,224,.05)`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"16px" }}>
       <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
         <div style={{ width:"30px", height:"30px", background:C.red, display:"flex", alignItems:"center", justifyContent:"center" }}>
           <span className="bebas" style={{ fontSize:".85rem", color:"#fff" }}>77</span>
