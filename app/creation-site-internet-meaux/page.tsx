@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Studio web à Meaux. Sites internet vitrine, restaurant, artisan à partir de 490€. Référencement local Google Meaux. Devis gratuit sous 24h.",
   keywords: ["création site internet Meaux", "agence web Meaux", "site internet Meaux 77", "site vitrine Meaux"],
-  alternates: { canonical: "https://creationconcept.fr/creation-site-internet-meaux" },
+  alternates: { canonical: "https://www.creationconcept.fr/creation-site-internet-meaux" },
 };
 
 export default function PageMeaux() {

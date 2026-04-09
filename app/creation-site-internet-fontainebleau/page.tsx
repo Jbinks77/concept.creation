@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Studio web à Fontainebleau. Sites internet pour restaurants, hôtels, artisans, commerces. À partir de 490€. Référencement local Google. Devis gratuit sous 24h.",
   keywords: ["création site internet Fontainebleau", "agence web Fontainebleau", "site internet Fontainebleau 77", "site vitrine Fontainebleau"],
-  alternates: { canonical: "https://creationconcept.fr/creation-site-internet-fontainebleau" },
+  alternates: { canonical: "https://www.creationconcept.fr/creation-site-internet-fontainebleau" },
 };
 
 export default function PageFontainebleau() {

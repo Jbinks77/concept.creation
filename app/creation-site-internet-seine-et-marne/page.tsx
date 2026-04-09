@@ -14,12 +14,12 @@ export const metadata: Metadata = {
     "refonte site internet Seine-et-Marne",
   ],
   alternates: {
-    canonical: "https://creationconcept.fr/creation-site-internet-seine-et-marne",
+    canonical: "https://www.creationconcept.fr/creation-site-internet-seine-et-marne",
   },
   openGraph: {
     title: "Création Site Internet Seine-et-Marne | CC Création",
     description: "Studio web local — devis gratuit sous 24h. À partir de 490€.",
-    url: "https://creationconcept.fr/creation-site-internet-seine-et-marne",
+    url: "https://www.creationconcept.fr/creation-site-internet-seine-et-marne",
     type: "website",
   },
 };

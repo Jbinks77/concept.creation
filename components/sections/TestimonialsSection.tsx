@@ -5,10 +5,21 @@ import Image from "next/image";
 
 const TESTIMONIALS = [
   {
+    name: "Thomas Renard",
+    role: "Artisan plombier",
+    company: "Renard Plomberie — Melun (77)",
+    date: "il y a 2 semaines",
+    text: "En tant qu'artisan à Melun, j'avais besoin d'un site simple et efficace pour me trouver sur Google. JB a tout géré rapidement, le résultat est professionnel et depuis je reçois des demandes de devis chaque semaine. Je recommande à tous les artisans du 77.",
+    photo: null,
+    initials: "TR",
+    avatarColor: "linear-gradient(135deg, #2563eb, #1d4ed8)",
+    rating: 5,
+  },
+  {
     name: "Sophie Marchand",
     role: "Gérante",
-    company: "Maison Dorée — Paris 6e",
-    date: "il y a 3 semaines",
+    company: "Maison Dorée — Fontainebleau (77)",
+    date: "il y a 1 mois",
     text: "Je suis bluffée par le résultat. JB a su retranscrire l'univers de notre boutique en quelques jours seulement. Depuis la mise en ligne, nos commandes en ligne ont plus que triplé. Sérieux, réactif et vraiment à l'écoute.",
     photo: "/avatar-sophie.jpg",
     photoPos: "50% 10%",
@@ -17,8 +28,8 @@ const TESTIMONIALS = [
   {
     name: "Karim Benali",
     role: "Coach sportif indépendant",
-    company: "ÉliteSport — Lyon",
-    date: "il y a 1 mois",
+    company: "ÉliteSport — Meaux (77)",
+    date: "il y a 2 mois",
     text: "Mon ancien site me faisait honte. Aujourd'hui mes clients me complimentent dessus avant même qu'on parle de coaching. Les demandes de contact ont doublé en moins de deux mois. Je recommande sans hésiter.",
     photo: null,
     initials: "KB",
@@ -28,8 +39,8 @@ const TESTIMONIALS = [
   {
     name: "Isabelle Moreau",
     role: "Directrice associée",
-    company: "Moreau Architectes — Bordeaux",
-    date: "il y a 2 mois",
+    company: "Moreau Architectes — Montereau (77)",
+    date: "il y a 3 mois",
     text: "Travail soigné, livré dans les délais et sans aller-retours inutiles. On a validé la maquette dès le premier essai. Notre cabinet a gagné en crédibilité auprès de nos prospects — le site reflète enfin ce qu'on fait vraiment.",
     photo: null,
     initials: "IM",

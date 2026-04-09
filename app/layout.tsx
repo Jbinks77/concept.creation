@@ -18,26 +18,31 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CC Création — Sites Internet Seine-et-Marne | Devis Gratuit",
+  title: "Création Site Web Seine-et-Marne (77) | CC Création — Devis Gratuit 24h",
   description:
-    "Studio web local en Seine-et-Marne (77). Création de sites internet vitrines, restaurants, artisans. Voyez votre site avant de signer. Devis gratuit sous 24h.",
+    "Agence web locale en Seine-et-Marne (77). Création de sites internet pour artisans, restaurants et PME à partir de 490€. Voyez votre site avant de signer. Devis gratuit sous 24h — Melun, Meaux, Fontainebleau.",
   keywords: [
+    "création site web Seine-et-Marne",
     "création site internet Seine-et-Marne",
     "agence web 77",
     "création site internet Melun",
     "site internet Seine-et-Marne",
+    "agence web Seine-et-Marne",
+    "création site web Melun",
+    "site vitrine artisan 77",
+    "creation site web Meaux",
+    "site internet Fontainebleau",
     "CC Création",
-    "site vitrine Seine-et-Marne",
   ],
   openGraph: {
-    title: "CC Création — Sites Internet Seine-et-Marne",
-    description: "Studio web local en Seine-et-Marne. Devis gratuit sous 24h.",
+    title: "Création Site Web Seine-et-Marne (77) | CC Création",
+    description: "Agence web locale en Seine-et-Marne. Sites vitrines, restaurants, artisans. Devis gratuit sous 24h.",
     type: "website",
-    url: "https://creationconcept.fr",
+    url: "https://www.creationconcept.fr",
     siteName: "CC Création",
   },
   alternates: {
-    canonical: "https://creationconcept.fr",
+    canonical: "https://www.creationconcept.fr",
   },
   robots: {
     index: true,
@@ -53,45 +58,58 @@ export default function RootLayout({
 }) {
   const schemaOrg = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["LocalBusiness", "ProfessionalService"],
     "name": "CC Création",
-    "url": "https://creationconcept.fr",
-    "logo": "https://creationconcept.fr/logo_CC.png",
-    "image": "https://creationconcept.fr/logo_CC.png",
-    "description": "Studio web local spécialisé en création de sites internet en Seine-et-Marne (77). Sites vitrines, restaurants, artisans, coachs. Devis gratuit sous 24h.",
+    "url": "https://www.creationconcept.fr",
+    "logo": "https://www.creationconcept.fr/logo_CC.png",
+    "image": "https://www.creationconcept.fr/logo_CC.png",
+    "description": "Agence web locale spécialisée en création de sites internet en Seine-et-Marne (77). Sites vitrines, restaurants, artisans, coachs. Devis gratuit sous 24h — Melun, Meaux, Fontainebleau et tout le 77.",
     "priceRange": "€€",
+    "telephone": "+33621235008",
+    "email": "creation.concept@outlook.fr",
     "address": {
       "@type": "PostalAddress",
-      "addressRegion": "Seine-et-Marne",
+      "addressLocality": "Seine-et-Marne",
+      "addressRegion": "Île-de-France",
       "postalCode": "77",
       "addressCountry": "FR"
     },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 48.5398,
+      "longitude": 2.6595
+    },
     "areaServed": [
+      { "@type": "AdministrativeArea", "name": "Seine-et-Marne" },
       { "@type": "City", "name": "Melun" },
       { "@type": "City", "name": "Meaux" },
       { "@type": "City", "name": "Fontainebleau" },
       { "@type": "City", "name": "Montereau-Fault-Yonne" },
-      { "@type": "City", "name": "Chelles" },
+      { "@type": "City", "name": "Provins" },
+      { "@type": "City", "name": "Nemours" },
       { "@type": "City", "name": "Lagny-sur-Marne" },
-      { "@type": "AdministrativeArea", "name": "Seine-et-Marne" }
+      { "@type": "City", "name": "Chelles" },
+      { "@type": "City", "name": "Pontault-Combault" },
+      { "@type": "City", "name": "Torcy" },
+      { "@type": "City", "name": "Combs-la-Ville" }
     ],
-    "knowsAbout": [
-      "création site internet",
-      "développement web",
-      "site vitrine",
-      "refonte site web",
-      "site restaurant",
-      "site artisan"
-    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Création de sites internet",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Création site vitrine Seine-et-Marne", "description": "Site vitrine professionnel pour artisans et commerçants du 77" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Création site internet restaurant 77", "description": "Site web sur-mesure pour restaurants en Seine-et-Marne" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Refonte site web Seine-et-Marne", "description": "Modernisation et refonte complète de sites existants" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Référencement local SEO 77", "description": "Optimisation SEO local pour les entreprises de Seine-et-Marne" } }
+      ]
+    },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       "opens": "09:00",
       "closes": "18:00"
     },
-    "sameAs": [
-      "https://www.facebook.com/cccreation77"
-    ]
+    "sameAs": []
   };
 
   return (

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Découvrez nos réalisations web : sites pour pâtisseries, coachs sportifs, artisans. Démos interactives à tester sur votre mobile. Studio web Seine-et-Marne.",
   alternates: {
-    canonical: "https://creationconcept.fr/portfolio",
+    canonical: "https://www.creationconcept.fr/portfolio",
   },
 };
 

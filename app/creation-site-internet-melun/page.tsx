@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "refonte site Melun",
   ],
   alternates: {
-    canonical: "https://creationconcept.fr/creation-site-internet-melun",
+    canonical: "https://www.creationconcept.fr/creation-site-internet-melun",
   },
 };
 

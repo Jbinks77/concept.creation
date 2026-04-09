@@ -221,11 +221,11 @@ export default function CreationsSection() {
             <div style={{ width: "26px", height: "1px", background: "rgba(59,130,246,0.6)" }} />
           </div>
           <h2 style={{ fontFamily: "var(--font-playfair),Georgia,serif", fontWeight: 400, fontSize: "clamp(2rem,5vw,3.8rem)", color: "#fff", margin: "0 0 16px", lineHeight: 1.1, letterSpacing: "0.02em" }}>
-            Nos{" "}
-            <span style={{ color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>créations</span>
+            Sites web{" "}
+            <span style={{ color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>réalisés</span>
           </h2>
           <p style={{ fontFamily: "var(--font-inter),sans-serif", fontWeight: 300, fontSize: "0.9rem", color: "rgba(255,255,255,0.35)", letterSpacing: "0.08em" }}>
-            Des transformations qui parlent d'elles-mêmes.
+            Des transformations concrètes pour des entreprises en Seine-et-Marne et en Île-de-France.
           </p>
         </div>
 

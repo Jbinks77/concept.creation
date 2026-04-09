@@ -496,7 +496,7 @@ export default function HeroSection() {
             <div style={{ width: "26px", height: "1px", background: "rgba(59,130,246,0.6)" }} />
           </div>
 
-          {/* Main title */}
+          {/* Main title — H1 avec mot-clé géographique */}
           <h1 style={{
             fontFamily: "var(--font-playfair),Georgia,serif",
             fontWeight: 400,
@@ -506,9 +506,9 @@ export default function HeroSection() {
             color: "#fff",
             marginBottom: "20px",
           }}>
-            Redesign.{" "}
+            Création site web{" "}
             <span style={{ color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
-              Création.
+              Seine-et-Marne.
             </span>{" "}
             <span style={{ WebkitTextStroke: "1px rgba(59,130,246,0.85)", color: "transparent" }}>
               Impact.
@@ -525,7 +525,7 @@ export default function HeroSection() {
             textTransform: "uppercase",
             marginBottom: "32px",
           }}>
-            Pour marques, indépendants et entreprises
+            Artisans · restaurants · PME du 77 — devis gratuit sous 24h
           </p>
 
           {/* CTAs */}

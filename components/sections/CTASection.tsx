@@ -75,7 +75,10 @@ export default function CTASection() {
           lineHeight: 1.7,
         }}>
           Un premier échange gratuit, sans engagement.<br />
-          On fait le point sur votre projet en 30 minutes.
+          On fait le point sur votre projet en 30 minutes.<br />
+          <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.2)", letterSpacing: "0.04em" }}>
+            Intervention en Seine-et-Marne (77) — Melun, Meaux, Fontainebleau et alentours.
+          </span>
         </p>
 
         {/* Buttons */}
@@ -96,9 +99,9 @@ export default function CTASection() {
       </div>
 
       {/* Bottom footer line */}
-      <div style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", textAlign: "center" }}>
-        <span style={{ fontFamily: "var(--font-inter),sans-serif", fontSize: "0.62rem", letterSpacing: "0.3em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase" }}>
-          CC Creation © {new Date().getFullYear()}
+      <div style={{ position: "absolute", bottom: "28px", left: "50%", transform: "translateX(-50%)", textAlign: "center", whiteSpace: "nowrap" }}>
+        <span style={{ fontFamily: "var(--font-inter),sans-serif", fontSize: "0.62rem", letterSpacing: "0.22em", color: "rgba(255,255,255,0.13)", textTransform: "uppercase" }}>
+          CC Création · Agence web Seine-et-Marne (77) · © {new Date().getFullYear()}
         </span>
       </div>
     </section>

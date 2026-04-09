@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Tarifs transparents pour la création de site internet en Seine-et-Marne. Site vitrine dès 490€, site premium dès 890€. Devis gratuit sous 24h. Pas de mauvaise surprise.",
   alternates: {
-    canonical: "https://creationconcept.fr/tarifs",
+    canonical: "https://www.creationconcept.fr/tarifs",
   },
 };
 
