@@ -8,6 +8,17 @@ const nextConfig = {
       },
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'creationconcept.fr' }],
+        destination: 'https://www.creationconcept.fr/:path*',
+        permanent: true, // 301
+      },
+    ];
+  },
 };
 
 export default nextConfig;
