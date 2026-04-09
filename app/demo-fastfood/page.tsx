@@ -627,8 +627,13 @@ export default function DemoFastFood() {
     </section>
 
     {/* ══ VIBE ═════════════════════════════════════ */}
-    <section style={{ padding:"100px 6vw", background:C.bg, position:"relative", overflow:"hidden" }}>
-      <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse 60% 80% at 80% 50%, rgba(232,53,10,.07) 0%, transparent 65%)`, pointerEvents:"none" }} />
+    <section className="diag-after" style={{ padding:"100px 6vw 130px", background:"#0e0a09", position:"relative", overflow:"hidden", marginTop:"38px" }}>
+      {/* Fond texturé — chaleur rouge profonde */}
+      <div style={{ position:"absolute", inset:0, background:`radial-gradient(ellipse 70% 90% at 15% 60%, rgba(232,53,10,.13) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 85% 20%, rgba(255,122,48,.07) 0%, transparent 55%)`, pointerEvents:"none" }} />
+      {/* Grain chaud */}
+      <div style={{ position:"absolute", inset:0, background:"url(\"data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E\")", opacity:.04, pointerEvents:"none" }} />
+      {/* Ligne rouge gauche */}
+      <div style={{ position:"absolute", left:0, top:0, bottom:0, width:"3px", background:`linear-gradient(to bottom, transparent, ${C.red}, transparent)`, opacity:.6 }} />
       <div style={{ maxWidth:"700px", position:"relative", zIndex:1 }}>
         <div className="sr" style={{ marginBottom:"20px" }}>
           <div style={{ display:"inline-flex", alignItems:"center", gap:"12px" }}>
