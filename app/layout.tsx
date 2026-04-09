@@ -123,6 +123,11 @@ export default function RootLayout({
         />
       </head>
       <body>{children}</body>
+      <Script
+        src="https://analytics.ahrefs.com/analytics.js"
+        data-key="zxJcVvhpHqwe0RSj9mJIeg"
+        strategy="afterInteractive"
+      />
     </html>
   );
 }
