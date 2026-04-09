@@ -81,8 +81,10 @@ export default function DemoFastFood() {
   const [loaded, setLoaded]       = useState(false);
   const [statsVisible, setStats]  = useState(false);
   const [countVal, setCount]      = useState(0);
-  const menuRef  = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [stickyBtn, setStickyBtn] = useState(false);
+  const menuRef    = useRef<HTMLElement>(null);
+  const videoRef   = useRef<HTMLVideoElement>(null);
+  const heroSentinel = useRef<HTMLDivElement>(null);
 
   /* Mount + iOS video autoplay */
   useEffect(() => {
@@ -120,6 +122,15 @@ export default function DemoFastFood() {
       };
       step();
     }, { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  /* Sticky CTA sentinel */
+  useEffect(() => {
+    const el = heroSentinel.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setStickyBtn(!e.isIntersecting), { threshold: 0 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -218,16 +229,50 @@ export default function DemoFastFood() {
       }
       .btn-ghost:hover { border-color:${C.gold}; color:${C.gold}; transform:scale(1.03); }
 
+      /* ─ DIAGONAL CUTS ─ */
+      .diag-after {
+        position:relative;
+      }
+      .diag-after::after {
+        content:''; position:absolute; bottom:-38px; left:0; right:0; height:40px;
+        background:inherit; clip-path:polygon(0 0, 100% 0, 100% 0, 0 100%);
+        z-index:4; pointer-events:none;
+      }
+      .diag-before {
+        position:relative;
+      }
+      .diag-before::before {
+        content:''; position:absolute; top:-38px; left:0; right:0; height:40px;
+        background:inherit; clip-path:polygon(0 100%, 100% 0, 100% 100%);
+        z-index:4; pointer-events:none;
+      }
+
+      /* ─ STICKY CTA ─ */
+      @keyframes slideUp { from{transform:translateY(80px) translateX(-50%); opacity:0} to{transform:translateY(0) translateX(-50%); opacity:1} }
+      .sticky-cta {
+        display:none;
+        position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+        background:${C.red}; color:#fff;
+        font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:.14em;
+        padding:14px 36px; border-radius:100px; border:none; cursor:pointer;
+        box-shadow:0 8px 40px rgba(232,53,10,.55);
+        z-index:500; white-space:nowrap;
+        animation:slideUp .4s cubic-bezier(.16,1,.3,1) forwards;
+        transition:transform .2s, box-shadow .2s;
+      }
+      .sticky-cta:hover { transform:translateX(-50%) scale(1.04); box-shadow:0 12px 50px rgba(232,53,10,.7); }
+
       /* ─ RESPONSIVE ─ */
       @media(max-width:768px) {
         .hide-mob  { display:none!important; }
         .mob-col   { flex-direction:column!important; }
         .mob-full  { width:100%!important; }
         .tabs-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:4px; }
-        .menu-grid { grid-template-columns:1fr!important; }
+        .menu-grid { grid-template-columns:1fr 1fr!important; gap:2px!important; }
         .feat-grid { grid-template-columns:1fr!important; }
         .info-grid { grid-template-columns:1fr!important; }
         .stats-grid{ grid-template-columns:1fr 1fr!important; }
+        .sticky-cta { display:block; }
 
         /* Hero mobile */
         .hero-section { height:75vh!important; min-height:560px!important; }
@@ -248,7 +293,10 @@ export default function DemoFastFood() {
         .info-card { padding:28px 24px!important; }
 
         /* Footer */
-        .footer-inner { flex-direction:column!important; text-align:center!important; justify-content:center!important; align-items:center!important; }
+        .footer-inner { flex-direction:column!important; text-align:center!important; justifyContent:center!important; align-items:center!important; }
+
+        /* Menu card image height on mobile */
+        .mcard-img { height:130px!important; }
       }
     `}</style>
 
@@ -287,7 +335,7 @@ export default function DemoFastFood() {
     </nav>
 
     {/* ══ HERO ═════════════════════════════════════ */}
-    <section className="hero-section" style={{ position:"relative", height:"100dvh", overflow:"hidden", paddingTop:"62px" }}>
+    <section className="hero-section diag-after" style={{ position:"relative", height:"100dvh", overflow:"hidden", paddingTop:"62px", background:C.bg }}>
 
       {/* Vidéo full bleed */}
       <video ref={videoRef} className="hero-vid" autoPlay muted loop playsInline preload="auto"
@@ -302,11 +350,26 @@ export default function DemoFastFood() {
         <source src="/burger.mp4" type="video/mp4" />
       </video>
 
-      {/* Overlays */}
+      {/* Overlays — warm fire atmosphere */}
+      {/* Bottom: deep red/amber heat */}
       <div style={{ position:"absolute",inset:0,zIndex:1,
-        background:"linear-gradient(to top, rgba(8,8,8,1) 0%, rgba(8,8,8,.65) 35%, rgba(8,8,8,.15) 65%, rgba(8,8,8,.4) 100%)" }} />
+        background:"linear-gradient(to top, rgba(160,20,0,.92) 0%, rgba(220,80,10,.45) 28%, rgba(232,100,10,.1) 50%, transparent 70%)" }} />
+      {/* Top: dark vignette */}
       <div style={{ position:"absolute",inset:0,zIndex:1,
-        background:"linear-gradient(to right, rgba(8,8,8,.7) 0%, transparent 50%)" }} />
+        background:"linear-gradient(to bottom, rgba(8,8,8,.75) 0%, transparent 35%)" }} />
+      {/* Left: depth */}
+      <div style={{ position:"absolute",inset:0,zIndex:1,
+        background:"linear-gradient(to right, rgba(8,8,8,.6) 0%, transparent 55%)" }} />
+
+      {/* Giant "77" watermark */}
+      <div aria-hidden style={{
+        position:"absolute", bottom:"-2vw", left:"50%", transform:"translateX(-50%)",
+        fontFamily:"'Bebas Neue',Impact,sans-serif",
+        fontSize:"clamp(18rem,60vw,72rem)", lineHeight:1,
+        color:"rgba(245,239,224,.045)",
+        userSelect:"none", pointerEvents:"none",
+        zIndex:1, letterSpacing:"-.04em", whiteSpace:"nowrap",
+      }}>77</div>
 
       {/* Contenu */}
       <div className={`hero-content${loaded ? " loaded" : ""}`} style={{ position:"relative", zIndex:2, height:"100%", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"0 6vw 80px" }}>
@@ -340,21 +403,37 @@ export default function DemoFastFood() {
         </div>
 
         {/* Sous-titre */}
-        <div className="hl" style={{ transitionDelay:".54s", marginBottom:"28px" }}>
-          <p className="hero-sub" style={{ fontSize:".85rem", color:"rgba(245,239,224,.5)", fontWeight:300, lineHeight:1.7, maxWidth:"420px" }}>
+        <div className="hl" style={{ transitionDelay:".54s", marginBottom:"32px" }}>
+          <p className="hero-sub" style={{ fontSize:".85rem", color:"rgba(245,239,224,.75)", fontWeight:400, lineHeight:1.7, maxWidth:"420px", letterSpacing:".04em" }}>
             Fait à la commande · Viande fraîche · Livraison 30 min
           </p>
         </div>
 
-        {/* CTAs */}
-        <div className="hl hero-btns" style={{ transitionDelay:".62s", display:"flex", gap:"10px", flexWrap:"wrap" }}>
-          <button onClick={goMenu} className="btn-red pulse" style={{ cursor:"pointer" }}>
-            Voir le menu
-          </button>
-          <a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer" className="btn-ghost">
-            Commander →
+        {/* CTA unique */}
+        <div className="hl hero-btns" style={{ transitionDelay:".62s", display:"flex", flexDirection:"column", gap:"14px", alignItems:"flex-start" }}>
+          <a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer"
+            className="btn-red pulse"
+            style={{ fontSize:"1.15rem", padding:"18px 48px", letterSpacing:".14em", boxShadow:"0 8px 40px rgba(232,53,10,.45)" }}
+          >
+            🍔 COMMANDER →
           </a>
+          <button onClick={goMenu} style={{
+            background:"none", border:"none", cursor:"pointer",
+            color:"rgba(245,239,224,.6)", fontFamily:"'Plus Jakarta Sans',sans-serif",
+            fontSize:".72rem", fontWeight:600, letterSpacing:".16em", textTransform:"uppercase",
+            display:"flex", alignItems:"center", gap:"6px",
+            transition:"color .2s",
+            padding:0,
+          }}
+            onMouseEnter={e=>(e.currentTarget.style.color=C.cream)}
+            onMouseLeave={e=>(e.currentTarget.style.color="rgba(245,239,224,.6)")}
+          >
+            Voir le menu ↓
+          </button>
         </div>
+
+        {/* Sentinel pour sticky CTA */}
+        <div ref={heroSentinel} style={{ position:"absolute", bottom:0, height:"1px", width:"1px", opacity:0, pointerEvents:"none" }} />
       </div>
 
       {/* Badge prix — coin supérieur droit (desktop only) */}
@@ -392,24 +471,24 @@ export default function DemoFastFood() {
     </section>
 
     {/* ══ STATS ════════════════════════════════════ */}
-    <div id="ctr" style={{ background:C.s1, borderBottom:`1px solid rgba(245,239,224,.06)` }}>
+    <div id="ctr" className="diag-after" style={{ background:C.s1, borderTop:`2px solid ${C.red}`, borderBottom:`1px solid rgba(245,239,224,.06)`, marginTop:"38px" }}>
       <div className="stats-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", maxWidth:"1100px", margin:"0 auto" }}>
         {[
-          { val: countVal.toLocaleString("fr-FR"), label:"clients servis" },
-          { val:"4.8 ⭐", label:"note Google" },
-          { val:"30 min", label:"livraison moyenne" },
-          { val:"100%", label:"frais · chaque jour" },
+          { val: countVal.toLocaleString("fr-FR"), label:"clients servis", accent:C.cream },
+          { val:"4.8 ⭐", label:"note Google", accent:C.gold },
+          { val:"30 min", label:"livraison moyenne", accent:C.amber },
+          { val:"100%", label:"frais · chaque jour", accent:C.cream },
         ].map((s,i) => (
-          <div key={i} style={{ padding:"30px 16px", textAlign:"center", borderRight:i<3?`1px solid rgba(245,239,224,.06)`:"none" }}>
-            <div className="bebas" style={{ fontSize:"clamp(1.6rem,3vw,2.4rem)", color:C.cream, lineHeight:1 }}>{s.val}</div>
-            <div style={{ fontSize:".52rem", fontWeight:600, letterSpacing:".2em", textTransform:"uppercase", color:C.muted, marginTop:"7px" }}>{s.label}</div>
+          <div key={i} style={{ padding:"44px 20px", textAlign:"center", borderRight:i<3?`1px solid rgba(245,239,224,.06)`:"none" }}>
+            <div className="bebas" style={{ fontSize:"clamp(2rem,3.5vw,3rem)", color:s.accent, lineHeight:1 }}>{s.val}</div>
+            <div style={{ fontSize:".52rem", fontWeight:700, letterSpacing:".22em", textTransform:"uppercase", color:C.muted, marginTop:"10px" }}>{s.label}</div>
           </div>
         ))}
       </div>
     </div>
 
     {/* ══ FEATURED ═════════════════════════════════ */}
-    <section id="featured" style={{ padding:"100px 6vw", background:C.bg, position:"relative", overflow:"hidden" }}>
+    <section id="featured" className="diag-after" style={{ padding:"100px 6vw 120px", background:C.bg, position:"relative", overflow:"hidden", marginTop:"38px" }}>
       <div className="hide-mob" style={{ position:"absolute", right:"-3vw", top:"50%", transform:"translateY(-50%)", fontFamily:"'Bebas Neue',sans-serif", fontSize:"clamp(10rem,22vw,26rem)", color:"rgba(245,239,224,.025)", lineHeight:1, userSelect:"none", pointerEvents:"none", letterSpacing:"-.02em" }}>
         SMASH
       </div>
@@ -472,7 +551,7 @@ export default function DemoFastFood() {
     </section>
 
     {/* ══ MENU ═════════════════════════════════════ */}
-    <section ref={menuRef} id="menu" style={{ padding:"80px 6vw 100px", background:C.s1 }}>
+    <section ref={menuRef} id="menu" className="diag-after" style={{ padding:"80px 6vw 120px", background:C.s1, marginTop:"38px" }}>
       <div className="sr" style={{ marginBottom:"44px" }}>
         <div style={{ display:"flex", alignItems:"flex-end", justifyContent:"space-between", flexWrap:"wrap", gap:"20px", marginBottom:"28px" }}>
           <div>
@@ -498,7 +577,7 @@ export default function DemoFastFood() {
           >
             {/* Photo */}
             {item.img && (
-              <div style={{ position:"relative", height:"170px", overflow:"hidden", flexShrink:0 }}>
+              <div className="mcard-img" style={{ position:"relative", height:"170px", overflow:"hidden", flexShrink:0 }}>
                 <img
                   src={item.img} alt={item.nom}
                   style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center", filter:"saturate(1.15) brightness(.82)", transition:"transform .4s ease" }}
@@ -645,6 +724,18 @@ export default function DemoFastFood() {
         <Link href="/" style={{ fontSize:".58rem", color:`rgba(232,53,10,.55)`, textDecoration:"none", fontWeight:600, letterSpacing:".08em" }}>CC Création</Link>
       </div>
     </footer>
+
+    {/* ══ STICKY CTA MOBILE ════════════════════════ */}
+    {stickyBtn && (
+      <a
+        href="https://www.ubereats.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="sticky-cta"
+      >
+        🍔 COMMANDER →
+      </a>
+    )}
 
     </div>
   );
